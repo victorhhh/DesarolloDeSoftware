@@ -15,11 +15,11 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="BAlumnos" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" style="-fx-background-color: 255; -fx-border-style: solid;" text="Alumnos" underline="true" />
-            <Button fx:id="BMaestros" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" style="-fx-background-color: 255; -fx-border-style: solid;" text="Maestros" underline="true" />
-            <Button fx:id="BClases" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" style="-fx-background-color: 255; -fx-border-style: solid;" text="Clases" underline="true" />
-            <Button fx:id="BPromociones" mnemonicParsing="false" prefHeight="47.0" prefWidth="96.0" style="-fx-background-color: 255; -fx-border-style: solid;" text="Promociones" underline="true" />
-            <Button fx:id="BReportes" mnemonicParsing="false" prefHeight="50.0" prefWidth="96.0" style="-fx-background-color: 255; -fx-border-style: solid;" text="Reportes" underline="true" />
+            <Button fx:id="BAlumnos" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="52.0" prefWidth="96.0" text="Alumnos" underline="true" />
+            <Button fx:id="BMaestros" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="52.0" prefWidth="96.0" text="Maestros" underline="true" />
+            <Button fx:id="BClases" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="44.0" prefWidth="96.0" text="Clases" underline="true" />
+            <Button fx:id="BPromociones" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="47.0" prefWidth="96.0" text="Promociones" underline="true" />
+            <Button fx:id="BReportes" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="96.0" text="Reportes" underline="true" />
          </children>
       </VBox>
    </right>
@@ -32,7 +32,7 @@
                </font>
             </Label>
             <Pane layoutX="53.0" layoutY="74.0" prefHeight="203.0" prefWidth="391.0" style="-fx-border-style: solid;" />
-            <Button layoutX="402.0" layoutY="282.0" mnemonicParsing="false" text="Refrescar" />
+            <Button fx:id="BRefrescar" layoutX="402.0" layoutY="282.0" mnemonicParsing="false" onAction="#BRefrescarAction" text="Refrescar" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -44,7 +44,7 @@
          <children>
             <Label style="-fx-background-insets: 0;" text="Escuela de danza &quot;Ared Espacio&quot;">
                <font>
-                  <Font name="System Bold" size="29.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Label>
             <ImageView fitHeight="75.0" fitWidth="147.0" pickOnBounds="true" preserveRatio="true">

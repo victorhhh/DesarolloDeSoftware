@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="aredespacio.RegistrarMaestroController">
+    <stylesheets>
+        <URL value="@registrarmaestro.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane prefHeight="102.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="177.0" layoutY="30.0" text="Registrar maestro">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="108.0" fitWidth="134.0" layoutX="665.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../17198058_10208141553439863_1862740370_n.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="639.0" layoutY="102.0" prefHeight="299.0" prefWidth="161.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" layoutX="1.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BMaestros" layoutY="57.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="162.0" text="Maestros">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BClases" layoutY="115.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="162.0" text="Clases">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" layoutX="1.0" layoutY="173.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" layoutX="1.0" layoutY="231.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-1.0" layoutY="102.0" prefHeight="299.0" prefWidth="640.0">
+         <children>
+            <Label layoutX="140.0" layoutY="14.0" text="Nombre:" />
+            <Label layoutX="140.0" layoutY="56.0" text="Celular:" />
+            <Label layoutX="140.0" layoutY="100.0" text="Fecha de nac.:" />
+            <Label layoutX="140.0" layoutY="139.0" text="Direccion:" />
+            <Label layoutX="139.0" layoutY="172.0" text="Clases:" />
+            <ImageView fitHeight="116.0" fitWidth="99.0" layoutX="21.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../9d6a1c5af8f32919aafff2f43107f378.jpg" />
+               </image>
+            </ImageView>
+            <ScrollPane layoutX="243.0" layoutY="180.0" prefHeight="84.0" prefWidth="199.0">
+              <content>
+                <AnchorPane fx:id="SPClases" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+            <TextField fx:id="TFNombre" layoutX="243.0" layoutY="11.0" />
+            <TextField fx:id="TFCelular" layoutX="243.0" layoutY="51.0" />
+            <TextField fx:id="TFFechaNac" layoutX="243.0" layoutY="95.0" />
+            <TextField fx:id="TFDireccion" layoutX="243.0" layoutY="137.0" />
+            <Button fx:id="BEliminar" layoutX="455.0" layoutY="180.0" mnemonicParsing="false" text="Eliminar" />
+            <Button fx:id="BAgregar" layoutX="455.0" layoutY="231.0" mnemonicParsing="false" text="Agregar" />
+            <Button fx:id="BGuardar" layoutX="564.0" layoutY="231.0" mnemonicParsing="false" text="Guardar" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
