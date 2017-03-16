@@ -50,7 +50,7 @@
             </Label>
             <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
                <image>
-                  <Image url="@17198058_10208141553439863_1862740370_n.png" />
+                  <Image url="file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/Imagenes/17198058_10208141553439863_1862740370_n.png" />
                </image>
             </ImageView>
          </children>
@@ -62,7 +62,7 @@
             <Label fx:id="LBuscar" layoutX="137.0" layoutY="41.0" text="Nombre" />
             <Button fx:id="BConsultar" layoutX="487.0" layoutY="294.0" mnemonicParsing="false" onAction="#BConsultarAction" prefHeight="30.0" prefWidth="80.0" text="Consultar" />
             <ImageView fx:id="PaneImagen" fitHeight="87.0" fitWidth="92.0" layoutX="26.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
-            <TableView fx:id="TableResultadoAlumno" layoutX="56.0" layoutY="79.0" prefHeight="200.0" prefWidth="511.0">
+            <TableView fx:id="TResultadoAlumno" layoutX="56.0" layoutY="79.0" prefHeight="200.0" prefWidth="511.0">
               <columns>
                 <TableColumn prefWidth="229.0" text="Nombre" />
                 <TableColumn prefWidth="135.0" text="Telefono" />

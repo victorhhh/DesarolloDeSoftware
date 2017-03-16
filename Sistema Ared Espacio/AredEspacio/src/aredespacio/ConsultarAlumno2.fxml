@@ -50,7 +50,7 @@
             </Label>
             <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
                <image>
-                  <Image url="@17198058_10208141553439863_1862740370_n.png" />
+                  <Image url="file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/Imagenes/17198058_10208141553439863_1862740370_n.png" />
                </image>
             </ImageView>
          </children>

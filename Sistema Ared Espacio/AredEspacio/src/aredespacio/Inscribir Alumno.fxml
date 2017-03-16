@@ -50,7 +50,7 @@
             </Label>
             <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
                <image>
-                  <Image url="@17198058_10208141553439863_1862740370_n.png" />
+                  <Image url="@../Imagenes/17198058_10208141553439863_1862740370_n.png" />
                </image>
             </ImageView>
          </children>
@@ -68,18 +68,18 @@
             <Button fx:id="BGuardar" layoutX="575.0" layoutY="284.0" mnemonicParsing="false" onAction="#BGuardarAction" prefHeight="30.0" prefWidth="80.0" text="Guardar" />
             <Button fx:id="BQuitar" layoutX="391.0" layoutY="235.0" mnemonicParsing="false" onAction="#BQuitarAction" prefHeight="30.0" prefWidth="80.0" text="Quitar" />
             <ImageView fx:id="PaneImagen" fitHeight="87.0" fitWidth="92.0" layoutX="26.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
-            <TextField layoutX="106.0" layoutY="40.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField layoutX="106.0" layoutY="84.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField layoutX="106.0" layoutY="121.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField layoutX="106.0" layoutY="161.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextArea layoutX="106.0" layoutY="201.0" prefHeight="57.0" prefWidth="264.0" />
-            <TextField layoutX="426.0" layoutY="44.0" prefHeight="30.0" prefWidth="229.0" />
-            <TextField layoutX="452.0" layoutY="89.0" prefHeight="30.0" prefWidth="202.0" />
+            <TextField fx:id="TNombre" layoutX="106.0" layoutY="40.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TTelefono" layoutX="106.0" layoutY="84.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TFechaDeNacimiento" layoutX="106.0" layoutY="121.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TDireccion" layoutX="106.0" layoutY="161.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextArea fx:id="Tclases" layoutX="106.0" layoutY="201.0" prefHeight="57.0" prefWidth="264.0" />
+            <TextField fx:id="TFechaInscripcion" layoutX="426.0" layoutY="44.0" prefHeight="30.0" prefWidth="229.0" />
+            <TextField fx:id="LInscripcion" layoutX="452.0" layoutY="89.0" prefHeight="30.0" prefWidth="202.0" />
             <Label layoutX="372.0" layoutY="140.0" text="Mensualidad:" />
             <Label layoutX="381.0" layoutY="179.0" text="Promosion:" />
             <Label layoutX="528.0" layoutY="212.0" prefHeight="20.0" prefWidth="92.0" text="Total:   " />
-            <TextField layoutX="455.0" layoutY="136.0" prefHeight="30.0" prefWidth="202.0" />
-            <SplitMenuButton layoutX="454.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="202.0" text="SplitMenuButton">
+            <TextField fx:id="LMensualidad" layoutX="455.0" layoutY="136.0" prefHeight="30.0" prefWidth="202.0" />
+            <SplitMenuButton fx:id="BMPromocion" layoutX="454.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="202.0" text="SplitMenuButton">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
