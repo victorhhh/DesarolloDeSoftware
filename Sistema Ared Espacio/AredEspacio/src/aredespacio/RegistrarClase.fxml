@@ -3,65 +3,68 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.RegistrarClaseController" >
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Nombre" />
-            <TextField fx:id="tfNombre" />
-            <Label text="Dia" />
-            <ComboBox fx:id="cbDia" prefWidth="150.0" />
-            <Label text="Hora" />
-            <TextField fx:id="tfHora" />
-            <Button fx:id="bAgregar" mnemonicParsing="false" text="Agregar" />
-         </children>
-      </VBox>
-   </left>
-   <right>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_CENTER">
-         <children>
-            <Button fx:id="bAlumno" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" text="Alumno" />
-            <Button fx:id="bMaestro" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" text="Maestro" />
-            <Button fx:id="bClases" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" text="Clases" />
-            <Button fx:id="bPromociones" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" text="Promociones" />
-            <Button fx:id="bReporte" mnemonicParsing="false" prefHeight="52.0" prefWidth="96.0" text="Reporte" />
-         </children>
-      </VBox>
-   </right>
-   <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextArea fx:id="taLista" prefHeight="200.0" prefWidth="200.0" />
-            <ScrollBar orientation="VERTICAL" />
-         </children>
-      </HBox>
-   </center>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="bGuardar" mnemonicParsing="false" prefHeight="42.0" prefWidth="76.0" text="Guardar" />
-         </children>
-      </HBox>
-   </bottom>
-   <top>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Registrar Clase" textAlignment="CENTER">
-               <font>
-                  <Font size="29.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="ivLogo" fitHeight="92.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </HBox>
-   </top>
-</BorderPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.RegistrarClaseController">
+   <children>
+      <Label layoutX="197.0" layoutY="14.0" text="Registrar Clase">
+         <font>
+            <Font name="System Bold" size="34.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="98.0" fitWidth="137.0" layoutX="645.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Ared%20Espacio%20Logo.png" />
+         </image>
+      </ImageView>
+      <MenuButton fx:id="BAlumnos" layoutX="632.0" layoutY="106.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BMaestros" layoutX="632.0" layoutY="164.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BClases" layoutX="632.0" layoutY="222.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+        <items>
+          <MenuItem fx:id="MIRegistrar" mnemonicParsing="false" onAction="#AccionModificarClase" text="Modificar" />
+          <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#AccionConsultarClases" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BPromociones" layoutX="632.0" layoutY="277.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Crear" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BReportes" layoutX="632.0" layoutY="335.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <Label layoutX="3.0" layoutY="106.0" prefHeight="35.0" prefWidth="115.0" text="Nombre de la clase " />
+      <TextField fx:id="TFNombre" layoutX="3.0" layoutY="135.0" prefHeight="35.0" prefWidth="145.0" />
+      <Label layoutX="3.0" layoutY="164.0" prefHeight="35.0" prefWidth="115.0" text="Dia" />
+      <ComboBox fx:id="CBDia" layoutX="3.0" layoutY="193.0" prefHeight="35.0" prefWidth="145.0" />
+      <Label layoutX="3.0" layoutY="222.0" prefHeight="35.0" prefWidth="115.0" text="Hora" />
+      <TextField fx:id="TFHora" layoutX="3.0" layoutY="251.0" prefHeight="35.0" prefWidth="145.0" />
+      <Button fx:id="BAgregar" layoutX="3.0" layoutY="289.0" mnemonicParsing="false" onAction="#AccionAgregar" prefHeight="35.0" prefWidth="145.0" text="Agregar" />
+      <TextArea fx:id="TAListaClases" layoutX="289.0" layoutY="112.0" prefHeight="220.0" prefWidth="223.0" />
+      <Button fx:id="BGuardar" layoutX="335.0" layoutY="347.0" mnemonicParsing="false" onAction="#AccionGuardar" prefHeight="35.0" prefWidth="145.0" text="Guardar" />
+      <ScrollBar layoutX="289.0" layoutY="328.0" prefHeight="14.0" prefWidth="223.0" />
+      <ScrollBar layoutX="512.0" layoutY="112.0" orientation="VERTICAL" prefHeight="220.0" prefWidth="14.0" />
+   </children>
+</AnchorPane>

@@ -1,59 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Modificar Clase">
-               <font>
-                  <Font size="34.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="ivLogo" fitHeight="102.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </HBox>
-   </top>
-   <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="bRegresar" mnemonicParsing="false" text="Regresar" />
-            <Button fx:id="bGuardar" mnemonicParsing="false" text="Guardar" />
-         </children>
-      </HBox>
-   </bottom>
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="bAlumno" mnemonicParsing="false" prefHeight="52.0" prefWidth="100.0" text="Alumno" />
-            <Button fx:id="bMaestro" mnemonicParsing="false" prefHeight="52.0" prefWidth="100.0" text="Maestro" />
-            <Button fx:id="bClases" mnemonicParsing="false" prefHeight="52.0" prefWidth="100.0" text="Clases" />
-            <Button fx:id="bPromocion" mnemonicParsing="false" prefHeight="52.0" prefWidth="100.0" text="Promocion" />
-            <Button fx:id="bReporte" mnemonicParsing="false" prefHeight="52.0" prefWidth="100.0" text="Reporte" />
-         </children>
-      </VBox>
-   </right>
-   <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label prefHeight="17.0" prefWidth="513.0" text="Nombre de la clase" />
-            <TextField fx:id="tfNombreDeLaClase" />
-            <Label prefHeight="17.0" prefWidth="506.0" text="Nombre del profesor" />
-            <TextField fx:id="tfNombreDelProfesor" />
-            <Label prefHeight="17.0" prefWidth="124.0" text="Dia" />
-            <ComboBox fx:id="cbDia" prefWidth="122.0" />
-            <Label prefHeight="17.0" prefWidth="510.0" text="Hora" />
-            <TextField fx:id="tfHora" />
-         </children>
-      </VBox>
-   </center>
-</BorderPane>
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.ModificarClaseController">
+   <children>
+      <Button fx:id="BRegresar" layoutX="267.0" layoutY="336.0" mnemonicParsing="false" onAction="#AccionRegresar" prefHeight="35.0" prefWidth="120.0" text="Regresar" />
+      <ImageView fx:id="ivLogo" fitHeight="98.0" fitWidth="137.0" layoutX="648.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Ared%20Espacio%20Logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="285.0" layoutY="17.0" text="Modificar Clase">
+         <font>
+            <Font name="System Bold" size="34.0" />
+         </font>
+      </Label>
+      <Label layoutX="184.0" layoutY="141.0" prefHeight="35.0" prefWidth="145.0" text="Nombre de la clase" />
+      <TextField fx:id="TFNombreClase" layoutX="327.0" layoutY="141.0" prefHeight="35.0" prefWidth="145.0" />
+      <Label layoutX="184.0" layoutY="190.0" prefHeight="35.0" prefWidth="145.0" text="Nombre del profesor" />
+      <TextField fx:id="TFNombreProfesor" layoutX="327.0" layoutY="190.0" prefHeight="35.0" prefWidth="145.0" />
+      <Label layoutX="229.0" layoutY="243.0" prefHeight="35.0" prefWidth="145.0" text="Dia" />
+      <Label layoutX="229.0" layoutY="295.0" prefHeight="35.0" prefWidth="145.0" text="Hora" />
+      <TextField fx:id="TFHora" layoutX="329.0" layoutY="295.0" prefHeight="35.0" prefWidth="145.0" />
+      <Button fx:id="BGuardar" layoutX="400.0" layoutY="336.0" mnemonicParsing="false" onAction="#AccionGuardar" prefHeight="35.0" prefWidth="120.0" text="Guardar" />
+      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Crear" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <TextField fx:id="TFDia" layoutX="327.0" layoutY="243.0" prefHeight="35.0" prefWidth="145.0" />
+   </children>
+</AnchorPane>
