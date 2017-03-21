@@ -12,33 +12,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import aredespacio.ConsultarMaestroController;
 
 /**
  *
  * @author VictorHugo
  */
 public class AredEspacio extends Application {
+
+    static Stage primaryStage;
     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        AredEspacio.primaryStage = primaryStage;
+        AredEspacio.primaryStage.setTitle("Ared Espacio");
+        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
     /**

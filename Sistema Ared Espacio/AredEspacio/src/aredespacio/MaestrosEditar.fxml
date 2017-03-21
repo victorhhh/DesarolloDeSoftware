@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="aredespacio.MaestrosEditarController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.MaestrosEditarController">
     <stylesheets>
         <URL value="@maestroseditar.css" />
     </stylesheets>
@@ -77,7 +77,7 @@
             <TextField fx:id="TFSueldo" layoutX="457.0" layoutY="23.0" />
             <ScrollPane layoutX="172.0" layoutY="209.0" prefHeight="82.0" prefWidth="215.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                <AnchorPane fx:id="SPClases" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
             </ScrollPane>
             <Button fx:id="BQuitar" layoutX="407.0" layoutY="212.0" mnemonicParsing="false" onAction="#BQuitarAction" text="Quitar" />
