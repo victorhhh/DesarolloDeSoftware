@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -70,7 +69,6 @@
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </MenuButton>
-      <ComboBox fx:id="CBClases" layoutX="-1.0" layoutY="148.0" prefHeight="35.0" prefWidth="145.0" visible="false" />
       <TextField fx:id="TFNombreProfesor" layoutX="149.0" layoutY="102.0" prefHeight="35.0" prefWidth="161.0" visible="false" />
    </children>
 </AnchorPane>
