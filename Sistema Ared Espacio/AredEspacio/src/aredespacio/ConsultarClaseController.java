@@ -5,19 +5,15 @@
  */
 package aredespacio;
 
-import basededatos.Clase;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,41 +34,15 @@ public class ConsultarClaseController implements Initializable {
     ImageView IVLogo; 
     @FXML
     TextField TFNombreClase, TFNombreProfesor;
-    @FXML
-    ComboBox CBClases;
+    
     @FXML
     Button BConsultar, BModificar, BBaja;
     @FXML
     TableView TVClases;
     @FXML
     TableColumn TCLunes, TCMartes, TCMiercoles, TCJueves, TCViernes,TCSabado;
-    private int IDClase;
-     public static class LClase {
-
-        String clase;
-
-        public LClase(String clase) {
-            this.clase =clase;
-
-        }
-
-        public String getClase() {
-            return clase;
-        }
-
-        public void setClase(String clase) {
-            clase = clase;
-        }
-
-        @Override
-        public String toString() {
-            return clase;
-        }
-
-    }
-    private final ObservableList<LClase> listaClases
-            = FXCollections.observableArrayList();
-  
+   
+    private int IDC;
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
 
@@ -96,6 +66,7 @@ public class ConsultarClaseController implements Initializable {
     public void AccionConsultar(ActionEvent evento) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);
+        
         //tfNombreClase.getText();
         
     }
