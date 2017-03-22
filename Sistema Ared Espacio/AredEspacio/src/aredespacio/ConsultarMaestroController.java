@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,10 +41,10 @@ public class ConsultarMaestroController implements Initializable {
     private MenuButton BAlumnos, BMaestros, BClases, BPromociones, BReportes;
     @FXML
     private ScrollPane SPListaMaestros;
-    
+
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
-            
+
     static void initRootLayout(Stage primaryStage) {
         try {
             ConsultarMaestroController.primaryStage = primaryStage;
@@ -59,6 +60,36 @@ public class ConsultarMaestroController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void BBuscarAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BConsultarAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BAlumnosAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BMaestrosAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BClasesAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BPromocionesAction(ActionEvent event){
+        
+    }
+    @FXML
+    public void BReporteAction(ActionEvent event){
+        
+    }
+    
+   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
