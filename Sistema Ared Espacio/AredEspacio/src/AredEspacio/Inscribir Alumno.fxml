@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.InscribirAlumnoController">
+   <children>
+      <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" layoutX="9.0" layoutY="191.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="50.0" prefWidth="109.0" text="Promiciones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="109.0" text="Reportes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BMaestros" layoutX="9.0" layoutY="91.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="50.0" prefWidth="109.0" text="Maestros">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children></AnchorPane>
+      <AnchorPane layoutX="172.0" prefHeight="57.0" prefWidth="600.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="LConsultarAlumnos" layoutX="251.0" layoutY="9.0" text="Inscribir Alumno">
+               <font>
+                  <Font name="DejaVu Sans Mono Bold" size="31.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
+               <image>
+                  <Image url="@../Imagenes/Logo_AredEspacio.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="9.0" layoutY="55.0" prefHeight="345.0" prefWidth="665.0">
+         <children>
+            <Label fx:id="LNombre" layoutX="36.0" layoutY="95.0" text="Nombre :" />
+            <Label fx:id="LTelefono" layoutX="32.0" layoutY="137.0" prefHeight="20.0" prefWidth="64.0" text="Teléfono :" />
+            <Label fx:id="LFechaDeNac" layoutY="174.0" prefHeight="20.0" prefWidth="98.0" text="Fecha de Nac. :" />
+            <Label fx:id="LDireccion" layoutX="26.0" layoutY="214.0" text="Dirección :" />
+            <Label fx:id="LFechaDeProximoPago" layoutX="376.0" layoutY="47.0" text="Fecha:" />
+            <Label fx:id="LMonto" layoutX="376.0" layoutY="92.0" text="Inscripcion:" />
+            <Label fx:id="LClases" layoutX="42.0" layoutY="250.0" text="Clases :" />
+            <Button fx:id="BAgregar" layoutX="376.0" layoutY="280.0" mnemonicParsing="false" onAction="#BAgregarAction" prefHeight="30.0" prefWidth="80.0" text="Agregar" />
+            <Button fx:id="BGuardar" layoutX="575.0" layoutY="284.0" mnemonicParsing="false" onAction="#BGuardarAction" prefHeight="30.0" prefWidth="80.0" text="Guardar" />
+            <Button fx:id="BQuitar" layoutX="376.0" layoutY="245.0" mnemonicParsing="false" onAction="#BQuitarAction" prefHeight="30.0" prefWidth="80.0" text="Quitar" />
+            <ImageView fx:id="PaneImagen" fitHeight="81.0" fitWidth="92.0" layoutX="18.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/Imagenes/Sin_Imagen_Perfil.png" />
+               </image></ImageView>
+            <TextField fx:id="TNombre" layoutX="98.0" layoutY="90.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TTelefono" layoutX="98.0" layoutY="134.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TFechaDeNacimiento" layoutX="98.0" layoutY="171.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextField fx:id="TDireccion" layoutX="98.0" layoutY="211.0" prefHeight="30.0" prefWidth="264.0" />
+            <TextArea fx:id="Tclases" layoutX="98.0" layoutY="251.0" prefHeight="57.0" prefWidth="264.0" />
+            <TextField fx:id="TFechaInscripcion" layoutX="426.0" layoutY="44.0" prefHeight="30.0" prefWidth="229.0" />
+            <TextField fx:id="LInscripcion" layoutX="452.0" layoutY="89.0" prefHeight="30.0" prefWidth="202.0" />
+            <Label layoutX="372.0" layoutY="140.0" text="Mensualidad:" />
+            <Label layoutX="381.0" layoutY="179.0" text="Promosion:" />
+            <Label layoutX="528.0" layoutY="212.0" prefHeight="20.0" prefWidth="92.0" text="Total:   " />
+            <TextField fx:id="LMensualidad" layoutX="455.0" layoutY="136.0" prefHeight="30.0" prefWidth="202.0" />
+            <SplitMenuButton fx:id="BMPromocion" layoutX="454.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="202.0" text="SplitMenuButton">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </SplitMenuButton>
+            <Button fx:id="BImagenAlumno" layoutX="110.0" layoutY="2.0" mnemonicParsing="false" onAction="#BImagenAlumnoAction" text="Buscar Imagen" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -2,14 +2,14 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="AredEspacioPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>basededatos.Mensualidad</class>
-    <class>basededatos.Pagoegreso</class>
-    <class>basededatos.Inscripcion</class>
-    <class>basededatos.Pagoingreso</class>
-    <class>basededatos.Promocion</class>
-    <class>basededatos.Clase</class>
-    <class>basededatos.Alumno</class>
-    <class>basededatos.Maestro</class>
+    <class>BaseDeDatos.Mensualidad</class>
+    <class>BaseDeDatos.Clase</class>
+    <class>BaseDeDatos.Maestro</class>
+    <class>BaseDeDatos.Pagoingreso</class>
+    <class>BaseDeDatos.Alumno</class>
+    <class>BaseDeDatos.Inscripcion</class>
+    <class>BaseDeDatos.Promocion</class>
+    <class>BaseDeDatos.Pagoegreso</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/aredespacio?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
