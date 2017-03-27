@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-03-2017 a las 21:20:10
+-- Tiempo de generación: 27-03-2017 a las 02:09:33
 -- Versión del servidor: 5.6.25
 -- Versión de PHP: 5.6.11
 
@@ -35,8 +35,20 @@ CREATE TABLE IF NOT EXISTS `alumno` (
   `direccion` varchar(30) NOT NULL,
   `fechaNacimiento` date NOT NULL,
   `estado` tinyint(1) NOT NULL,
+  `rutaImagen` varchar(100) DEFAULT NULL,
   `IDInscripcionA` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `alumno`
+--
+
+INSERT INTO `alumno` (`IDAlumno`, `nombre`, `primerApellido`, `segundoApellido`, `numeroDeCelular`, `direccion`, `fechaNacimiento`, `estado`, `rutaImagen`, `IDInscripcionA`) VALUES
+(1, 'Rodrigo', 'Hoyos', 'Salmoran', '2288191110', 'la progreso', '1994-10-27', 1, NULL, 1),
+(2, 'Luz del Carmen', 'Garcia', 'Tejeda', '2288990911', 'Benito Juarez', '1997-08-10', 1, NULL, NULL),
+(3, 'Ramon', 'Acosta', 'Ganzoa', '2281765900', '20 de Noviembre', '1994-03-16', 1, NULL, NULL),
+(4, 'Perla', 'Rendo', 'Contreras', '2289953433', '21 de marzo', '1996-03-06', 1, NULL, NULL),
+(5, 'Sara', 'Rocha', 'Delgado', '2281234664', 'Ebano', '1994-06-20', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -51,7 +63,19 @@ CREATE TABLE IF NOT EXISTS `clase` (
   `dia` varchar(12) NOT NULL,
   `hora` varchar(25) NOT NULL,
   `IDMaestroC` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `clase`
+--
+
+INSERT INTO `clase` (`IDClase`, `nombre`, `estado`, `dia`, `hora`, `IDMaestroC`) VALUES
+(1, 'Salsa', 1, 'Sabado', '10:00-12:30', 1),
+(2, 'Arabe', 1, 'Jueves', '15:30-17:30', 2),
+(3, 'Salsa', 1, 'Lunes', '16:00-17:00', 1),
+(4, 'Salsa', 1, 'Miercoles', '18:00-20:00', 1),
+(5, 'Arabe', 1, 'Viernes', '12:00-14:00', 2),
+(6, 'Arabe', 1, 'Martes', '17:00-18:30', 2);
 
 -- --------------------------------------------------------
 
@@ -60,8 +84,9 @@ CREATE TABLE IF NOT EXISTS `clase` (
 --
 
 CREATE TABLE IF NOT EXISTS `grupo` (
-  `IDClase` int(22) NOT NULL,
-  `IDAlumnoG` int(22) NOT NULL
+  `IDGrupo` int(22) NOT NULL,
+  `IDClaseG` int(22) DEFAULT NULL,
+  `IDAlumnoG` int(22) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,7 +99,16 @@ CREATE TABLE IF NOT EXISTS `inscripcion` (
   `IDInscripcion` int(22) NOT NULL,
   `monto` int(30) NOT NULL,
   `fechaInscripcion` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `inscripcion`
+--
+
+INSERT INTO `inscripcion` (`IDInscripcion`, `monto`, `fechaInscripcion`) VALUES
+(1, 245, '2017-03-25'),
+(2, 250, '2017-03-15'),
+(3, 380, '2017-03-21');
 
 -- --------------------------------------------------------
 
@@ -92,8 +126,17 @@ CREATE TABLE IF NOT EXISTS `maestro` (
   `direccion` varchar(25) NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `sueldo` double DEFAULT NULL,
+  `rutaImagen` varchar(100) DEFAULT NULL,
   `IDClase` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `maestro`
+--
+
+INSERT INTO `maestro` (`IDMaestro`, `nombre`, `primerApellido`, `segundoApellido`, `numeroDeTelefono`, `fechaNacimiento`, `direccion`, `estado`, `sueldo`, `rutaImagen`, `IDClase`) VALUES
+(1, 'Karina', 'Cabañas', 'Sanchez', '2281324155', '1993-04-25', 'La rotonda', 1, 540, NULL, 1),
+(2, 'Vianey', 'Hernandez', 'Mancilla', '2288990910', '1993-07-13', 'melchor ocampo', 1, 320, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -107,7 +150,14 @@ CREATE TABLE IF NOT EXISTS `mensualidad` (
   `fechaPago` date NOT NULL,
   `IDAlumnoM` int(22) DEFAULT NULL,
   `IDPagoM` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `mensualidad`
+--
+
+INSERT INTO `mensualidad` (`IDMensualidad`, `monto`, `fechaPago`, `IDAlumnoM`, `IDPagoM`) VALUES
+(1, 250, '2017-03-25', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -120,7 +170,14 @@ CREATE TABLE IF NOT EXISTS `pagoegreso` (
   `monto` int(11) NOT NULL,
   `fechaPago` date NOT NULL,
   `IDMaestroPE` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pagoegreso`
+--
+
+INSERT INTO `pagoegreso` (`IDEgreso`, `monto`, `fechaPago`, `IDMaestroPE`) VALUES
+(1, 540, '2017-03-28', 1);
 
 -- --------------------------------------------------------
 
@@ -135,7 +192,14 @@ CREATE TABLE IF NOT EXISTS `pagoingreso` (
   `IDAlumnoPI` int(22) DEFAULT NULL,
   `IDMensualidad` int(22) DEFAULT NULL,
   `IDPromocion` int(22) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pagoingreso`
+--
+
+INSERT INTO `pagoingreso` (`IDIngreso`, `monto`, `fechaPago`, `IDAlumnoPI`, `IDMensualidad`, `IDPromocion`) VALUES
+(1, 245, '2017-03-25', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -171,7 +235,8 @@ ALTER TABLE `clase`
 -- Indices de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD KEY `IDClase_idx` (`IDClase`),
+  ADD PRIMARY KEY (`IDGrupo`),
+  ADD KEY `IDClaseG_idx` (`IDClaseG`),
   ADD KEY `IDAlumnoG_idx` (`IDAlumnoG`);
 
 --
@@ -224,37 +289,42 @@ ALTER TABLE `promocion`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `IDAlumno` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDAlumno` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `clase`
 --
 ALTER TABLE `clase`
-  MODIFY `IDClase` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDClase` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `grupo`
+--
+ALTER TABLE `grupo`
+  MODIFY `IDGrupo` int(22) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `inscripcion`
 --
 ALTER TABLE `inscripcion`
-  MODIFY `IDInscripcion` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDInscripcion` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `maestro`
 --
 ALTER TABLE `maestro`
-  MODIFY `IDMaestro` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDMaestro` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `mensualidad`
 --
 ALTER TABLE `mensualidad`
-  MODIFY `IDMensualidad` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDMensualidad` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `pagoegreso`
 --
 ALTER TABLE `pagoegreso`
-  MODIFY `IDEgreso` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDEgreso` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `pagoingreso`
 --
 ALTER TABLE `pagoingreso`
-  MODIFY `IDIngreso` int(22) NOT NULL AUTO_INCREMENT;
+  MODIFY `IDIngreso` int(22) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `promocion`
 --
@@ -281,7 +351,7 @@ ALTER TABLE `clase`
 --
 ALTER TABLE `grupo`
   ADD CONSTRAINT `IDAlumnoG` FOREIGN KEY (`IDAlumnoG`) REFERENCES `alumno` (`IDAlumno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `IDClase` FOREIGN KEY (`IDClase`) REFERENCES `clase` (`IDClase`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `IDClaseG` FOREIGN KEY (`IDClaseG`) REFERENCES `clase` (`IDClase`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `mensualidad`
