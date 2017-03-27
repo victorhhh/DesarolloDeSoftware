@@ -5,14 +5,14 @@
  */
 package JPAControllers;
 
+import BaseDeDatos.Clase;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import BaseDeDatos.Maestro;
-import BaseDeDatos.Alumno;
-import BaseDeDatos.Clase;
+import BaseDeDatos.Grupo;
 import JPAControllers.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,8 +36,8 @@ public class ClaseJpaController implements Serializable {
     }
 
     public void create(Clase clase) {
-        if (clase.getAlumnoCollection() == null) {
-            clase.setAlumnoCollection(new ArrayList<Alumno>());
+        if (clase.getGrupoCollection() == null) {
+            clase.setGrupoCollection(new ArrayList<Grupo>());
         }
         EntityManager em = null;
         try {
@@ -48,20 +48,25 @@ public class ClaseJpaController implements Serializable {
                 IDMaestroC = em.getReference(IDMaestroC.getClass(), IDMaestroC.getIDMaestro());
                 clase.setIDMaestroC(IDMaestroC);
             }
-            Collection<Alumno> attachedAlumnoCollection = new ArrayList<Alumno>();
-            for (Alumno alumnoCollectionAlumnoToAttach : clase.getAlumnoCollection()) {
-                alumnoCollectionAlumnoToAttach = em.getReference(alumnoCollectionAlumnoToAttach.getClass(), alumnoCollectionAlumnoToAttach.getIDAlumno());
-                attachedAlumnoCollection.add(alumnoCollectionAlumnoToAttach);
+            Collection<Grupo> attachedGrupoCollection = new ArrayList<Grupo>();
+            for (Grupo grupoCollectionGrupoToAttach : clase.getGrupoCollection()) {
+                grupoCollectionGrupoToAttach = em.getReference(grupoCollectionGrupoToAttach.getClass(), grupoCollectionGrupoToAttach.getIDGrupo());
+                attachedGrupoCollection.add(grupoCollectionGrupoToAttach);
             }
-            clase.setAlumnoCollection(attachedAlumnoCollection);
+            clase.setGrupoCollection(attachedGrupoCollection);
             em.persist(clase);
             if (IDMaestroC != null) {
                 IDMaestroC.getClaseCollection().add(clase);
                 IDMaestroC = em.merge(IDMaestroC);
             }
-            for (Alumno alumnoCollectionAlumno : clase.getAlumnoCollection()) {
-                alumnoCollectionAlumno.getClaseCollection().add(clase);
-                alumnoCollectionAlumno = em.merge(alumnoCollectionAlumno);
+            for (Grupo grupoCollectionGrupo : clase.getGrupoCollection()) {
+                Clase oldIDClaseGOfGrupoCollectionGrupo = grupoCollectionGrupo.getIDClaseG();
+                grupoCollectionGrupo.setIDClaseG(clase);
+                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
+                if (oldIDClaseGOfGrupoCollectionGrupo != null) {
+                    oldIDClaseGOfGrupoCollectionGrupo.getGrupoCollection().remove(grupoCollectionGrupo);
+                    oldIDClaseGOfGrupoCollectionGrupo = em.merge(oldIDClaseGOfGrupoCollectionGrupo);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -79,19 +84,19 @@ public class ClaseJpaController implements Serializable {
             Clase persistentClase = em.find(Clase.class, clase.getIDClase());
             Maestro IDMaestroCOld = persistentClase.getIDMaestroC();
             Maestro IDMaestroCNew = clase.getIDMaestroC();
-            Collection<Alumno> alumnoCollectionOld = persistentClase.getAlumnoCollection();
-            Collection<Alumno> alumnoCollectionNew = clase.getAlumnoCollection();
+            Collection<Grupo> grupoCollectionOld = persistentClase.getGrupoCollection();
+            Collection<Grupo> grupoCollectionNew = clase.getGrupoCollection();
             if (IDMaestroCNew != null) {
                 IDMaestroCNew = em.getReference(IDMaestroCNew.getClass(), IDMaestroCNew.getIDMaestro());
                 clase.setIDMaestroC(IDMaestroCNew);
             }
-            Collection<Alumno> attachedAlumnoCollectionNew = new ArrayList<Alumno>();
-            for (Alumno alumnoCollectionNewAlumnoToAttach : alumnoCollectionNew) {
-                alumnoCollectionNewAlumnoToAttach = em.getReference(alumnoCollectionNewAlumnoToAttach.getClass(), alumnoCollectionNewAlumnoToAttach.getIDAlumno());
-                attachedAlumnoCollectionNew.add(alumnoCollectionNewAlumnoToAttach);
+            Collection<Grupo> attachedGrupoCollectionNew = new ArrayList<Grupo>();
+            for (Grupo grupoCollectionNewGrupoToAttach : grupoCollectionNew) {
+                grupoCollectionNewGrupoToAttach = em.getReference(grupoCollectionNewGrupoToAttach.getClass(), grupoCollectionNewGrupoToAttach.getIDGrupo());
+                attachedGrupoCollectionNew.add(grupoCollectionNewGrupoToAttach);
             }
-            alumnoCollectionNew = attachedAlumnoCollectionNew;
-            clase.setAlumnoCollection(alumnoCollectionNew);
+            grupoCollectionNew = attachedGrupoCollectionNew;
+            clase.setGrupoCollection(grupoCollectionNew);
             clase = em.merge(clase);
             if (IDMaestroCOld != null && !IDMaestroCOld.equals(IDMaestroCNew)) {
                 IDMaestroCOld.getClaseCollection().remove(clase);
@@ -101,16 +106,21 @@ public class ClaseJpaController implements Serializable {
                 IDMaestroCNew.getClaseCollection().add(clase);
                 IDMaestroCNew = em.merge(IDMaestroCNew);
             }
-            for (Alumno alumnoCollectionOldAlumno : alumnoCollectionOld) {
-                if (!alumnoCollectionNew.contains(alumnoCollectionOldAlumno)) {
-                    alumnoCollectionOldAlumno.getClaseCollection().remove(clase);
-                    alumnoCollectionOldAlumno = em.merge(alumnoCollectionOldAlumno);
+            for (Grupo grupoCollectionOldGrupo : grupoCollectionOld) {
+                if (!grupoCollectionNew.contains(grupoCollectionOldGrupo)) {
+                    grupoCollectionOldGrupo.setIDClaseG(null);
+                    grupoCollectionOldGrupo = em.merge(grupoCollectionOldGrupo);
                 }
             }
-            for (Alumno alumnoCollectionNewAlumno : alumnoCollectionNew) {
-                if (!alumnoCollectionOld.contains(alumnoCollectionNewAlumno)) {
-                    alumnoCollectionNewAlumno.getClaseCollection().add(clase);
-                    alumnoCollectionNewAlumno = em.merge(alumnoCollectionNewAlumno);
+            for (Grupo grupoCollectionNewGrupo : grupoCollectionNew) {
+                if (!grupoCollectionOld.contains(grupoCollectionNewGrupo)) {
+                    Clase oldIDClaseGOfGrupoCollectionNewGrupo = grupoCollectionNewGrupo.getIDClaseG();
+                    grupoCollectionNewGrupo.setIDClaseG(clase);
+                    grupoCollectionNewGrupo = em.merge(grupoCollectionNewGrupo);
+                    if (oldIDClaseGOfGrupoCollectionNewGrupo != null && !oldIDClaseGOfGrupoCollectionNewGrupo.equals(clase)) {
+                        oldIDClaseGOfGrupoCollectionNewGrupo.getGrupoCollection().remove(grupoCollectionNewGrupo);
+                        oldIDClaseGOfGrupoCollectionNewGrupo = em.merge(oldIDClaseGOfGrupoCollectionNewGrupo);
+                    }
                 }
             }
             em.getTransaction().commit();
@@ -147,10 +157,10 @@ public class ClaseJpaController implements Serializable {
                 IDMaestroC.getClaseCollection().remove(clase);
                 IDMaestroC = em.merge(IDMaestroC);
             }
-            Collection<Alumno> alumnoCollection = clase.getAlumnoCollection();
-            for (Alumno alumnoCollectionAlumno : alumnoCollection) {
-                alumnoCollectionAlumno.getClaseCollection().remove(clase);
-                alumnoCollectionAlumno = em.merge(alumnoCollectionAlumno);
+            Collection<Grupo> grupoCollection = clase.getGrupoCollection();
+            for (Grupo grupoCollectionGrupo : grupoCollection) {
+                grupoCollectionGrupo.setIDClaseG(null);
+                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
             }
             em.remove(clase);
             em.getTransaction().commit();

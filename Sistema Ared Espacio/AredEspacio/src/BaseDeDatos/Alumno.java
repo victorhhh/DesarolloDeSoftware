@@ -17,8 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,7 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alumno.findByNumeroDeCelular", query = "SELECT a FROM Alumno a WHERE a.numeroDeCelular = :numeroDeCelular")
     , @NamedQuery(name = "Alumno.findByDireccion", query = "SELECT a FROM Alumno a WHERE a.direccion = :direccion")
     , @NamedQuery(name = "Alumno.findByFechaNacimiento", query = "SELECT a FROM Alumno a WHERE a.fechaNacimiento = :fechaNacimiento")
-    , @NamedQuery(name = "Alumno.findByEstado", query = "SELECT a FROM Alumno a WHERE a.estado = :estado")})
+    , @NamedQuery(name = "Alumno.findByEstado", query = "SELECT a FROM Alumno a WHERE a.estado = :estado")
+    , @NamedQuery(name = "Alumno.findByRutaImagen", query = "SELECT a FROM Alumno a WHERE a.rutaImagen = :rutaImagen")})
 public class Alumno implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,11 +77,10 @@ public class Alumno implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private boolean estado;
-    @JoinTable(name = "grupo", joinColumns = {
-        @JoinColumn(name = "IDAlumnoG", referencedColumnName = "IDAlumno")}, inverseJoinColumns = {
-        @JoinColumn(name = "IDClase", referencedColumnName = "IDClase")})
-    @ManyToMany
-    private Collection<Clase> claseCollection;
+    @Column(name = "rutaImagen")
+    private String rutaImagen;
+    @OneToMany(mappedBy = "iDAlumnoG")
+    private Collection<Grupo> grupoCollection;
     @OneToMany(mappedBy = "iDAlumnoPI")
     private Collection<Pagoingreso> pagoingresoCollection;
     @JoinColumn(name = "IDInscripcionA", referencedColumnName = "IDInscripcion")
@@ -98,12 +96,6 @@ public class Alumno implements Serializable {
         this.iDAlumno = iDAlumno;
     }
 
-    public List<Alumno> buscarAlumnosPorNombre(String nombre) {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Alumno> resultList = em.createNamedQuery("Alumno.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
-        return resultList;
-    }
-
     public Alumno(Integer iDAlumno, String nombre, String primerApellido, String segundoApellido, String numeroDeCelular, String direccion, Date fechaNacimiento, boolean estado) {
         this.iDAlumno = iDAlumno;
         this.nombre = nombre;
@@ -113,6 +105,12 @@ public class Alumno implements Serializable {
         this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
         this.estado = estado;
+    }
+    
+    public List<Alumno> buscarAlumnosPorNombre(String nombre) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Alumno> resultList = em.createNamedQuery("Alumno.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
+        return resultList;
     }
 
     public Integer getIDAlumno() {
@@ -179,13 +177,21 @@ public class Alumno implements Serializable {
         this.estado = estado;
     }
 
-    @XmlTransient
-    public Collection<Clase> getClaseCollection() {
-        return claseCollection;
+    public String getRutaImagen() {
+        return rutaImagen;
     }
 
-    public void setClaseCollection(Collection<Clase> claseCollection) {
-        this.claseCollection = claseCollection;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    @XmlTransient
+    public Collection<Grupo> getGrupoCollection() {
+        return grupoCollection;
+    }
+
+    public void setGrupoCollection(Collection<Grupo> grupoCollection) {
+        this.grupoCollection = grupoCollection;
     }
 
     @XmlTransient

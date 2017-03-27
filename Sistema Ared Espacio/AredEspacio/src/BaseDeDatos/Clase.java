@@ -14,10 +14,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -56,8 +56,8 @@ public class Clase implements Serializable {
     @Basic(optional = false)
     @Column(name = "hora")
     private String hora;
-    @ManyToMany(mappedBy = "claseCollection")
-    private Collection<Alumno> alumnoCollection;
+    @OneToMany(mappedBy = "iDClaseG")
+    private Collection<Grupo> grupoCollection;
     @JoinColumn(name = "IDMaestroC", referencedColumnName = "IDMaestro")
     @ManyToOne
     private Maestro iDMaestroC;
@@ -118,12 +118,12 @@ public class Clase implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Alumno> getAlumnoCollection() {
-        return alumnoCollection;
+    public Collection<Grupo> getGrupoCollection() {
+        return grupoCollection;
     }
 
-    public void setAlumnoCollection(Collection<Alumno> alumnoCollection) {
-        this.alumnoCollection = alumnoCollection;
+    public void setGrupoCollection(Collection<Grupo> grupoCollection) {
+        this.grupoCollection = grupoCollection;
     }
 
     public Maestro getIDMaestroC() {

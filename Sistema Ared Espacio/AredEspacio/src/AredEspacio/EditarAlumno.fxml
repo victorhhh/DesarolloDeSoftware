@@ -6,15 +6,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aredespacio.EditarAlumnoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.EditarAlumnoController">
    <children>
       <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
          <children>
             <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
             </MenuButton>
             <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases">
               <items>

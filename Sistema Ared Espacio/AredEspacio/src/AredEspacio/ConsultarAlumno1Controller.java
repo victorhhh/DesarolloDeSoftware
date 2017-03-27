@@ -6,6 +6,8 @@
 package AredEspacio;
 
 import BaseDeDatos.Alumno;
+import BaseDeDatos.Grupo;
+import JPAControllers.GrupoJpaController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,15 +32,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 /**
  * FXML Controller class
  *
  * @author yoresroy
  */
 public class ConsultarAlumno1Controller implements Initializable {
-
-    public static Stage primaryStage;
-    private static AnchorPane rootLayout;
 
     @FXML
     private MenuButton BAlumnos;
@@ -47,7 +51,7 @@ public class ConsultarAlumno1Controller implements Initializable {
     private MenuButton BPromociones;
     @FXML
     private MenuButton BReportes;
-    @FXML      
+    @FXML
     private MenuButton BMaestros;
     @FXML
     private Label LConsultarAlumnos;
@@ -63,6 +67,9 @@ public class ConsultarAlumno1Controller implements Initializable {
     private ImageView PaneImagen;
     @FXML
     private TableView<Alumno> TResultadoAlumno;
+
+    public static Stage primaryStage;
+    private static AnchorPane rootLayout;
 
     static void initRootLayout(Stage primaryStage) {
         try {
@@ -86,29 +93,29 @@ public class ConsultarAlumno1Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MenuItem agregarAlumno = new MenuItem("Agregar Alumno");
-        MenuItem buscarAlumno = new MenuItem("Buscar Alumno");
+        MenuItem inscribirAlumno = new MenuItem("Inscribir Alumno");
+        MenuItem editarAlumno = new MenuItem("Editar Alumno");
+        BAlumnos.getItems().addAll(inscribirAlumno, editarAlumno);
 
         TableColumn<Alumno, String> cNombre = new TableColumn<>("Nombre");
         TableColumn<Alumno, String> cPrimerApellido = new TableColumn<>("P.Apellido");
         TableColumn<Alumno, String> cSegundoApellido = new TableColumn<>("S.Apellido");
         TableColumn<Alumno, String> cTelefono = new TableColumn<>("Telefono");
         TableColumn<Alumno, String> cDireccion = new TableColumn<>("Dirección");
-        
+
         cNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         cTelefono.setCellValueFactory(new PropertyValueFactory<>("numeroDeCelular"));
         cDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
         cPrimerApellido.setCellValueFactory(new PropertyValueFactory<>("primerApellido"));
         cSegundoApellido.setCellValueFactory(new PropertyValueFactory<>("segundoApellido"));
-        
+
         cNombre.setMinWidth(50);
         cTelefono.setMinWidth(100);
         cTelefono.setMinWidth(100);
-        
-        TResultadoAlumno.getColumns().addAll(cNombre,cPrimerApellido,cSegundoApellido, cTelefono,cDireccion);
-        
+
+        TResultadoAlumno.getColumns().addAll(cNombre, cPrimerApellido, cSegundoApellido, cTelefono, cDireccion);
+
         TResultadoAlumno.getSelectionModel().setCellSelectionEnabled(true);
-        
 
         TNombreAlumno.setOnKeyTyped((KeyEvent event) -> {
             char car = event.getCharacter().charAt(0);
@@ -117,11 +124,14 @@ public class ConsultarAlumno1Controller implements Initializable {
             }
         });
 
-        agregarAlumno.setOnAction((ActionEvent event) -> {
-            System.out.println("Agregar Alumno :o");
+        inscribirAlumno.setOnAction((ActionEvent event) -> {
+            InscribirAlumnoController.initRootLayout(primaryStage);
         });
-        
-        BAlumnos.getItems().addAll(agregarAlumno, buscarAlumno);
+
+        editarAlumno.setOnAction((ActionEvent event) -> {
+            EditarAlumnoController.initRootLayout(primaryStage);
+        });
+
     }
 
     @FXML
@@ -150,12 +160,15 @@ public class ConsultarAlumno1Controller implements Initializable {
         List<Alumno> lisAl = al.buscarAlumnosPorNombre(TNombreAlumno.getText());
 
         TResultadoAlumno.getItems().clear();
-        
+        //Grupo gp = new Grupo();
+        //System.out.println("grupo "+ gp.buscarGruposDeAlumno(1).get(0).getIDAlumnoG() + gp.buscarGruposDeAlumno(1).get(0).getIDGrupo());
+        //gp.buscarGruposDeAlumno(1);
         if (lisAl.isEmpty()) {
             System.out.println("No hay coincidencias");
         } else {
             for (int i = 0; i < lisAl.size(); i++) {
                 TResultadoAlumno.getItems().add(lisAl.get(i));
+
             }
         }
 

@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Maestro.findByDireccion", query = "SELECT m FROM Maestro m WHERE m.direccion = :direccion")
     , @NamedQuery(name = "Maestro.findByEstado", query = "SELECT m FROM Maestro m WHERE m.estado = :estado")
     , @NamedQuery(name = "Maestro.findBySueldo", query = "SELECT m FROM Maestro m WHERE m.sueldo = :sueldo")
+    , @NamedQuery(name = "Maestro.findByRutaImagen", query = "SELECT m FROM Maestro m WHERE m.rutaImagen = :rutaImagen")
     , @NamedQuery(name = "Maestro.findByIDClase", query = "SELECT m FROM Maestro m WHERE m.iDClase = :iDClase")})
 public class Maestro implements Serializable {
 
@@ -75,6 +76,8 @@ public class Maestro implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "sueldo")
     private Double sueldo;
+    @Column(name = "rutaImagen")
+    private String rutaImagen;
     @Column(name = "IDClase")
     private Integer iDClase;
     @OneToMany(mappedBy = "iDMaestroPE")
@@ -170,6 +173,14 @@ public class Maestro implements Serializable {
 
     public void setSueldo(Double sueldo) {
         this.sueldo = sueldo;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public Integer getIDClase() {

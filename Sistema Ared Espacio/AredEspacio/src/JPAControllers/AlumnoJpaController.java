@@ -12,7 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import BaseDeDatos.Inscripcion;
-import BaseDeDatos.Clase;
+import BaseDeDatos.Grupo;
 import java.util.ArrayList;
 import java.util.Collection;
 import BaseDeDatos.Pagoingreso;
@@ -38,8 +38,8 @@ public class AlumnoJpaController implements Serializable {
     }
 
     public void create(Alumno alumno) {
-        if (alumno.getClaseCollection() == null) {
-            alumno.setClaseCollection(new ArrayList<Clase>());
+        if (alumno.getGrupoCollection() == null) {
+            alumno.setGrupoCollection(new ArrayList<Grupo>());
         }
         if (alumno.getPagoingresoCollection() == null) {
             alumno.setPagoingresoCollection(new ArrayList<Pagoingreso>());
@@ -56,12 +56,12 @@ public class AlumnoJpaController implements Serializable {
                 IDInscripcionA = em.getReference(IDInscripcionA.getClass(), IDInscripcionA.getIDInscripcion());
                 alumno.setIDInscripcionA(IDInscripcionA);
             }
-            Collection<Clase> attachedClaseCollection = new ArrayList<Clase>();
-            for (Clase claseCollectionClaseToAttach : alumno.getClaseCollection()) {
-                claseCollectionClaseToAttach = em.getReference(claseCollectionClaseToAttach.getClass(), claseCollectionClaseToAttach.getIDClase());
-                attachedClaseCollection.add(claseCollectionClaseToAttach);
+            Collection<Grupo> attachedGrupoCollection = new ArrayList<Grupo>();
+            for (Grupo grupoCollectionGrupoToAttach : alumno.getGrupoCollection()) {
+                grupoCollectionGrupoToAttach = em.getReference(grupoCollectionGrupoToAttach.getClass(), grupoCollectionGrupoToAttach.getIDGrupo());
+                attachedGrupoCollection.add(grupoCollectionGrupoToAttach);
             }
-            alumno.setClaseCollection(attachedClaseCollection);
+            alumno.setGrupoCollection(attachedGrupoCollection);
             Collection<Pagoingreso> attachedPagoingresoCollection = new ArrayList<Pagoingreso>();
             for (Pagoingreso pagoingresoCollectionPagoingresoToAttach : alumno.getPagoingresoCollection()) {
                 pagoingresoCollectionPagoingresoToAttach = em.getReference(pagoingresoCollectionPagoingresoToAttach.getClass(), pagoingresoCollectionPagoingresoToAttach.getIDIngreso());
@@ -79,9 +79,14 @@ public class AlumnoJpaController implements Serializable {
                 IDInscripcionA.getAlumnoCollection().add(alumno);
                 IDInscripcionA = em.merge(IDInscripcionA);
             }
-            for (Clase claseCollectionClase : alumno.getClaseCollection()) {
-                claseCollectionClase.getAlumnoCollection().add(alumno);
-                claseCollectionClase = em.merge(claseCollectionClase);
+            for (Grupo grupoCollectionGrupo : alumno.getGrupoCollection()) {
+                Alumno oldIDAlumnoGOfGrupoCollectionGrupo = grupoCollectionGrupo.getIDAlumnoG();
+                grupoCollectionGrupo.setIDAlumnoG(alumno);
+                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
+                if (oldIDAlumnoGOfGrupoCollectionGrupo != null) {
+                    oldIDAlumnoGOfGrupoCollectionGrupo.getGrupoCollection().remove(grupoCollectionGrupo);
+                    oldIDAlumnoGOfGrupoCollectionGrupo = em.merge(oldIDAlumnoGOfGrupoCollectionGrupo);
+                }
             }
             for (Pagoingreso pagoingresoCollectionPagoingreso : alumno.getPagoingresoCollection()) {
                 Alumno oldIDAlumnoPIOfPagoingresoCollectionPagoingreso = pagoingresoCollectionPagoingreso.getIDAlumnoPI();
@@ -117,8 +122,8 @@ public class AlumnoJpaController implements Serializable {
             Alumno persistentAlumno = em.find(Alumno.class, alumno.getIDAlumno());
             Inscripcion IDInscripcionAOld = persistentAlumno.getIDInscripcionA();
             Inscripcion IDInscripcionANew = alumno.getIDInscripcionA();
-            Collection<Clase> claseCollectionOld = persistentAlumno.getClaseCollection();
-            Collection<Clase> claseCollectionNew = alumno.getClaseCollection();
+            Collection<Grupo> grupoCollectionOld = persistentAlumno.getGrupoCollection();
+            Collection<Grupo> grupoCollectionNew = alumno.getGrupoCollection();
             Collection<Pagoingreso> pagoingresoCollectionOld = persistentAlumno.getPagoingresoCollection();
             Collection<Pagoingreso> pagoingresoCollectionNew = alumno.getPagoingresoCollection();
             Collection<Mensualidad> mensualidadCollectionOld = persistentAlumno.getMensualidadCollection();
@@ -127,13 +132,13 @@ public class AlumnoJpaController implements Serializable {
                 IDInscripcionANew = em.getReference(IDInscripcionANew.getClass(), IDInscripcionANew.getIDInscripcion());
                 alumno.setIDInscripcionA(IDInscripcionANew);
             }
-            Collection<Clase> attachedClaseCollectionNew = new ArrayList<Clase>();
-            for (Clase claseCollectionNewClaseToAttach : claseCollectionNew) {
-                claseCollectionNewClaseToAttach = em.getReference(claseCollectionNewClaseToAttach.getClass(), claseCollectionNewClaseToAttach.getIDClase());
-                attachedClaseCollectionNew.add(claseCollectionNewClaseToAttach);
+            Collection<Grupo> attachedGrupoCollectionNew = new ArrayList<Grupo>();
+            for (Grupo grupoCollectionNewGrupoToAttach : grupoCollectionNew) {
+                grupoCollectionNewGrupoToAttach = em.getReference(grupoCollectionNewGrupoToAttach.getClass(), grupoCollectionNewGrupoToAttach.getIDGrupo());
+                attachedGrupoCollectionNew.add(grupoCollectionNewGrupoToAttach);
             }
-            claseCollectionNew = attachedClaseCollectionNew;
-            alumno.setClaseCollection(claseCollectionNew);
+            grupoCollectionNew = attachedGrupoCollectionNew;
+            alumno.setGrupoCollection(grupoCollectionNew);
             Collection<Pagoingreso> attachedPagoingresoCollectionNew = new ArrayList<Pagoingreso>();
             for (Pagoingreso pagoingresoCollectionNewPagoingresoToAttach : pagoingresoCollectionNew) {
                 pagoingresoCollectionNewPagoingresoToAttach = em.getReference(pagoingresoCollectionNewPagoingresoToAttach.getClass(), pagoingresoCollectionNewPagoingresoToAttach.getIDIngreso());
@@ -157,16 +162,21 @@ public class AlumnoJpaController implements Serializable {
                 IDInscripcionANew.getAlumnoCollection().add(alumno);
                 IDInscripcionANew = em.merge(IDInscripcionANew);
             }
-            for (Clase claseCollectionOldClase : claseCollectionOld) {
-                if (!claseCollectionNew.contains(claseCollectionOldClase)) {
-                    claseCollectionOldClase.getAlumnoCollection().remove(alumno);
-                    claseCollectionOldClase = em.merge(claseCollectionOldClase);
+            for (Grupo grupoCollectionOldGrupo : grupoCollectionOld) {
+                if (!grupoCollectionNew.contains(grupoCollectionOldGrupo)) {
+                    grupoCollectionOldGrupo.setIDAlumnoG(null);
+                    grupoCollectionOldGrupo = em.merge(grupoCollectionOldGrupo);
                 }
             }
-            for (Clase claseCollectionNewClase : claseCollectionNew) {
-                if (!claseCollectionOld.contains(claseCollectionNewClase)) {
-                    claseCollectionNewClase.getAlumnoCollection().add(alumno);
-                    claseCollectionNewClase = em.merge(claseCollectionNewClase);
+            for (Grupo grupoCollectionNewGrupo : grupoCollectionNew) {
+                if (!grupoCollectionOld.contains(grupoCollectionNewGrupo)) {
+                    Alumno oldIDAlumnoGOfGrupoCollectionNewGrupo = grupoCollectionNewGrupo.getIDAlumnoG();
+                    grupoCollectionNewGrupo.setIDAlumnoG(alumno);
+                    grupoCollectionNewGrupo = em.merge(grupoCollectionNewGrupo);
+                    if (oldIDAlumnoGOfGrupoCollectionNewGrupo != null && !oldIDAlumnoGOfGrupoCollectionNewGrupo.equals(alumno)) {
+                        oldIDAlumnoGOfGrupoCollectionNewGrupo.getGrupoCollection().remove(grupoCollectionNewGrupo);
+                        oldIDAlumnoGOfGrupoCollectionNewGrupo = em.merge(oldIDAlumnoGOfGrupoCollectionNewGrupo);
+                    }
                 }
             }
             for (Pagoingreso pagoingresoCollectionOldPagoingreso : pagoingresoCollectionOld) {
@@ -237,10 +247,10 @@ public class AlumnoJpaController implements Serializable {
                 IDInscripcionA.getAlumnoCollection().remove(alumno);
                 IDInscripcionA = em.merge(IDInscripcionA);
             }
-            Collection<Clase> claseCollection = alumno.getClaseCollection();
-            for (Clase claseCollectionClase : claseCollection) {
-                claseCollectionClase.getAlumnoCollection().remove(alumno);
-                claseCollectionClase = em.merge(claseCollectionClase);
+            Collection<Grupo> grupoCollection = alumno.getGrupoCollection();
+            for (Grupo grupoCollectionGrupo : grupoCollection) {
+                grupoCollectionGrupo.setIDAlumnoG(null);
+                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
             }
             Collection<Pagoingreso> pagoingresoCollection = alumno.getPagoingresoCollection();
             for (Pagoingreso pagoingresoCollectionPagoingreso : pagoingresoCollection) {
