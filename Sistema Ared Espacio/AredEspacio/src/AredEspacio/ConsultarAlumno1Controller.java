@@ -62,14 +62,15 @@ public class ConsultarAlumno1Controller implements Initializable {
     @FXML
     private Label LBuscar;
     @FXML
-    private Button BConsultar;
-    @FXML
     private ImageView PaneImagen;
     @FXML
     private TableView<Alumno> TResultadoAlumno;
+    @FXML
+    private Button BOpcionesAlumno;
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
+    private Alumno al = new Alumno();
 
     static void initRootLayout(Stage primaryStage) {
         try {
@@ -114,8 +115,10 @@ public class ConsultarAlumno1Controller implements Initializable {
         cTelefono.setMinWidth(100);
 
         TResultadoAlumno.getColumns().addAll(cNombre, cPrimerApellido, cSegundoApellido, cTelefono, cDireccion);
-
-        TResultadoAlumno.getSelectionModel().setCellSelectionEnabled(true);
+        TResultadoAlumno.setOnMouseClicked((event) -> {
+            al = TResultadoAlumno.getSelectionModel().getSelectedItem();
+            System.out.println("nombre " + al.getNombre() + "Drieccion " + al.getDireccion() + "Id " + al.getIDAlumno());
+        });
 
         TNombreAlumno.setOnKeyTyped((KeyEvent event) -> {
             char car = event.getCharacter().charAt(0);
@@ -126,6 +129,10 @@ public class ConsultarAlumno1Controller implements Initializable {
 
         inscribirAlumno.setOnAction((ActionEvent event) -> {
             InscribirAlumnoController.initRootLayout(primaryStage);
+        });
+
+        TNombreAlumno.setOnAction((ActionEvent event) -> {
+
         });
 
         editarAlumno.setOnAction((ActionEvent event) -> {
@@ -177,10 +184,12 @@ public class ConsultarAlumno1Controller implements Initializable {
 
     @FXML
     private void TNombreAlumnoAction(ActionEvent event) {
+
     }
 
     @FXML
-    private void BConsultarAction(ActionEvent event) {
+    private void BOpcionesAlumnoAction(ActionEvent event) {
+        ConsultarAlumno2Controller.initRootLayout(primaryStage, al);
     }
 
 }

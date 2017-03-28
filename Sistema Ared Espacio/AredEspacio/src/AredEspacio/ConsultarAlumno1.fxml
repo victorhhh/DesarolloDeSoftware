@@ -40,7 +40,7 @@
             <Button fx:id="BBuscar" layoutX="510.0" layoutY="36.0" mnemonicParsing="false" onAction="#BBuscarAction" text="Buscar" />
             <TextField fx:id="TNombreAlumno" layoutX="194.0" layoutY="36.0" onAction="#TNombreAlumnoAction" prefHeight="30.0" prefWidth="287.0" style="-fx-border-color: #;" />
             <Label fx:id="LBuscar" layoutX="137.0" layoutY="41.0" text="Nombre" />
-            <Button fx:id="BConsultar" layoutX="487.0" layoutY="294.0" mnemonicParsing="false" onAction="#BConsultarAction" prefHeight="30.0" prefWidth="80.0" text="Consultar" />
+            <Button fx:id="BOpcionesAlumno" layoutX="487.0" layoutY="294.0" mnemonicParsing="false" onAction="#BOpcionesAlumnoAction" prefHeight="30.0" prefWidth="80.0" text="Opciones" />
             <ImageView fx:id="PaneImagen" fitHeight="87.0" fitWidth="92.0" layoutX="26.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
             <TableView fx:id="TResultadoAlumno" layoutX="56.0" layoutY="79.0" prefHeight="200.0" prefWidth="511.0">
               <columns>

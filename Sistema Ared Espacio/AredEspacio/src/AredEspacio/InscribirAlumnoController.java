@@ -30,6 +30,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -181,6 +185,11 @@ public class InscribirAlumnoController implements Initializable {
         System.out.println("FEcha " + localDate);
         LocalDate localDate2 = DFechaInscripcion.getValue();
         System.out.println("FEcha " + localDate2);
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
+        EntityManager em = emf.createEntityManager();
+        em.persist(alumnoNuevo);
+        
     }
 
     @FXML
