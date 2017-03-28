@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")
-    , @NamedQuery(name = "Grupo.findByIDAlumno", query = "SELECT g FROM Grupo g WHERE g.IDGrupo = :IDAlumnoG")
+    , @NamedQuery(name = "Grupo.findByIDAlumno", query = "SELECT g FROM Grupo g WHERE g.iDAlumnoG.iDAlumno = :IDAlumnoG")
     , @NamedQuery(name = "Grupo.findByIDGrupo", query = "SELECT g FROM Grupo g WHERE g.iDGrupo = :iDGrupo")})
 public class Grupo implements Serializable {
 
@@ -55,7 +55,7 @@ public class Grupo implements Serializable {
     
     public List<Grupo> buscarGruposAlumno(int IDAlumno) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Grupo> resultList = em.createNamedQuery("Alumno.findByIDAlumno").setParameter("IDAlumnoG",  IDAlumno).getResultList();
+        List<Grupo> resultList = em.createNamedQuery("Grupo.findByIDAlumno").setParameter("IDAlumnoG",  IDAlumno).getResultList();
         return resultList;
     }
     
