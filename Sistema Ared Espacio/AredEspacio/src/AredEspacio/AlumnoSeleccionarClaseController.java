@@ -8,6 +8,7 @@ package AredEspacio;
 import static AredEspacio.InscribirAlumnoController.primaryStage;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
+import BaseDeDatos.Inscripcion;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -64,6 +65,8 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     Clase clase = new Clase();
     private int id;
     static List<Clase> clasesExistentes;
+    static Alumno alumnoNuevo;
+    static Inscripcion nuevaInscripcion;
 
     /**
      * Initializes the controller class.
@@ -102,19 +105,30 @@ public class AlumnoSeleccionarClaseController implements Initializable {
         TClases.getItems().clear();
         if (!clasesExistentes.isEmpty()) {
             for (int i = 0; i < clasesExistentes.size(); i++) {
-                System.out.println("a a " + clases.get(i));
                 TClasesAgregadas.getItems().add(clasesExistentes.get(i));
             }
         }
 
         if (!clases.isEmpty()) {
             for (int i = 0; i < clases.size(); i++) {
-                
-                System.out.println("a a " + clases.get(i));
-                TClases.getItems().add(clases.get(i));
+                if (!clasesExistentes.isEmpty()) {
+                    int cont = clasesExistentes.size();
+                    for (int o = 0; o < clasesExistentes.size(); o++) {
+                        if (clases.get(i).getIDClase() == clasesExistentes.get(o).getIDClase()) {
+                            cont--;
+                        }
+                    }
+                    if (cont == clasesExistentes.size()) {
+                        System.out.println("a a " + clases.get(i));
+                        TClases.getItems().add(clases.get(i));
+                    }
+                } else {
+                    System.out.println("");
+                    TClases.getItems().add(clases.get(i));
+                }
             }
         }
-        
+
         TClases.setOnMouseClicked((event) -> {
             id = TClases.getSelectionModel().getSelectedIndex();
             clase = TClases.getSelectionModel().getSelectedItem();
@@ -165,7 +179,8 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     @FXML
     private void BOpcionesAlumnoAction(ActionEvent event) {
         List<Clase> clasesAgregar = TClasesAgregadas.getItems();
-        InscribirAlumnoController.initRootLayout(primaryStage , clasesAgregar);
+        System.out.println("se va "+ alumnoNuevo.getNombre() );
+        InscribirAlumnoController.initRootLayout(primaryStage, clasesAgregar, alumnoNuevo);
     }
 
     @FXML
@@ -190,8 +205,12 @@ public class AlumnoSeleccionarClaseController implements Initializable {
             TClases.getItems().add(clase);
         }
     }
-    static void initRootLayout(Stage primaryStage, List<Clase> clase) {
+
+    static void initRootLayout(Stage primaryStage, List<Clase> clase, Alumno alumno, Inscripcion inscri) {
         clasesExistentes = clase;
+        alumnoNuevo=alumno;
+        nuevaInscripcion=inscri;
+        System.out.println("llegó " + alumnoNuevo.getNombre());
         try {
             AlumnoSeleccionarClaseController.primaryStage = primaryStage;
             FXMLLoader loader = new FXMLLoader();

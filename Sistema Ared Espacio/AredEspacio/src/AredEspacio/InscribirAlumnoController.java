@@ -7,12 +7,15 @@ package AredEspacio;
 
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
+import BaseDeDatos.Grupo;
 import BaseDeDatos.Inscripcion;
 import JPAControllers.AlumnoJpaController;
+import JPAControllers.GrupoJpaController;
 import JPAControllers.InscripcionJpaController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -23,6 +26,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -31,7 +36,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -40,8 +44,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
+import javafx.stage.StageStyle;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -104,9 +107,9 @@ public class InscribirAlumnoController implements Initializable {
     private TableView<Clase> TClases;
     @FXML
     private Button BModificarClases;
-
-    Alumno alumnoNuevo = new Alumno();
-    Inscripcion nuevaInscripcion = new Inscripcion();
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
+    static Alumno alumnoNuevo = new Alumno();
+    static Inscripcion nuevaInscripcion = new Inscripcion();
     static List<Clase> clases;
     static boolean primeraVez;
 
@@ -133,19 +136,25 @@ public class InscribirAlumnoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         TableColumn<Clase, String> cNombre = new TableColumn<>("Nombre");
         TableColumn<Clase, String> cDia = new TableColumn<>("Dia");
         cNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         cDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
         TClases.getColumns().addAll(cNombre, cDia);
-        if(!primeraVez){
-            for(int i = 0 ; i < clases.size() ; i++){
-            TClases.getItems().add(clases.get(i));
+        if (!primeraVez) {
+            for (int i = 0; i < clases.size(); i++) {
+                TClases.getItems().add(clases.get(i));
             }
         }
-        
-        
+        if (alumnoNuevo != null) {
+            System.out.println("Se entro");
+            llenarCampos();
+        }
+        if (nuevaInscripcion != null) {
+            llenarInscripcion();
+        }
+
         MenuItem editarAlumno = new MenuItem("Consultar/Editar");
         BAlumnos.getItems().addAll(editarAlumno);
 
@@ -164,6 +173,14 @@ public class InscribirAlumnoController implements Initializable {
                 event.consume();
             }
         });
+        TPApellido.setOnKeyTyped((KeyEvent event) -> {
+            char car = event.getCharacter().charAt(0);
+            if (car == ' ') {
+
+            } else if (TPApellido.getText().length() > 25 || !Character.isAlphabetic(car)) {
+                event.consume();
+            }
+        });
         TTelefono.setOnKeyTyped((KeyEvent event) -> {
             char car = event.getCharacter().charAt(0);
             if (!Character.isDigit(car) || TTelefono.getText().length() > 10) {
@@ -173,6 +190,12 @@ public class InscribirAlumnoController implements Initializable {
         TDireccion.setOnKeyTyped((KeyEvent event) -> {
             char car = event.getCharacter().charAt(0);
             if (TDireccion.getText().length() > 30) {
+                event.consume();
+            }
+        });
+        LInscripcion.setOnKeyTyped((KeyEvent event) -> {
+            char car = event.getCharacter().charAt(0);
+            if (!Character.isDigit(car) || LInscripcion.getText().length() > 10) {
                 event.consume();
             }
         });
@@ -201,53 +224,93 @@ public class InscribirAlumnoController implements Initializable {
 
     @FXML
     private void BAgregarAction(ActionEvent event) {
-        if(TClases.getColumns().isEmpty()){
+        if (TClases.getColumns().isEmpty()) {
             AlumnoSeleccionarClaseController.initRootLayout(primaryStage);
-        }else{
-            AlumnoSeleccionarClaseController.initRootLayout(primaryStage, TClases.getItems());   
+        } else {
+            crearAlumno();
+            crearInscripcion();
+            System.out.println("alumno " + alumnoNuevo.getNombre());
+            AlumnoSeleccionarClaseController.initRootLayout(primaryStage, TClases.getItems(), alumnoNuevo, nuevaInscripcion);
         }
     }
 
-    @FXML
-    private void BGuardarAction(ActionEvent event) {
-        TableColumn<Clase, String> cClase = new TableColumn<>("Clase");
-        TableColumn<Clase, String> cDia = new TableColumn<>("Dia");
-
-        cClase.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        cDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
-        TClases.getColumns().addAll(cClase, cDia);
-
+    private void crearAlumno() {
         alumnoNuevo.setNombre(TNombre.getText());
         alumnoNuevo.setPrimerApellido(TPApellido.getText());
         alumnoNuevo.setSegundoApellido(TSApellido.getText());
         alumnoNuevo.setNumeroDeCelular(TTelefono.getText());
         Date date = new Date();
+        try {
+            date.setDate(DFechaDeNacimiento.getValue().getDayOfMonth());
+            date.setMonth(DFechaDeNacimiento.getValue().getMonthValue());
+            date.setYear(DFechaDeNacimiento.getValue().getYear() - 1900);
+            alumnoNuevo.setFechaNacimiento(date);
+        } catch (Exception e) {
+            System.out.println("No hay fecha");
+        }
 
-        date.setDate(DFechaDeNacimiento.getValue().getDayOfMonth());
-        date.setMonth(DFechaDeNacimiento.getValue().getMonthValue());
-        date.setYear(DFechaDeNacimiento.getValue().getYear() - 1900);
-        alumnoNuevo.setFechaNacimiento(date);
         alumnoNuevo.setDireccion(TDireccion.getText());
         alumnoNuevo.setEstado(true);
+    }
 
-        nuevaInscripcion.setMonto(Integer.parseInt(LInscripcion.getText()));
+    public void crearInscripcion() {
+        if (LInscripcion.getText() != null) {
+            nuevaInscripcion.setMonto(Integer.parseInt(LInscripcion.getText()));
+            nuevaInscripcion.setFechaInscripcion(new Date());
+            InscripcionJpaController jpaI = new InscripcionJpaController(emf);
+            nuevaInscripcion.setIDInscripcion(jpaI.getInscripcionCount() + 1);
+        }
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
-        EntityManager em = emf.createEntityManager();
-        InscripcionJpaController jpaClase = new InscripcionJpaController(emf);
-        AlumnoJpaController jpaA = new AlumnoJpaController(emf);
-        nuevaInscripcion.setIDInscripcion(jpaClase.getInscripcionCount() + 1);
-        Date d = new Date();
+    }
 
-        nuevaInscripcion.setFechaInscripcion(d);
-        alumnoNuevo.setIDAlumno(jpaA.getAlumnoCount() + 1);
-        alumnoNuevo.setIDInscripcionA(nuevaInscripcion);
-        jpaClase.create(nuevaInscripcion);
-        jpaA.create(alumnoNuevo);
+    public boolean validarGuardado() {
+        if (TNombre.getText().isEmpty() || TPApellido.getText().isEmpty() || TSApellido.getText().isEmpty()
+                || TTelefono.getText().isEmpty() || TDireccion.getText().isEmpty()
+                || LInscripcion.getText().isEmpty() || DFechaDeNacimiento.getValue() == null
+                || alumnoNuevo.getRutaImagen() == null) {
+            return false;
+        }
+        return true;
+    }
 
-        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
-        //EntityManager em = emf.createEntityManager();
-        //em.persist(nuevaInscripcion);
+    @FXML
+    private void BGuardarAction(ActionEvent event) {
+        if (validarGuardado()) {
+            validarGuardado();
+            crearAlumno();
+            crearInscripcion();
+
+            AlumnoJpaController jpaA = new AlumnoJpaController(emf);
+            GrupoJpaController jpaG = new GrupoJpaController(emf);
+            InscripcionJpaController jpaI = new InscripcionJpaController(emf);
+
+            jpaI.create(nuevaInscripcion);
+            alumnoNuevo.setIDAlumno(jpaA.getAlumnoCount() + 1);
+            alumnoNuevo.setIDInscripcionA(nuevaInscripcion);
+
+            jpaA.create(alumnoNuevo);
+            for (int i = 0; i < clases.size(); i++) {
+                Grupo grupo = new Grupo();
+                grupo.setIDAlumnoG(alumnoNuevo);
+                grupo.setIDClaseG(clases.get(i));
+                grupo.setIDGrupo(jpaG.getGrupoCount());
+                jpaG.create(grupo);
+            }
+            Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlerta.setTitle("Ared Espacio");
+            dialogoAlerta.setHeaderText(null);
+            dialogoAlerta.setContentText("Debes seleccionar un alumno primero");
+            dialogoAlerta.initStyle(StageStyle.UTILITY);
+            dialogoAlerta.showAndWait();
+        } else {
+            Alert dialogoAlerta = new Alert(AlertType.WARNING);
+            dialogoAlerta.setTitle("Ared Espacio");
+            dialogoAlerta.setHeaderText("¡No se pudo agrear!");
+            dialogoAlerta.setContentText("Se dejaron campos vacios");
+            dialogoAlerta.initStyle(StageStyle.UTILITY);
+            dialogoAlerta.showAndWait();
+        }
+
     }
 
     @FXML
@@ -259,9 +322,42 @@ public class InscribirAlumnoController implements Initializable {
         PaneImagen.setImage(img);
     }
 
-    static void initRootLayout(Stage primaryStage, List<Clase> listaClases) {
+    public void llenarCampos() {
+        if (alumnoNuevo.getNombre() != null) {
+            TNombre.setText(alumnoNuevo.getNombre());
+        }
+        if (alumnoNuevo.getPrimerApellido() != null) {
+            TPApellido.setText(alumnoNuevo.getPrimerApellido());
+        }
+        if (alumnoNuevo.getSegundoApellido() != null) {
+            TSApellido.setText(alumnoNuevo.getSegundoApellido());
+        }
+        if (alumnoNuevo.getNumeroDeCelular() != null) {
+            TTelefono.setText(alumnoNuevo.getNumeroDeCelular());
+        }
+        if (alumnoNuevo.getFechaNacimiento() != null) {
+            Instant instant = alumnoNuevo.getFechaNacimiento().toInstant();
+            LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            DFechaDeNacimiento.setValue(localDate);
+        }
+        if (alumnoNuevo.getDireccion() != null) {
+            TDireccion.setText(alumnoNuevo.getDireccion());
+        }
+    }
+
+    public void llenarInscripcion() {
+        if (Integer.toString(nuevaInscripcion.getMonto()) != null) {
+            LInscripcion.setText(Integer.toString(nuevaInscripcion.getMonto()));
+            System.out.println("");
+        }
+    }
+
+    static void initRootLayout(Stage primaryStage, List<Clase> listaClases, Alumno al) {
         clases = listaClases;
-        primeraVez=false;
+        alumnoNuevo = al;
+        primeraVez = false;
+        System.out.println("lo ultimo " + al.getNombre());
+        System.out.println("lo ultimo 2 " + alumnoNuevo.getNombre());
         try {
             InscribirAlumnoController.primaryStage = primaryStage;
             FXMLLoader loader = new FXMLLoader();

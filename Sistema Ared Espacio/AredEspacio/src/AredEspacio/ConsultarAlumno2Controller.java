@@ -5,22 +5,27 @@
  */
 package AredEspacio;
 
-import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
-import static AredEspacio.InscribirAlumnoController.primaryStage;
 import BaseDeDatos.Alumno;
-import BaseDeDatos.Clase;
 import BaseDeDatos.Grupo;
+import BaseDeDatos.Inscripcion;
+import JPAControllers.AlumnoJpaController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -29,6 +34,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * FXML Controller class
@@ -92,6 +100,7 @@ public class ConsultarAlumno2Controller implements Initializable {
     @FXML
     private Label LCMonto;
     private static Alumno alumno = new Alumno();
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
@@ -119,13 +128,16 @@ public class ConsultarAlumno2Controller implements Initializable {
         LCNombre.setText(alumno.getNombre() + " " + alumno.getPrimerApellido() + " " + alumno.getSegundoApellido());
         Image img = new Image(new File(alumno.getRutaImagen()).toURI().toString());
         PaneImagen.setImage(img);
+        Inscripcion ins = new Inscripcion();
+        
+        
         LCDireccion.setText(alumno.getDireccion());
         LCTelefono.setText(alumno.getNumeroDeCelular());
         LCFechaDeNacimiento.setText(alumno.getFechaNacimiento().getDate() + " / " + (alumno.getFechaNacimiento().getMonth() + 1) + " / " + alumno.getFechaNacimiento().getYear());
         Grupo grupo = new Grupo();
         List<Grupo> listGrupo = grupo.buscarGruposAlumno(alumno.getIDAlumno());
         LCFechaProximoPago.setText(alumno.getIDInscripcionA().getFechaInscripcion().getDate() + " / " + (alumno.getIDInscripcionA().getFechaInscripcion().getMonth() + 1) + " / "
-                + (alumno.getIDInscripcionA().getFechaInscripcion().getYear()-100));
+                + (alumno.getIDInscripcionA().getFechaInscripcion().getYear() - 100));
         LCMonto.setText(String.valueOf(alumno.getIDInscripcionA().getMonto()));
         if (listGrupo.isEmpty()) {
             LCClases.setText("Sin clases inscritas");
@@ -143,6 +155,7 @@ public class ConsultarAlumno2Controller implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      */
     @Override
@@ -151,15 +164,14 @@ public class ConsultarAlumno2Controller implements Initializable {
         MenuItem inscribirAlumno = new MenuItem("Inscribir");
         MenuItem editarAlumno = new MenuItem("Consultar/Editar");
         BAlumnos.getItems().addAll(inscribirAlumno, editarAlumno);
-        
+
         editarAlumno.setOnAction((ActionEvent event) -> {
             EditarAlumnoController.initRootLayout(primaryStage, alumno);
         });
         inscribirAlumno.setOnAction((ActionEvent event) -> {
             InscribirAlumnoController.initRootLayout(primaryStage);
         });
-        
-        
+
     }
 
     @FXML
@@ -192,10 +204,41 @@ public class ConsultarAlumno2Controller implements Initializable {
 
     @FXML
     private void BReinscribirAction(ActionEvent event) {
+        Alert dialogoAlerta = new Alert(AlertType.CONFIRMATION);
+        dialogoAlerta.setTitle("Ared Espacio");
+        dialogoAlerta.setHeaderText("¿Seguro quieres reinscribir?");
+        dialogoAlerta.setContentText("El alumno será reinscrito de la escuela");
+        dialogoAlerta.initStyle(StageStyle.UTILITY);
+        Optional<ButtonType> result = dialogoAlerta.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            try {
+                alumno.setEstado(true);
+                AlumnoJpaController  a= new AlumnoJpaController(emf);
+                a.edit(alumno);
+            } catch (Exception ex) {
+                Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
     private void BBajaAction(ActionEvent event) {
+        Alert dialogoAlerta = new Alert(AlertType.CONFIRMATION);
+        dialogoAlerta.setTitle("Ared Espacio");
+        dialogoAlerta.setHeaderText("¿Seguro quieres dar de baja?");
+        dialogoAlerta.setContentText("El alumno será dado de baja en la escuela");
+        dialogoAlerta.initStyle(StageStyle.UTILITY);
+        Optional<ButtonType> result = dialogoAlerta.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            try {
+                alumno.setEstado(false);
+                AlumnoJpaController  a= new AlumnoJpaController(emf);
+                a.edit(alumno);
+            } catch (Exception ex) {
+                Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     @FXML

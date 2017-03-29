@@ -53,36 +53,35 @@
       </AnchorPane>
       <AnchorPane layoutX="9.0" layoutY="55.0" prefHeight="345.0" prefWidth="665.0">
          <children>
-            <Label fx:id="LNombre" layoutX="36.0" layoutY="95.0" text="Nombre :" />
-            <Label fx:id="LTelefono" layoutX="32.0" layoutY="137.0" prefHeight="20.0" prefWidth="64.0" text="Teléfono :" />
-            <Label fx:id="LFechaDeNac" layoutY="174.0" prefHeight="20.0" prefWidth="98.0" text="Fecha de Nac. :" />
-            <Label fx:id="LDireccion" layoutX="26.0" layoutY="214.0" text="Dirección :" />
-            <Label fx:id="LFechaDeProximoPago" layoutX="402.0" layoutY="45.0" text="Fecha:" />
-            <Label fx:id="LMonto" layoutX="376.0" layoutY="92.0" text="Inscripcion:" />
-            <Label fx:id="LClases" layoutX="42.0" layoutY="250.0" text="Clases :" />
-            <Button fx:id="BAgregar" layoutX="278.0" layoutY="295.0" mnemonicParsing="false" onAction="#BAgregarAction" prefHeight="30.0" prefWidth="80.0" text="Agregar" />
+            <Label fx:id="LNombre" layoutX="36.0" layoutY="122.0" text="Nombre :" />
+            <Label fx:id="LTelefono" layoutX="31.0" layoutY="231.0" prefHeight="20.0" prefWidth="64.0" text="Teléfono :" />
+            <Label fx:id="LFechaDeNac" layoutY="266.0" prefHeight="20.0" prefWidth="98.0" text="Fecha de Nac. :" />
+            <Label fx:id="LDireccion" layoutX="28.0" layoutY="307.0" text="Dirección :" />
+            <Label fx:id="LMonto" layoutX="381.0" layoutY="193.0" text="Inscripcion:" />
+            <Label fx:id="LClases" layoutX="400.0" layoutY="35.0" text="Clases :" />
+            <Button fx:id="BModificarClases" layoutX="578.0" layoutY="144.0" mnemonicParsing="false" onAction="#BAgregarAction" prefHeight="15.0" prefWidth="72.0" text="Agregar" />
             <Button fx:id="BGuardar" layoutX="574.0" layoutY="295.0" mnemonicParsing="false" onAction="#BGuardarAction" prefHeight="30.0" prefWidth="80.0" text="Guardar" />
-            <Button fx:id="BQuitar" layoutX="176.0" layoutY="295.0" mnemonicParsing="false" onAction="#BQuitarAction" prefHeight="30.0" prefWidth="80.0" text="Quitar" />
             <ImageView fx:id="PaneImagen" fitHeight="81.0" fitWidth="92.0" layoutX="18.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/Imagenes/Sin_Imagen_Perfil.png" />
                </image></ImageView>
-            <TextField fx:id="TNombre" layoutX="98.0" layoutY="90.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField fx:id="TTelefono" layoutX="98.0" layoutY="134.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField fx:id="TDireccion" layoutX="98.0" layoutY="211.0" prefHeight="30.0" prefWidth="264.0" />
-            <TextField fx:id="LInscripcion" layoutX="452.0" layoutY="89.0" prefHeight="30.0" prefWidth="202.0" />
-            <Label layoutX="372.0" layoutY="140.0" text="Mensualidad:" />
-            <Label layoutX="381.0" layoutY="181.0" text="Promosion:" />
-            <Label layoutX="528.0" layoutY="212.0" prefHeight="20.0" prefWidth="92.0" text="Total:   " />
-            <TextField fx:id="LMensualidad" layoutX="455.0" layoutY="136.0" prefHeight="30.0" prefWidth="202.0" />
-            <SplitMenuButton fx:id="BMPromocion" layoutX="454.0" layoutY="176.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="202.0" text="Escoja alguna promocion">
+            <TextField fx:id="TNombre" layoutX="98.0" layoutY="114.0" prefHeight="25.0" prefWidth="264.0" />
+            <TextField fx:id="TTelefono" layoutX="98.0" layoutY="229.0" prefHeight="25.0" prefWidth="264.0" />
+            <TextField fx:id="TDireccion" layoutX="98.0" layoutY="302.0" prefHeight="25.0" prefWidth="264.0" />
+            <TextField fx:id="LInscripcion" layoutX="455.0" layoutY="188.0" prefHeight="25.0" prefWidth="202.0" />
+            <Label layoutX="381.0" layoutY="232.0" text="Promosion:" />
+            <SplitMenuButton fx:id="BMPromocion" layoutX="455.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Escoja alguna promocion">
               <items>
               </items>
             </SplitMenuButton>
-            <Button fx:id="BImagenAlumno" layoutX="110.0" layoutY="2.0" mnemonicParsing="false" onAction="#BImagenAlumnoAction" text="Buscar Imagen" />
-            <DatePicker fx:id="DFechaDeNacimiento" layoutX="99.0" layoutY="174.0" prefHeight="30.0" prefWidth="264.0" />
-            <Label fx:id="LClasesAgregadas" layoutX="94.0" layoutY="250.0" prefHeight="30.0" prefWidth="264.0" />
-            <DatePicker fx:id="DFechaInscripcion" layoutX="450.0" layoutY="37.0" prefHeight="30.0" prefWidth="202.0" />
+            <Button fx:id="BImagenAlumno" layoutX="110.0" layoutY="58.0" mnemonicParsing="false" onAction="#BImagenAlumnoAction" text="Buscar Imagen" />
+            <DatePicker fx:id="DFechaDeNacimiento" layoutX="100.0" layoutY="264.0" prefHeight="25.0" prefWidth="264.0" />
+            <Label fx:id="LPrimerApellido" layoutX="23.0" layoutY="148.0" prefHeight="20.0" prefWidth="78.0" text="P. Apellido :" />
+            <Label layoutX="20.0" layoutY="190.0" prefHeight="20.0" prefWidth="78.0" text="S. Apellido :" />
+            <TextField fx:id="TSApellido" layoutX="98.0" layoutY="188.0" prefHeight="25.0" prefWidth="264.0" />
+            <TextField fx:id="TPApellido" layoutX="100.0" layoutY="153.0" prefHeight="25.0" prefWidth="264.0" />
+            <TableView fx:id="TClases" layoutX="456.0" layoutY="30.0" prefHeight="106.0" prefWidth="200.0">
+            </TableView>
          </children>
       </AnchorPane>
    </children>

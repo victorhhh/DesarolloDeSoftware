@@ -4,14 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/ConsultarAlumno1Controller.java</file>
-            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/ConsultarAlumno1.fxml</file>
             <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/ConsultarAlumno2Controller.java</file>
-            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/BaseDeDatos/Alumno.java</file>
-            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/BaseDeDatos/Grupo.java</file>
-            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/ConsultarAlumno2.fxml</file>
+            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/BaseDeDatos/Inscripcion.java</file>
+            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/AlumnoSeleccionarClaseController.java</file>
+            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/JPAControllers/AlumnoJpaController.java</file>
             <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/EditarAlumnoController.java</file>
             <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/InscribirAlumnoController.java</file>
-            <file>file:/home/yoresroy/Documents/GitLimon/DesarolloDeSoftware/Sistema%20Ared%20Espacio/AredEspacio/src/AredEspacio/EditarAlumno.fxml</file>
         </group>
     </open-files>
 </project-private>
