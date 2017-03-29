@@ -7,9 +7,11 @@ package BaseDeDatos;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -76,7 +79,19 @@ public class Clase implements Serializable {
         this.dia = dia;
         this.hora = hora;
     }
-
+    
+    public List<Clase> findAll() {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
+        return resultList;
+    }
+    
+    public List<Clase> buscarClasePorID(int iDClase) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findByIDClase").setParameter("iDClase", iDClase).getResultList();
+        return resultList;
+    }
+    
     public Integer getIDClase() {
         return iDClase;
     }

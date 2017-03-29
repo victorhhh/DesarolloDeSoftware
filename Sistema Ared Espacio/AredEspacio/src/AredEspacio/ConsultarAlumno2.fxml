@@ -11,10 +11,6 @@
       <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
          <children>
             <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
             </MenuButton>
             <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases">
               <items>

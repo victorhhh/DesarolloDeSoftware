@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarAlumno1Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.AlumnoSeleccionarClaseController">
    <children>
       <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
          <children>
@@ -23,7 +23,7 @@
          </children></AnchorPane>
       <AnchorPane layoutX="172.0" prefHeight="57.0" prefWidth="600.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="LConsultarAlumnos" layoutX="241.0" layoutY="9.0" text="Consultar Alumnos">
+            <Label fx:id="LConsultarAlumnos" layoutX="241.0" layoutY="9.0" text="Agregar Clases">
                <font>
                   <Font name="DejaVu Sans Mono Bold" size="31.0" />
                </font>
@@ -37,15 +37,17 @@
       </AnchorPane>
       <AnchorPane layoutX="9.0" layoutY="55.0" prefHeight="345.0" prefWidth="665.0">
          <children>
-            <Button fx:id="BBuscar" layoutX="510.0" layoutY="36.0" mnemonicParsing="false" onAction="#BBuscarAction" text="Buscar" />
-            <TextField fx:id="TNombreAlumno" layoutX="194.0" layoutY="36.0" onAction="#TNombreAlumnoAction" prefHeight="30.0" prefWidth="287.0" style="-fx-border-color: #;" />
-            <Label fx:id="LBuscar" layoutX="137.0" layoutY="41.0" text="Nombre" />
-            <Button fx:id="BOpcionesAlumno" layoutX="448.0" layoutY="294.0" mnemonicParsing="false" onAction="#BOpcionesAlumnoAction" prefHeight="30.0" prefWidth="119.0" text="Consultar/Editar" />
+            <Button fx:id="BOpcionesAlumno" layoutX="560.0" layoutY="301.0" mnemonicParsing="false" onAction="#BOpcionesAlumnoAction" prefHeight="30.0" prefWidth="80.0" text="Guardar" />
             <ImageView fx:id="PaneImagen" fitHeight="87.0" fitWidth="92.0" layoutX="26.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
-            <TableView fx:id="TResultadoAlumno" layoutX="56.0" layoutY="79.0" prefHeight="200.0" prefWidth="511.0">
+            <TableView fx:id="TClases" layoutX="24.0" layoutY="31.0" prefHeight="248.0" prefWidth="261.0">
               <columns>
               </columns>
             </TableView>
+            <TableView fx:id="TClasesAgregadas" layoutX="397.0" layoutY="24.0" prefHeight="248.0" prefWidth="243.0">
+            </TableView>
+            <Button fx:id="BagregarClase" layoutX="300.0" layoutY="54.0" mnemonicParsing="false" onAction="#BAgregarClaseAction" prefHeight="25.0" prefWidth="86.0" text="Agregar -&gt;" />
+            <Button fx:id="BQuitarClase" layoutX="300.0" layoutY="96.0" mnemonicParsing="false" onAction="#BQuitarAction" prefHeight="25.0" prefWidth="86.0" text="&lt;-Quitar" />
+            <Button fx:id="BRegresar" layoutX="442.0" layoutY="301.0" mnemonicParsing="false" onAction="#BRegresar" prefHeight="30.0" prefWidth="86.0" text="Regresar" />
          </children>
       </AnchorPane>
    </children>

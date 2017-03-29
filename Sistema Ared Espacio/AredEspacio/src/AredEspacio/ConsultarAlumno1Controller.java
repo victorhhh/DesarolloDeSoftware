@@ -86,6 +86,7 @@ public class ConsultarAlumno1Controller implements Initializable {
         }
     }
 
+    
     /**
      * Initializes the controller class.
      *
@@ -95,8 +96,15 @@ public class ConsultarAlumno1Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MenuItem inscribirAlumno = new MenuItem("Inscribir Alumno");
-        MenuItem editarAlumno = new MenuItem("Editar Alumno");
-        BAlumnos.getItems().addAll(inscribirAlumno, editarAlumno);
+        //MenuItem editarAlumno = new MenuItem("Editar Alumno");
+        BAlumnos.getItems().addAll(inscribirAlumno/*, editarAlumno*/);
+        
+        /*editarAlumno.setOnAction((ActionEvent event) -> {
+            EditarAlumnoController.initRootLayout(primaryStage);
+        });*/
+        inscribirAlumno.setOnAction((ActionEvent event) -> {
+            InscribirAlumnoController.initRootLayout(primaryStage);
+        });
 
         TableColumn<Alumno, String> cNombre = new TableColumn<>("Nombre");
         TableColumn<Alumno, String> cPrimerApellido = new TableColumn<>("P.Apellido");
@@ -117,7 +125,6 @@ public class ConsultarAlumno1Controller implements Initializable {
         TResultadoAlumno.getColumns().addAll(cNombre, cPrimerApellido, cSegundoApellido, cTelefono, cDireccion);
         TResultadoAlumno.setOnMouseClicked((event) -> {
             al = TResultadoAlumno.getSelectionModel().getSelectedItem();
-            System.out.println("nombre " + al.getNombre() + "Drieccion " + al.getDireccion() + "Id " + al.getIDAlumno());
         });
 
         TNombreAlumno.setOnKeyTyped((KeyEvent event) -> {
@@ -127,18 +134,11 @@ public class ConsultarAlumno1Controller implements Initializable {
             }
         });
 
-        inscribirAlumno.setOnAction((ActionEvent event) -> {
-            InscribirAlumnoController.initRootLayout(primaryStage);
-        });
+        
 
         TNombreAlumno.setOnAction((ActionEvent event) -> {
 
         });
-
-        editarAlumno.setOnAction((ActionEvent event) -> {
-            EditarAlumnoController.initRootLayout(primaryStage);
-        });
-
     }
 
     @FXML
@@ -167,19 +167,11 @@ public class ConsultarAlumno1Controller implements Initializable {
         List<Alumno> lisAl = al.buscarAlumnosPorNombre(TNombreAlumno.getText());
 
         TResultadoAlumno.getItems().clear();
-        //Grupo gp = new Grupo();
-        //System.out.println("grupo "+ gp.buscarGruposDeAlumno(1).get(0).getIDAlumnoG() + gp.buscarGruposDeAlumno(1).get(0).getIDGrupo());
-        //gp.buscarGruposDeAlumno(1);
-        if (lisAl.isEmpty()) {
-            System.out.println("No hay coincidencias");
-        } else {
+        if (!lisAl.isEmpty()) {
             for (int i = 0; i < lisAl.size(); i++) {
                 TResultadoAlumno.getItems().add(lisAl.get(i));
-
             }
-        }
-
-        System.out.println("Aplastó botón buscar " + TNombreAlumno.getText());
+        } 
     }
 
     @FXML

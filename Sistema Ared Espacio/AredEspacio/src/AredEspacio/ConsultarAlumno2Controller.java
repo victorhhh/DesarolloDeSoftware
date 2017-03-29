@@ -5,10 +5,15 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
+import static AredEspacio.InscribirAlumnoController.primaryStage;
 import BaseDeDatos.Alumno;
+import BaseDeDatos.Clase;
 import BaseDeDatos.Grupo;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +23,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -84,20 +91,17 @@ public class ConsultarAlumno2Controller implements Initializable {
     private Label LCFechaProximoPago;
     @FXML
     private Label LCMonto;
-    private static Alumno al = new Alumno();
+    private static Alumno alumno = new Alumno();
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
-    //private Alumno al = new Alumno();
 
     private void agregarAlumno() {
 
     }
 
-    static void initRootLayout(Stage primaryStage, Alumno alumno) {
-        al = alumno;
-        System.out.println("pollo robot 3000 " + al.getNombre() + "Drieccion " + al.getDireccion() + "Id " + al.getIDAlumno());
-
+    static void initRootLayout(Stage primaryStage, Alumno alumno1) {
+        alumno = alumno1;
         try {
             ConsultarAlumno2Controller.primaryStage = primaryStage;
             FXMLLoader loader = new FXMLLoader();
@@ -111,18 +115,50 @@ public class ConsultarAlumno2Controller implements Initializable {
         }
     }
 
+    public void llenarCampos() {
+        LCNombre.setText(alumno.getNombre() + " " + alumno.getPrimerApellido() + " " + alumno.getSegundoApellido());
+        Image img = new Image(new File(alumno.getRutaImagen()).toURI().toString());
+        PaneImagen.setImage(img);
+        LCDireccion.setText(alumno.getDireccion());
+        LCTelefono.setText(alumno.getNumeroDeCelular());
+        LCFechaDeNacimiento.setText(alumno.getFechaNacimiento().getDate() + " / " + (alumno.getFechaNacimiento().getMonth() + 1) + " / " + alumno.getFechaNacimiento().getYear());
+        Grupo grupo = new Grupo();
+        List<Grupo> listGrupo = grupo.buscarGruposAlumno(alumno.getIDAlumno());
+        LCFechaProximoPago.setText(alumno.getIDInscripcionA().getFechaInscripcion().getDate() + " / " + (alumno.getIDInscripcionA().getFechaInscripcion().getMonth() + 1) + " / "
+                + (alumno.getIDInscripcionA().getFechaInscripcion().getYear()-100));
+        LCMonto.setText(String.valueOf(alumno.getIDInscripcionA().getMonto()));
+        if (listGrupo.isEmpty()) {
+            LCClases.setText("Sin clases inscritas");
+        } else {
+            for (int o = 0; o < listGrupo.size(); o++) {
+                if (o + 1 == listGrupo.size()) {
+                    LCClases.setText(LCClases.getText() + listGrupo.get(o).getIDClaseG().getNombre() + ". ");
+                } else {
+                    LCClases.setText(LCClases.getText() + listGrupo.get(o).getIDClaseG().getNombre() + ", ");
+                    System.out.println(LCClases.getText() + listGrupo.get(o).getIDClaseG().getNombre());
+                }
+            }
+        }
+    }
+
     /**
      * Initializes the controller class.
+     * @param url
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        LCNombre.setText(al.getNombre() + " " + al.getPrimerApellido() + " " + al.getSegundoApellido());
-        LCDireccion.setText(al.getDireccion());
-        LCFechaDeNacimiento.setText("");
-        LCTelefono.setText(al.getNumeroDeCelular());
-        LCFechaDeNacimiento.setText(al.getFechaNacimiento().getDate() + " / " + (al.getFechaNacimiento().getMonth() + 1) + " / " + al.getFechaNacimiento().getYear());
-        Grupo grupo = new Grupo();
-        System.out.println("SSS "+ grupo.buscarGruposAlumno(al.getIDAlumno()));
+        llenarCampos();
+        MenuItem inscribirAlumno = new MenuItem("Inscribir");
+        MenuItem editarAlumno = new MenuItem("Consultar/Editar");
+        BAlumnos.getItems().addAll(inscribirAlumno, editarAlumno);
+        
+        editarAlumno.setOnAction((ActionEvent event) -> {
+            EditarAlumnoController.initRootLayout(primaryStage, alumno);
+        });
+        inscribirAlumno.setOnAction((ActionEvent event) -> {
+            InscribirAlumnoController.initRootLayout(primaryStage);
+        });
+        
         
     }
 
@@ -164,6 +200,7 @@ public class ConsultarAlumno2Controller implements Initializable {
 
     @FXML
     private void BEditarAction(ActionEvent event) {
+        EditarAlumnoController.initRootLayout(primaryStage, alumno);
     }
 
 }
