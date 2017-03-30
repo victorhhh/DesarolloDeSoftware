@@ -84,17 +84,7 @@ public class PrincipalController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MenuItem consultarAlumno = new MenuItem("Consultar Alumno");
-        MenuItem inscribirAlumno = new MenuItem("Inscribir Alumno");
-
-        BAlumnos.getItems().addAll(inscribirAlumno, consultarAlumno);
         
-        consultarAlumno.setOnAction((ActionEvent) -> {
-            ConsultarAlumno1Controller.initRootLayout(primaryStage);
-        });
-        inscribirAlumno.setOnAction((ActionEvent) -> {
-            InscribirAlumnoController.initRootLayout(primaryStage);
-        });
     }
 
     

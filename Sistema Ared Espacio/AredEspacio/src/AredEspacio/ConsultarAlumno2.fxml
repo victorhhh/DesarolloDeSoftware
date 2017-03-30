@@ -46,7 +46,7 @@
             </Label>
             <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
                <image>
-                  <Image url="@/../Imagenes/Logo_AredEspacio.png" />
+                  <Image url="@../Imagenes/Logo_AredEspacio.png" />
                </image>
             </ImageView>
          </children>
