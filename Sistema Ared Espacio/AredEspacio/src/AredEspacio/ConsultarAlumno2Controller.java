@@ -104,6 +104,8 @@ public class ConsultarAlumno2Controller implements Initializable {
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
+    @FXML
+    private Label LEstado;
 
     private void agregarAlumno() {
 
@@ -129,8 +131,13 @@ public class ConsultarAlumno2Controller implements Initializable {
         Image img = new Image(new File(alumno.getRutaImagen()).toURI().toString());
         PaneImagen.setImage(img);
         Inscripcion ins = new Inscripcion();
-        
-        
+
+        if (alumno.getEstado()) {
+            LEstado.setText("Estado : Dado de alta");
+        } else {
+            LEstado.setText("Estado : No está dado de alta");
+        }
+
         LCDireccion.setText(alumno.getDireccion());
         LCTelefono.setText(alumno.getNumeroDeCelular());
         LCFechaDeNacimiento.setText(alumno.getFechaNacimiento().getDate() + " / " + (alumno.getFechaNacimiento().getMonth() + 1) + " / " + alumno.getFechaNacimiento().getYear());
@@ -213,11 +220,13 @@ public class ConsultarAlumno2Controller implements Initializable {
         if (result.get() == ButtonType.OK) {
             try {
                 alumno.setEstado(true);
-                AlumnoJpaController  a= new AlumnoJpaController(emf);
-                a.edit(alumno);
+                AlumnoJpaController a = new AlumnoJpaController(emf);
+                a.edit(alumno);   
+                LEstado.setText("Estado : Dado de alta");
             } catch (Exception ex) {
                 Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
     }
 
@@ -232,13 +241,14 @@ public class ConsultarAlumno2Controller implements Initializable {
         if (result.get() == ButtonType.OK) {
             try {
                 alumno.setEstado(false);
-                AlumnoJpaController  a= new AlumnoJpaController(emf);
+                AlumnoJpaController a = new AlumnoJpaController(emf);
                 a.edit(alumno);
+                LEstado.setText("Estado : No está dado de alta");
             } catch (Exception ex) {
                 Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     @FXML

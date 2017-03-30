@@ -299,7 +299,7 @@ public class InscribirAlumnoController implements Initializable {
             Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlerta.setTitle("Ared Espacio");
             dialogoAlerta.setHeaderText(null);
-            dialogoAlerta.setContentText("Debes seleccionar un alumno primero");
+            dialogoAlerta.setContentText("Alumno guardado con exito");
             dialogoAlerta.initStyle(StageStyle.UTILITY);
             dialogoAlerta.showAndWait();
         } else {

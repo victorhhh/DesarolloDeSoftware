@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -35,6 +36,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -80,7 +82,6 @@ public class EditarAlumnoController implements Initializable {
     private Button BBuscarImagen;
     static Alumno alumno = new Alumno();
 
-    
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
@@ -110,6 +111,7 @@ public class EditarAlumnoController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -127,13 +129,12 @@ public class EditarAlumnoController implements Initializable {
         TSApellido.setText(alumno.getSegundoApellido());
         TTelefono.setText(alumno.getNumeroDeCelular());
         alumno.getFechaNacimiento();
-        
+
         //TMonto.setText(Integer.toString(alumno.getIDInscripcionA().getMonto()));
-        
         Instant instant = alumno.getFechaNacimiento().toInstant();
         LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
         DFechaNacimiento.setValue(localDate);
-        
+
         TDireccion.setText(alumno.getDireccion());
         consultarAlumno.setOnAction((ActionEvent) -> {
             ConsultarAlumno1Controller.initRootLayout(primaryStage);
@@ -164,26 +165,38 @@ public class EditarAlumnoController implements Initializable {
     private void BMaestrosAction(ActionEvent event) {
     }
 
-
     @FXML
     private void BGuardarAction(ActionEvent event) {
-        if(validarGuardado()){
+        if (validarGuardado()) {
             AlumnoJpaController jpaA = new AlumnoJpaController(emf);
             crearAlumno();
             alumno.getIDAlumno();
-            System.out.println("werewer "+alumno.getIDAlumno());
+            System.out.println("werewer " + alumno.getIDAlumno());
             try {
-                jpaA.edit(alumnoNuevo);
+                jpaA.edit(alumno);
+                Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                dialogoAlerta.setTitle("Ared Espacio");
+                dialogoAlerta.setHeaderText(null);
+                dialogoAlerta.setContentText("Cambios aplicados con éxito");
+                dialogoAlerta.initStyle(StageStyle.UTILITY);
+                dialogoAlerta.showAndWait();
+                ConsultarAlumno2Controller.initRootLayout(primaryStage, alumno);
             } catch (Exception ex) {
                 Logger.getLogger(EditarAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Chi to");
+
             }
-        }else{
+        } else {
             System.out.println("campo vacio");
+            Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+            dialogoAlerta.setTitle("Ared Espacio");
+            dialogoAlerta.setHeaderText(null);
+            dialogoAlerta.setContentText("Campo vacio, no se puede guardar");
+            dialogoAlerta.initStyle(StageStyle.UTILITY);
+            dialogoAlerta.showAndWait();
         }
     }
 
-private void crearAlumno() {
+    private void crearAlumno() {
         alumno.setNombre(TNombreAlumno.getText());
         alumno.setPrimerApellido(TPApellido.getText());
         alumno.setSegundoApellido(TSApellido.getText());
@@ -201,6 +214,7 @@ private void crearAlumno() {
         alumno.setDireccion(TDireccion.getText());
         alumno.setEstado(true);
     }
+
     @FXML
     private void BBuscarImagenAction(ActionEvent event) {
         FileChooser fileChosser = new FileChooser();
@@ -214,12 +228,12 @@ private void crearAlumno() {
         if (TNombreAlumno.getText().isEmpty() || TPApellido.getText().isEmpty() || TSApellido.getText().isEmpty()
                 || TTelefono.getText().isEmpty() || TDireccion.getText().isEmpty()
                 || DFechaNacimiento.getValue() == null
-                || PaneImagen.getImage()== null) {
+                || PaneImagen.getImage() == null) {
             return false;
         }
         return true;
     }
-    
+
     @FXML
     private void BCancelarAction(ActionEvent event) {
         
