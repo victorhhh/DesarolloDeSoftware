@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.MaestrosEditarController">
+    <stylesheets>
+        <URL value="@maestroseditar.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane prefHeight="89.0" prefWidth="854.0">
+         <children>
+            <Label layoutX="146.0" layoutY="25.0" text="Editar maestro">
+               <font>
+                  <Font name="System Bold" size="31.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="67.0" fitWidth="187.0" layoutX="653.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Imagenes/Logo_AredEspacio.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="686.0" layoutY="89.0" prefHeight="309.0" prefWidth="168.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" layoutY="2.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="57.0" prefWidth="168.0" text="Alumnos">
+              <items>
+                <MenuItem fx:id="IMInscribirAlumno" mnemonicParsing="false" onAction="#IMInscribirAlumnoAction" text="Inscribir" />
+                <MenuItem fx:id="IMConsultarMaestro" mnemonicParsing="false" onAction="#IMConsultarMaestroAction" text="Consultar/Editar" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BMaestros" layoutY="59.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="57.0" prefWidth="168.0" text="Maestros">
+              <items>
+                <MenuItem fx:id="MIConsultarMaestros" mnemonicParsing="false" onAction="#MIConsultarMaestrosAction" text="Consultar maestros" />
+                <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar maestro" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BClases" layoutY="116.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="57.0" prefWidth="168.0" text="Clases">
+              <items>
+                <MenuItem fx:id="MIRegistrarClase" mnemonicParsing="false" onAction="#MIRegistrarClaseAction" text="Registrar" />
+                <MenuItem fx:id="MIConsultarClase" mnemonicParsing="false" onAction="#MIConsultarClaseAction" text="Consultar" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" layoutY="173.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="57.0" prefWidth="168.0" text="Promociones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" layoutY="230.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="57.0" prefWidth="168.0" text="Reportes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="1.0" layoutY="89.0" prefHeight="309.0" prefWidth="685.0">
+         <children>
+            <Label layoutX="189.0" layoutY="19.0" text="Nombre:" />
+            <Label layoutX="196.0" layoutY="106.0" text="Celular:" />
+            <Label layoutX="148.0" layoutY="135.0" text="Fecha de nac.:" />
+            <Label layoutX="178.0" layoutY="164.0" text="Direccion:" />
+            <Label layoutX="198.0" layoutY="191.0" text="Clases:" />
+            <Label layoutX="442.0" layoutY="19.0" text="Sueldo:" />
+            <TextField fx:id="TFNombre" layoutX="260.0" layoutY="14.0" />
+            <TextField fx:id="TFCelular" layoutX="260.0" layoutY="101.0" />
+            <TextField fx:id="TFDireccion" layoutX="260.0" layoutY="159.0" />
+            <TextField fx:id="TFSueldo" layoutX="500.0" layoutY="14.0" />
+            <Button fx:id="BQuitar" layoutX="437.0" layoutY="194.0" mnemonicParsing="false" onAction="#BQuitarAction" text="Quitar" />
+            <Button fx:id="BAgregar" layoutX="442.0" layoutY="253.0" mnemonicParsing="false" onAction="#BAgregarAction" text="Agregar" />
+            <Button fx:id="BGuardar" layoutX="569.0" layoutY="253.0" mnemonicParsing="false" onAction="#BGuardarAction" text="Guardar" />
+            <Label layoutX="144.0" layoutY="48.0" text="Ṕrimer apellido:" />
+            <Label layoutX="131.0" layoutY="78.0" text="Segundo apellido:" />
+            <TextField fx:id="TFPrimerApellido" layoutX="260.0" layoutY="43.0" />
+            <TextField fx:id="TFSegundoApellido" layoutX="260.0" layoutY="73.0" />
+            <DatePicker fx:id="DPFechaNac" layoutX="260.0" layoutY="130.0" />
+            <ListView layoutX="259.0" layoutY="191.0" prefHeight="97.0" prefWidth="171.0" />
+            <ImageView fx:id="IVMaestro" fitHeight="134.0" fitWidth="103.0" layoutX="14.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="BExaminar" layoutX="35.0" layoutY="186.0" mnemonicParsing="false" onAction="#BExaminarAction" text="Examinar..." />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

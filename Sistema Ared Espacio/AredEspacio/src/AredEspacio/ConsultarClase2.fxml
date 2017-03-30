@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarClase2Controller">
+    <children>
+      <ImageView fitHeight="91.0" fitWidth="161.0" layoutX="648.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagenes/Logo_AredEspacio.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="234.0" layoutY="32.0" text="Mostrar Informacion">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Button fx:id="BBaja" layoutX="267.0" layoutY="336.0" mnemonicParsing="false" onAction="#AccionBaja" prefHeight="35.0" prefWidth="120.0" text="Baja" />
+      <Label layoutX="182.0" layoutY="95.0" prefHeight="35.0" prefWidth="145.0" text="Nombre de la clase" />
+      <Label layoutX="182.0" layoutY="142.0" prefHeight="35.0" prefWidth="145.0" text="Nombre del profesor" />
+      <Label layoutX="229.0" layoutY="190.0" prefHeight="35.0" prefWidth="145.0" text="Dia" />
+      <Label layoutX="229.0" layoutY="237.0" prefHeight="35.0" prefWidth="145.0" text="Hora" />
+      <Label layoutX="182.0" layoutY="283.0" prefHeight="35.0" prefWidth="145.0" text="Número de alumnos" />
+      <Label layoutX="541.0" layoutY="93.0" text="Estado" />
+      <Button fx:id="BModificar" layoutX="400.0" layoutY="336.0" mnemonicParsing="false" onAction="#AccionModificar" prefHeight="35.0" prefWidth="120.0" text="Modificar" />
+      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+        <items>
+          <MenuItem fx:id="MIInscribirAlumno" mnemonicParsing="false" onAction="#MIInscribirAlumnoAction" text="Inscribir" />
+          <MenuItem fx:id="BIConsultarAlumno" mnemonicParsing="false" onAction="#BIConsultarAlumnoAction" text="Consultar/Editar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+        <items>
+          <MenuItem fx:id="BIRegistrarMaestro" mnemonicParsing="false" onAction="#BIRegistrarMaestroAction" text="Registrar" />
+          <MenuItem fx:id="BIConsultarMaestro" mnemonicParsing="false" onAction="#BIConsultarMaestroAction" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+        <items>
+          <MenuItem fx:id="MIRegistrar" mnemonicParsing="false" onAction="#AccionRegistrarClase" text="Registrar" />
+          <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#AccionConsultarClase" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Crear" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <Label fx:id="LNombreClase" layoutX="333.0" layoutY="104.0" text="&quot; &quot;" />
+      <Label fx:id="LNombreProfesor" layoutX="327.0" layoutY="153.0" text="&quot; &quot;" />
+      <Label fx:id="LEstado" layoutX="545.0" layoutY="122.0" text="&quot; &quot;" />
+      <Label fx:id="LDia" layoutX="332.0" layoutY="199.0" text="&quot; &quot;" />
+      <Label fx:id="LHora" layoutX="326.0" layoutY="246.0" text="&quot; &quot;" />
+      <Label fx:id="LNumeroAlumnos" layoutX="326.0" layoutY="292.0" text="&quot; &quot;" />
+   </children>
+</AnchorPane>

@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Clase.findAll", query = "SELECT c FROM Clase c")
+    ,@NamedQuery(name = "Clase.containsNombre", query = "SELECT c FROM Clase c WHERE c.nombre LIKE :nombre")
     , @NamedQuery(name = "Clase.findByIDClase", query = "SELECT c FROM Clase c WHERE c.iDClase = :iDClase")
     , @NamedQuery(name = "Clase.findByNombre", query = "SELECT c FROM Clase c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Clase.findByEstado", query = "SELECT c FROM Clase c WHERE c.estado = :estado")
@@ -78,6 +79,18 @@ public class Clase implements Serializable {
         this.estado = estado;
         this.dia = dia;
         this.hora = hora;
+    }
+    
+    public List<Clase> buscarClasesPorNombre(String nombre) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
+        return resultList;
+    }
+    
+    public List<Clase> obtenerListaDeClases() {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
+        return resultList;
     }
     
     public List<Clase> findAll() {

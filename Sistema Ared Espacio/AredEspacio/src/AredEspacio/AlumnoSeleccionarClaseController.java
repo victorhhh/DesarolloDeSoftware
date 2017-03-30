@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarMaestroController.primaryStage;
 import static AredEspacio.InscribirAlumnoController.primaryStage;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
@@ -67,6 +68,12 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     static List<Clase> clasesExistentes;
     static Alumno alumnoNuevo;
     static Inscripcion nuevaInscripcion;
+    @FXML
+    private MenuItem MIRegistrar;
+    @FXML
+    private MenuItem MIConsultarClases;
+    @FXML
+    private MenuItem BMMaestro;
 
     /**
      * Initializes the controller class.
@@ -157,6 +164,16 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     }
 
     @FXML
+    public void MIConsultarMaestroAction(ActionEvent event) {
+        ConsultarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    public void MIRegistrarMaestroAction(ActionEvent event) {
+        RegistrarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
     private void BAlumnosAction(ActionEvent event) {
     }
 
@@ -179,7 +196,7 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     @FXML
     private void BOpcionesAlumnoAction(ActionEvent event) {
         List<Clase> clasesAgregar = TClasesAgregadas.getItems();
-        System.out.println("se va "+ alumnoNuevo.getNombre() );
+        System.out.println("se va " + alumnoNuevo.getNombre());
         InscribirAlumnoController.initRootLayout(primaryStage, clasesAgregar, alumnoNuevo);
     }
 
@@ -208,8 +225,8 @@ public class AlumnoSeleccionarClaseController implements Initializable {
 
     static void initRootLayout(Stage primaryStage, List<Clase> clase, Alumno alumno, Inscripcion inscri) {
         clasesExistentes = clase;
-        alumnoNuevo=alumno;
-        nuevaInscripcion=inscri;
+        alumnoNuevo = alumno;
+        nuevaInscripcion = inscri;
         System.out.println("llegó " + alumnoNuevo.getNombre());
         try {
             AlumnoSeleccionarClaseController.primaryStage = primaryStage;
@@ -222,6 +239,16 @@ public class AlumnoSeleccionarClaseController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void MIRegistrarClasesAction(ActionEvent event) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarClasesAction(ActionEvent event) {
+        ConsultarClaseController.initRootLayout(primaryStage);
     }
 
 }

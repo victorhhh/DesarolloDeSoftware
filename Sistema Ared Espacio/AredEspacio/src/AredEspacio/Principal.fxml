@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.PrincipalController">
+    <stylesheets>
+        <URL value="@principal.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="31.0" layoutY="46.0" text="Escuela de Danza &quot;Ared Espacio&quot;">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="112.0" fitWidth="118.0" layoutX="646.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Imagenes/Logo_AredEspacio.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="646.0" layoutY="123.0" prefHeight="277.0" prefWidth="154.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="47.0" prefWidth="154.0" text="Alumnos">
+               <items>
+                  <MenuItem fx:id="IMInscribirAlumno" mnemonicParsing="false" onAction="#IMInscribirAlumnoAction" text="Inscribir" />
+                  <MenuItem fx:id="MIConsultarAlumno" mnemonicParsing="false" onAction="#MIConsultarAlumnoAction" text="Consultar/Editar" />
+               </items></MenuButton>
+            <MenuButton fx:id="BMaestros" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="44.0" prefWidth="157.0" text="Maestros">
+              <items>
+                <MenuItem fx:id="MIRegistrar" mnemonicParsing="false" onAction="#MIRegistrarAction" text="Registrar maestro" />
+                <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#MIConsultarAction" text="Consultar maestro" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BClases" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="47.0" prefWidth="157.0" text="Clases">
+              <items>
+                <MenuItem fx:id="MIRegistrarClases" mnemonicParsing="false" onAction="#MIRegistrarClases" text="Registrar" />
+                <MenuItem fx:id="MIConsultarClases" mnemonicParsing="false" onAction="#MIConsultarClasesAction" text="Consultar" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="49.0" prefWidth="153.0" text="Promociones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" mnemonicParsing="false" onAction="#BReporteAction" prefHeight="45.0" prefWidth="160.0" text="Reportes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="1.0" layoutY="122.0" prefHeight="277.0" prefWidth="607.0">
+         <children>
+            <Label layoutX="168.0" layoutY="14.0" text="Notificaciones">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

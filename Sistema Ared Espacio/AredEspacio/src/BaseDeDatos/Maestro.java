@@ -8,15 +8,18 @@ package BaseDeDatos;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Maestro.findAll", query = "SELECT m FROM Maestro m")
+        , @NamedQuery(name = "Maestro.findByName", query = "SELECT m FROM Maestro m WHERE m.nombre LIKE :nombre")
     , @NamedQuery(name = "Maestro.findByIDMaestro", query = "SELECT m FROM Maestro m WHERE m.iDMaestro = :iDMaestro")
     , @NamedQuery(name = "Maestro.findByNombre", query = "SELECT m FROM Maestro m WHERE m.nombre = :nombre")
     , @NamedQuery(name = "Maestro.findByPrimerApellido", query = "SELECT m FROM Maestro m WHERE m.primerApellido = :primerApellido")
@@ -85,6 +89,11 @@ public class Maestro implements Serializable {
     @OneToMany(mappedBy = "iDMaestroC")
     private Collection<Clase> claseCollection;
 
+    public List<Maestro> buscarMaestroPorNombre(String nombre){
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU",null).createEntityManager();
+        List<Maestro> resultList = em.createNamedQuery("Maestro.findByName").setParameter("nombre", "%"+nombre+"%").getResultList();   
+        return resultList;
+    }
     public Maestro() {
     }
 

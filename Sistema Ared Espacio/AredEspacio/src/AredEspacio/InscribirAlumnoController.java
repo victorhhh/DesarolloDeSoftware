@@ -130,6 +130,14 @@ public class InscribirAlumnoController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private MenuItem c;
+    @FXML
+    private MenuItem MIConsultarClase;
+    @FXML
+    private MenuItem MIRegistrarMaestro;
+    @FXML
+    private MenuItem MIConsultarMaestro;
 
     /**
      * Initializes the controller class.
@@ -369,5 +377,25 @@ public class InscribirAlumnoController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void MIRegistrarClaseAction(ActionEvent event) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarClaseAction(ActionEvent event) {
+        ConsultarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIRegistrarMaestroAction(ActionEvent event) {
+        RegistrarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarMaestroAction(ActionEvent event) {
+        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 }

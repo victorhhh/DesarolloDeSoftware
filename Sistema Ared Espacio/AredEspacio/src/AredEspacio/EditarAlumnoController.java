@@ -5,7 +5,6 @@
  */
 package AredEspacio;
 
-import static AredEspacio.InscribirAlumnoController.alumnoNuevo;
 import BaseDeDatos.Alumno;
 import JPAControllers.AlumnoJpaController;
 import java.io.File;
@@ -29,7 +28,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -108,6 +106,14 @@ public class EditarAlumnoController implements Initializable {
     private DatePicker DFechaNacimiento;
     @FXML
     private Button BCancelar;
+    @FXML
+    private MenuItem MIRegistrarClase;
+    @FXML
+    private MenuItem MIConsultarClase;
+    @FXML
+    private MenuItem MIRegistrarMaestro;
+    @FXML
+    private MenuItem MIConsultarMaestro;
 
     /**
      * Initializes the controller class.
@@ -121,6 +127,13 @@ public class EditarAlumnoController implements Initializable {
         MenuItem inscribirAlumno = new MenuItem("Inscribir Alumno");
 
         BAlumnos.getItems().addAll(inscribirAlumno, consultarAlumno);
+        
+        consultarAlumno.setOnAction((ActionEvent) -> {
+            ConsultarAlumno1Controller.initRootLayout(primaryStage);
+        });
+        inscribirAlumno.setOnAction((ActionEvent) -> {
+            InscribirAlumnoController.initRootLayout(primaryStage);
+        });
 
         Image img = new Image(new File(alumno.getRutaImagen()).toURI().toString());
         PaneImagen.setImage(img);
@@ -136,12 +149,7 @@ public class EditarAlumnoController implements Initializable {
         DFechaNacimiento.setValue(localDate);
 
         TDireccion.setText(alumno.getDireccion());
-        consultarAlumno.setOnAction((ActionEvent) -> {
-            ConsultarAlumno1Controller.initRootLayout(primaryStage);
-        });
-        inscribirAlumno.setOnAction((ActionEvent) -> {
-            InscribirAlumnoController.initRootLayout(primaryStage);
-        });
+        
 
     }
 
@@ -238,6 +246,26 @@ public class EditarAlumnoController implements Initializable {
     private void BCancelarAction(ActionEvent event) {
         
         ConsultarAlumno2Controller.initRootLayout(primaryStage, alumno);
+    }
+
+    @FXML
+    private void MIRegistrarClaseAction(ActionEvent event) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarClaseAction(ActionEvent event) {
+        ConsultarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIRegistrarMaestroAction(ActionEvent event) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarMaestroAction(ActionEvent event) {
+        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
 }

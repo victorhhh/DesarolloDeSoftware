@@ -80,6 +80,14 @@ public class ConsultarAlumno1Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private MenuItem MIRegistrarClases;
+    @FXML
+    private MenuItem MIConsultarClase;
+    @FXML
+    private MenuItem MIRegistratMaestro;
+    @FXML
+    private MenuItem BIConsultarMaestro;
 
     /**
      * Initializes the controller class.
@@ -182,6 +190,26 @@ public class ConsultarAlumno1Controller implements Initializable {
             dialogoAlerta.showAndWait();
         }
 
+    }
+
+    @FXML
+    private void MIRegistrarClasesAction(ActionEvent event) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarAclasection(ActionEvent event) {
+        ConsultarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIRegistratMaestroAction(ActionEvent event) {
+        RegistrarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void BIConsultarMaestroAction(ActionEvent event) {
+        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
 }

@@ -58,12 +58,6 @@ public class ConsultarAlumno2Controller implements Initializable {
     @FXML
     private Label LConsultarAlumnos;
     @FXML
-    private Button BBuscar;
-    @FXML
-    private TextField TNombreAlumno;
-    @FXML
-    private Label LBuscar;
-    @FXML
     private Label LNombre;
     @FXML
     private Label LTelefono;
@@ -106,6 +100,14 @@ public class ConsultarAlumno2Controller implements Initializable {
     private static AnchorPane rootLayout;
     @FXML
     private Label LEstado;
+    @FXML
+    private MenuItem MIRegistrarClases;
+    @FXML
+    private MenuItem MIConsultarClase;
+    @FXML
+    private MenuItem MIRegistrarMaestro;
+    @FXML
+    private MenuItem MIConsultarMaestro;
 
     private void agregarAlumno() {
 
@@ -201,13 +203,6 @@ public class ConsultarAlumno2Controller implements Initializable {
     private void BMaestrosAction(ActionEvent event) {
     }
 
-    @FXML
-    private void BBuscar(ActionEvent event) {
-    }
-
-    @FXML
-    private void TNombreAlumnoAction(ActionEvent event) {
-    }
 
     @FXML
     private void BReinscribirAction(ActionEvent event) {
@@ -254,6 +249,26 @@ public class ConsultarAlumno2Controller implements Initializable {
     @FXML
     private void BEditarAction(ActionEvent event) {
         EditarAlumnoController.initRootLayout(primaryStage, alumno);
+    }
+
+    @FXML
+    private void MIRegistrarClasesAction(ActionEvent event) {
+        RegistrarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarClaseAction(ActionEvent event) {
+        ConsultarClaseController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIRegistrarMaestroAction(ActionEvent event) {
+        RegistrarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void MIConsultarMaestroAction(ActionEvent event) {
+        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
 }
