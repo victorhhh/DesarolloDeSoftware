@@ -127,7 +127,7 @@ public class EditarAlumnoController implements Initializable {
         MenuItem inscribirAlumno = new MenuItem("Inscribir Alumno");
 
         BAlumnos.getItems().addAll(inscribirAlumno, consultarAlumno);
-        
+
         consultarAlumno.setOnAction((ActionEvent) -> {
             ConsultarAlumno1Controller.initRootLayout(primaryStage);
         });
@@ -149,7 +149,6 @@ public class EditarAlumnoController implements Initializable {
         DFechaNacimiento.setValue(localDate);
 
         TDireccion.setText(alumno.getDireccion());
-        
 
     }
 
@@ -225,11 +224,15 @@ public class EditarAlumnoController implements Initializable {
 
     @FXML
     private void BBuscarImagenAction(ActionEvent event) {
-        FileChooser fileChosser = new FileChooser();
-        String src = fileChosser.showOpenDialog(primaryStage).toString();
-        Image img = new Image(new File(src).toURI().toString());
-        alumno.setRutaImagen(src);
-        PaneImagen.setImage(img);
+        try {
+            FileChooser fileChosser = new FileChooser();
+            String src = fileChosser.showOpenDialog(primaryStage).toString();
+            Image img = new Image(new File(src).toURI().toString());
+            alumno.setRutaImagen(src);
+            PaneImagen.setImage(img);
+        } catch (NullPointerException e) {
+
+        }
     }
 
     public boolean validarGuardado() {
@@ -244,7 +247,7 @@ public class EditarAlumnoController implements Initializable {
 
     @FXML
     private void BCancelarAction(ActionEvent event) {
-        
+
         ConsultarAlumno2Controller.initRootLayout(primaryStage, alumno);
     }
 

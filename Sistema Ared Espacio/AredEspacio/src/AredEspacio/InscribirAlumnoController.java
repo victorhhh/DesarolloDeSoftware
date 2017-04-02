@@ -323,11 +323,15 @@ public class InscribirAlumnoController implements Initializable {
 
     @FXML
     private void BImagenAlumnoAction(ActionEvent event) {
-        FileChooser fileChosser = new FileChooser();
-        String src = fileChosser.showOpenDialog(primaryStage).toString();
-        Image img = new Image(new File(src).toURI().toString());
-        alumnoNuevo.setRutaImagen(src);
-        PaneImagen.setImage(img);
+        try {
+            FileChooser fileChosser = new FileChooser();
+            String src = fileChosser.showOpenDialog(primaryStage).toString();
+            Image img = new Image(new File(src).toURI().toString());
+            alumnoNuevo.setRutaImagen(src);
+            PaneImagen.setImage(img);
+        } catch (NullPointerException e) {
+           
+        }
     }
 
     public void llenarCampos() {
@@ -356,7 +360,6 @@ public class InscribirAlumnoController implements Initializable {
     public void llenarInscripcion() {
         if (Integer.toString(nuevaInscripcion.getMonto()) != null) {
             LInscripcion.setText(Integer.toString(nuevaInscripcion.getMonto()));
-            System.out.println("");
         }
     }
 
@@ -364,8 +367,6 @@ public class InscribirAlumnoController implements Initializable {
         clases = listaClases;
         alumnoNuevo = al;
         primeraVez = false;
-        System.out.println("lo ultimo " + al.getNombre());
-        System.out.println("lo ultimo 2 " + alumnoNuevo.getNombre());
         try {
             InscribirAlumnoController.primaryStage = primaryStage;
             FXMLLoader loader = new FXMLLoader();
