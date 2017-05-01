@@ -136,8 +136,10 @@ public class ConsultarAlumno2Controller implements Initializable {
 
         if (alumno.getEstado()) {
             LEstado.setText("Estado : Dado de alta");
+            desabilitarEstado();
         } else {
             LEstado.setText("Estado : No está dado de alta");
+            desabilitarEstado();
         }
 
         LCDireccion.setText(alumno.getDireccion());
@@ -162,6 +164,17 @@ public class ConsultarAlumno2Controller implements Initializable {
         }
     }
 
+    public void desabilitarEstado(){
+        if (alumno.getEstado()) {
+            BReinscribir.setVisible(false);
+            BBaja.setVisible(true);
+            
+        } else {
+            BBaja.setVisible(false);
+            BReinscribir.setVisible(true);
+        }
+        
+    }
     /**
      * Initializes the controller class.
      *
@@ -170,6 +183,7 @@ public class ConsultarAlumno2Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         llenarCampos();
+        
         MenuItem inscribirAlumno = new MenuItem("Inscribir");
         MenuItem editarAlumno = new MenuItem("Consultar/Editar");
         BAlumnos.getItems().addAll(inscribirAlumno, editarAlumno);
@@ -221,7 +235,7 @@ public class ConsultarAlumno2Controller implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            desabilitarEstado();
         }
     }
 
@@ -235,15 +249,15 @@ public class ConsultarAlumno2Controller implements Initializable {
         Optional<ButtonType> result = dialogoAlerta.showAndWait();
         if (result.get() == ButtonType.OK) {
             try {
-                alumno.setEstado(false);
                 AlumnoJpaController a = new AlumnoJpaController(emf);
                 a.edit(alumno);
                 LEstado.setText("Estado : No está dado de alta");
             } catch (Exception ex) {
                 Logger.getLogger(ConsultarAlumno2Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
+            desabilitarEstado();
         }
-
+        
     }
 
     @FXML
