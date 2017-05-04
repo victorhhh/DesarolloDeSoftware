@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Maestro.findAll", query = "SELECT m FROM Maestro m")
-        , @NamedQuery(name = "Maestro.findByName", query = "SELECT m FROM Maestro m WHERE m.nombre LIKE :nombre")
+    , @NamedQuery(name = "Maestro.findByName", query = "SELECT m FROM Maestro m WHERE m.nombre LIKE :nombre")
     , @NamedQuery(name = "Maestro.findByIDMaestro", query = "SELECT m FROM Maestro m WHERE m.iDMaestro = :iDMaestro")
     , @NamedQuery(name = "Maestro.findByNombre", query = "SELECT m FROM Maestro m WHERE m.nombre = :nombre")
     , @NamedQuery(name = "Maestro.findByPrimerApellido", query = "SELECT m FROM Maestro m WHERE m.primerApellido = :primerApellido")
@@ -45,8 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Maestro.findByDireccion", query = "SELECT m FROM Maestro m WHERE m.direccion = :direccion")
     , @NamedQuery(name = "Maestro.findByEstado", query = "SELECT m FROM Maestro m WHERE m.estado = :estado")
     , @NamedQuery(name = "Maestro.findBySueldo", query = "SELECT m FROM Maestro m WHERE m.sueldo = :sueldo")
-    , @NamedQuery(name = "Maestro.findByRutaImagen", query = "SELECT m FROM Maestro m WHERE m.rutaImagen = :rutaImagen")
-    , @NamedQuery(name = "Maestro.findByIDClase", query = "SELECT m FROM Maestro m WHERE m.iDClase = :iDClase")})
+    , @NamedQuery(name = "Maestro.findByRutaImagen", query = "SELECT m FROM Maestro m WHERE m.rutaImagen = :rutaImagen")})
 public class Maestro implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,31 +77,31 @@ public class Maestro implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private boolean estado;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
     @Column(name = "sueldo")
-    private Double sueldo;
+    private double sueldo;
     @Column(name = "rutaImagen")
     private String rutaImagen;
-    @Column(name = "IDClase")
-    private Integer iDClase;
-    @OneToMany(mappedBy = "iDMaestroPE")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDMaestroPE")
     private Collection<Pagoegreso> pagoegresoCollection;
     @OneToMany(mappedBy = "iDMaestroC")
     private Collection<Clase> claseCollection;
 
+    public Maestro() {
+    }
+    
     public List<Maestro> buscarMaestroPorNombre(String nombre){
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU",null).createEntityManager();
         List<Maestro> resultList = em.createNamedQuery("Maestro.findByName").setParameter("nombre", "%"+nombre+"%").getResultList();   
         return resultList;
     }
-    public Maestro() {
-    }
+
 
     public Maestro(Integer iDMaestro) {
         this.iDMaestro = iDMaestro;
     }
 
-    public Maestro(Integer iDMaestro, String nombre, String primerApellido, String segundoApellido, String numeroDeTelefono, Date fechaNacimiento, String direccion, boolean estado) {
+    public Maestro(Integer iDMaestro, String nombre, String primerApellido, String segundoApellido, String numeroDeTelefono, Date fechaNacimiento, String direccion, boolean estado, double sueldo) {
         this.iDMaestro = iDMaestro;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
@@ -110,6 +110,7 @@ public class Maestro implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
         this.direccion = direccion;
         this.estado = estado;
+        this.sueldo = sueldo;
     }
 
     public Integer getIDMaestro() {
@@ -176,11 +177,11 @@ public class Maestro implements Serializable {
         this.estado = estado;
     }
 
-    public Double getSueldo() {
+    public double getSueldo() {
         return sueldo;
     }
 
-    public void setSueldo(Double sueldo) {
+    public void setSueldo(double sueldo) {
         this.sueldo = sueldo;
     }
 
@@ -190,14 +191,6 @@ public class Maestro implements Serializable {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
-    }
-
-    public Integer getIDClase() {
-        return iDClase;
-    }
-
-    public void setIDClase(Integer iDClase) {
-        this.iDClase = iDClase;
     }
 
     @XmlTransient

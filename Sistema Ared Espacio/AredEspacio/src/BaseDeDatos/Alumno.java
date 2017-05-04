@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -79,18 +80,27 @@ public class Alumno implements Serializable {
     private boolean estado;
     @Column(name = "rutaImagen")
     private String rutaImagen;
-    @OneToMany(mappedBy = "iDAlumnoG")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDAlumnoAsis")
+    private Collection<Asistencia> asistenciaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDAlumnoG")
     private Collection<Grupo> grupoCollection;
-    @OneToMany(mappedBy = "iDAlumnoPI")
-    private Collection<Pagoingreso> pagoingresoCollection;
     @JoinColumn(name = "IDInscripcionA", referencedColumnName = "IDInscripcion")
     @ManyToOne
     private Inscripcion iDInscripcionA;
-    @OneToMany(mappedBy = "iDAlumnoM")
-    private Collection<Mensualidad> mensualidadCollection;
+    @JoinColumn(name = "IDMensualidadA", referencedColumnName = "IDMensualidad")
+    @ManyToOne
+    private Mensualidad iDMensualidadA;
 
     public Alumno() {
     }
+    
+    public List<Alumno> buscarAlumnosPorNombre(String nombre) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Alumno> resultList = em.createNamedQuery("Alumno.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
+        return resultList;
+    }
+
+
 
     public Alumno(Integer iDAlumno) {
         this.iDAlumno = iDAlumno;
@@ -105,12 +115,6 @@ public class Alumno implements Serializable {
         this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
         this.estado = estado;
-    }
-    
-    public List<Alumno> buscarAlumnosPorNombre(String nombre) {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Alumno> resultList = em.createNamedQuery("Alumno.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
-        return resultList;
     }
 
     public Integer getIDAlumno() {
@@ -186,21 +190,21 @@ public class Alumno implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Asistencia> getAsistenciaCollection() {
+        return asistenciaCollection;
+    }
+
+    public void setAsistenciaCollection(Collection<Asistencia> asistenciaCollection) {
+        this.asistenciaCollection = asistenciaCollection;
+    }
+
+    @XmlTransient
     public Collection<Grupo> getGrupoCollection() {
         return grupoCollection;
     }
 
     public void setGrupoCollection(Collection<Grupo> grupoCollection) {
         this.grupoCollection = grupoCollection;
-    }
-
-    @XmlTransient
-    public Collection<Pagoingreso> getPagoingresoCollection() {
-        return pagoingresoCollection;
-    }
-
-    public void setPagoingresoCollection(Collection<Pagoingreso> pagoingresoCollection) {
-        this.pagoingresoCollection = pagoingresoCollection;
     }
 
     public Inscripcion getIDInscripcionA() {
@@ -211,13 +215,12 @@ public class Alumno implements Serializable {
         this.iDInscripcionA = iDInscripcionA;
     }
 
-    @XmlTransient
-    public Collection<Mensualidad> getMensualidadCollection() {
-        return mensualidadCollection;
+    public Mensualidad getIDMensualidadA() {
+        return iDMensualidadA;
     }
 
-    public void setMensualidadCollection(Collection<Mensualidad> mensualidadCollection) {
-        this.mensualidadCollection = mensualidadCollection;
+    public void setIDMensualidadA(Mensualidad iDMensualidadA) {
+        this.iDMensualidadA = iDMensualidadA;
     }
 
     @Override
@@ -244,5 +247,5 @@ public class Alumno implements Serializable {
     public String toString() {
         return "BaseDeDatos.Alumno[ iDAlumno=" + iDAlumno + " ]";
     }
-
+    
 }

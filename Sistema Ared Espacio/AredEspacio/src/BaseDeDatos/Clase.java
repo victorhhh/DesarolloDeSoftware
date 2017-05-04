@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -60,13 +61,39 @@ public class Clase implements Serializable {
     @Basic(optional = false)
     @Column(name = "hora")
     private String hora;
-    @OneToMany(mappedBy = "iDClaseG")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDClaseAsis")
+    private Collection<Asistencia> asistenciaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDClaseG")
     private Collection<Grupo> grupoCollection;
     @JoinColumn(name = "IDMaestroC", referencedColumnName = "IDMaestro")
     @ManyToOne
     private Maestro iDMaestroC;
 
     public Clase() {
+    }
+
+    public List<Clase> buscarClasesPorNombre(String nombre) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
+        return resultList;
+    }
+
+    public List<Clase> obtenerListaDeClases() {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
+        return resultList;
+    }
+
+    public List<Clase> findAll() {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
+        return resultList;
+    }
+
+    public List<Clase> buscarClasePorID(int iDClase) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Clase> resultList = em.createNamedQuery("Clase.findByIDClase").setParameter("iDClase", iDClase).getResultList();
+        return resultList;
     }
 
     public Clase(Integer iDClase) {
@@ -80,31 +107,7 @@ public class Clase implements Serializable {
         this.dia = dia;
         this.hora = hora;
     }
-    
-    public List<Clase> buscarClasesPorNombre(String nombre) {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Clase> resultList = em.createNamedQuery("Clase.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
-        return resultList;
-    }
-    
-    public List<Clase> obtenerListaDeClases() {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
-        return resultList;
-    }
-    
-    public List<Clase> findAll() {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Clase> resultList = em.createNamedQuery("Clase.findAll").getResultList();
-        return resultList;
-    }
-    
-    public List<Clase> buscarClasePorID(int iDClase) {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Clase> resultList = em.createNamedQuery("Clase.findByIDClase").setParameter("iDClase", iDClase).getResultList();
-        return resultList;
-    }
-    
+
     public Integer getIDClase() {
         return iDClase;
     }
@@ -143,6 +146,15 @@ public class Clase implements Serializable {
 
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    @XmlTransient
+    public Collection<Asistencia> getAsistenciaCollection() {
+        return asistenciaCollection;
+    }
+
+    public void setAsistenciaCollection(Collection<Asistencia> asistenciaCollection) {
+        this.asistenciaCollection = asistenciaCollection;
     }
 
     @XmlTransient
@@ -186,5 +198,5 @@ public class Clase implements Serializable {
     public String toString() {
         return "BaseDeDatos.Clase[ iDClase=" + iDClase + " ]";
     }
-    
+
 }

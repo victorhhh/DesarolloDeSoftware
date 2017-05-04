@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import BaseDeDatos.Clase;
 import BaseDeDatos.Maestro;
+import JPAControllers.exceptions.IllegalOrphanException;
 import JPAControllers.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -85,7 +86,7 @@ public class MaestroJpaController implements Serializable {
         }
     }
 
-    public void edit(Maestro maestro) throws NonexistentEntityException, Exception {
+    public void edit(Maestro maestro) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -95,6 +96,18 @@ public class MaestroJpaController implements Serializable {
             Collection<Pagoegreso> pagoegresoCollectionNew = maestro.getPagoegresoCollection();
             Collection<Clase> claseCollectionOld = persistentMaestro.getClaseCollection();
             Collection<Clase> claseCollectionNew = maestro.getClaseCollection();
+            List<String> illegalOrphanMessages = null;
+            for (Pagoegreso pagoegresoCollectionOldPagoegreso : pagoegresoCollectionOld) {
+                if (!pagoegresoCollectionNew.contains(pagoegresoCollectionOldPagoegreso)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Pagoegreso " + pagoegresoCollectionOldPagoegreso + " since its IDMaestroPE field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             Collection<Pagoegreso> attachedPagoegresoCollectionNew = new ArrayList<Pagoegreso>();
             for (Pagoegreso pagoegresoCollectionNewPagoegresoToAttach : pagoegresoCollectionNew) {
                 pagoegresoCollectionNewPagoegresoToAttach = em.getReference(pagoegresoCollectionNewPagoegresoToAttach.getClass(), pagoegresoCollectionNewPagoegresoToAttach.getIDEgreso());
@@ -110,12 +123,6 @@ public class MaestroJpaController implements Serializable {
             claseCollectionNew = attachedClaseCollectionNew;
             maestro.setClaseCollection(claseCollectionNew);
             maestro = em.merge(maestro);
-            for (Pagoegreso pagoegresoCollectionOldPagoegreso : pagoegresoCollectionOld) {
-                if (!pagoegresoCollectionNew.contains(pagoegresoCollectionOldPagoegreso)) {
-                    pagoegresoCollectionOldPagoegreso.setIDMaestroPE(null);
-                    pagoegresoCollectionOldPagoegreso = em.merge(pagoegresoCollectionOldPagoegreso);
-                }
-            }
             for (Pagoegreso pagoegresoCollectionNewPagoegreso : pagoegresoCollectionNew) {
                 if (!pagoegresoCollectionOld.contains(pagoegresoCollectionNewPagoegreso)) {
                     Maestro oldIDMaestroPEOfPagoegresoCollectionNewPagoegreso = pagoegresoCollectionNewPagoegreso.getIDMaestroPE();
@@ -161,7 +168,7 @@ public class MaestroJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -173,10 +180,16 @@ public class MaestroJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The maestro with id " + id + " no longer exists.", enfe);
             }
-            Collection<Pagoegreso> pagoegresoCollection = maestro.getPagoegresoCollection();
-            for (Pagoegreso pagoegresoCollectionPagoegreso : pagoegresoCollection) {
-                pagoegresoCollectionPagoegreso.setIDMaestroPE(null);
-                pagoegresoCollectionPagoegreso = em.merge(pagoegresoCollectionPagoegreso);
+            List<String> illegalOrphanMessages = null;
+            Collection<Pagoegreso> pagoegresoCollectionOrphanCheck = maestro.getPagoegresoCollection();
+            for (Pagoegreso pagoegresoCollectionOrphanCheckPagoegreso : pagoegresoCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Maestro (" + maestro + ") cannot be destroyed since the Pagoegreso " + pagoegresoCollectionOrphanCheckPagoegreso + " in its pagoegresoCollection field has a non-nullable IDMaestroPE field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Collection<Clase> claseCollection = maestro.getClaseCollection();
             for (Clase claseCollectionClase : claseCollection) {

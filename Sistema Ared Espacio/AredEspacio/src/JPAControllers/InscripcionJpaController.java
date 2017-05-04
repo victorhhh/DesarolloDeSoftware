@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import BaseDeDatos.Promocion;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Inscripcion;
 import JPAControllers.exceptions.NonexistentEntityException;
@@ -42,6 +43,11 @@ public class InscripcionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Promocion IDPromocionI = inscripcion.getIDPromocionI();
+            if (IDPromocionI != null) {
+                IDPromocionI = em.getReference(IDPromocionI.getClass(), IDPromocionI.getIDPromocion());
+                inscripcion.setIDPromocionI(IDPromocionI);
+            }
             Collection<Alumno> attachedAlumnoCollection = new ArrayList<Alumno>();
             for (Alumno alumnoCollectionAlumnoToAttach : inscripcion.getAlumnoCollection()) {
                 alumnoCollectionAlumnoToAttach = em.getReference(alumnoCollectionAlumnoToAttach.getClass(), alumnoCollectionAlumnoToAttach.getIDAlumno());
@@ -49,6 +55,10 @@ public class InscripcionJpaController implements Serializable {
             }
             inscripcion.setAlumnoCollection(attachedAlumnoCollection);
             em.persist(inscripcion);
+            if (IDPromocionI != null) {
+                IDPromocionI.getInscripcionCollection().add(inscripcion);
+                IDPromocionI = em.merge(IDPromocionI);
+            }
             for (Alumno alumnoCollectionAlumno : inscripcion.getAlumnoCollection()) {
                 Inscripcion oldIDInscripcionAOfAlumnoCollectionAlumno = alumnoCollectionAlumno.getIDInscripcionA();
                 alumnoCollectionAlumno.setIDInscripcionA(inscripcion);
@@ -72,8 +82,14 @@ public class InscripcionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Inscripcion persistentInscripcion = em.find(Inscripcion.class, inscripcion.getIDInscripcion());
+            Promocion IDPromocionIOld = persistentInscripcion.getIDPromocionI();
+            Promocion IDPromocionINew = inscripcion.getIDPromocionI();
             Collection<Alumno> alumnoCollectionOld = persistentInscripcion.getAlumnoCollection();
             Collection<Alumno> alumnoCollectionNew = inscripcion.getAlumnoCollection();
+            if (IDPromocionINew != null) {
+                IDPromocionINew = em.getReference(IDPromocionINew.getClass(), IDPromocionINew.getIDPromocion());
+                inscripcion.setIDPromocionI(IDPromocionINew);
+            }
             Collection<Alumno> attachedAlumnoCollectionNew = new ArrayList<Alumno>();
             for (Alumno alumnoCollectionNewAlumnoToAttach : alumnoCollectionNew) {
                 alumnoCollectionNewAlumnoToAttach = em.getReference(alumnoCollectionNewAlumnoToAttach.getClass(), alumnoCollectionNewAlumnoToAttach.getIDAlumno());
@@ -82,6 +98,14 @@ public class InscripcionJpaController implements Serializable {
             alumnoCollectionNew = attachedAlumnoCollectionNew;
             inscripcion.setAlumnoCollection(alumnoCollectionNew);
             inscripcion = em.merge(inscripcion);
+            if (IDPromocionIOld != null && !IDPromocionIOld.equals(IDPromocionINew)) {
+                IDPromocionIOld.getInscripcionCollection().remove(inscripcion);
+                IDPromocionIOld = em.merge(IDPromocionIOld);
+            }
+            if (IDPromocionINew != null && !IDPromocionINew.equals(IDPromocionIOld)) {
+                IDPromocionINew.getInscripcionCollection().add(inscripcion);
+                IDPromocionINew = em.merge(IDPromocionINew);
+            }
             for (Alumno alumnoCollectionOldAlumno : alumnoCollectionOld) {
                 if (!alumnoCollectionNew.contains(alumnoCollectionOldAlumno)) {
                     alumnoCollectionOldAlumno.setIDInscripcionA(null);
@@ -127,6 +151,11 @@ public class InscripcionJpaController implements Serializable {
                 inscripcion.getIDInscripcion();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The inscripcion with id " + id + " no longer exists.", enfe);
+            }
+            Promocion IDPromocionI = inscripcion.getIDPromocionI();
+            if (IDPromocionI != null) {
+                IDPromocionI.getInscripcionCollection().remove(inscripcion);
+                IDPromocionI = em.merge(IDPromocionI);
             }
             Collection<Alumno> alumnoCollection = inscripcion.getAlumnoCollection();
             for (Alumno alumnoCollectionAlumno : alumnoCollection) {

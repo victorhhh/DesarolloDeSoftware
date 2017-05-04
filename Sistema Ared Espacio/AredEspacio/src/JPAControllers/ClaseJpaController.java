@@ -5,17 +5,19 @@
  */
 package JPAControllers;
 
-import BaseDeDatos.Clase;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import BaseDeDatos.Maestro;
-import BaseDeDatos.Grupo;
-import JPAControllers.exceptions.NonexistentEntityException;
+import BaseDeDatos.Asistencia;
+import BaseDeDatos.Clase;
 import java.util.ArrayList;
 import java.util.Collection;
+import BaseDeDatos.Grupo;
+import JPAControllers.exceptions.IllegalOrphanException;
+import JPAControllers.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,6 +38,9 @@ public class ClaseJpaController implements Serializable {
     }
 
     public void create(Clase clase) {
+        if (clase.getAsistenciaCollection() == null) {
+            clase.setAsistenciaCollection(new ArrayList<Asistencia>());
+        }
         if (clase.getGrupoCollection() == null) {
             clase.setGrupoCollection(new ArrayList<Grupo>());
         }
@@ -48,6 +53,12 @@ public class ClaseJpaController implements Serializable {
                 IDMaestroC = em.getReference(IDMaestroC.getClass(), IDMaestroC.getIDMaestro());
                 clase.setIDMaestroC(IDMaestroC);
             }
+            Collection<Asistencia> attachedAsistenciaCollection = new ArrayList<Asistencia>();
+            for (Asistencia asistenciaCollectionAsistenciaToAttach : clase.getAsistenciaCollection()) {
+                asistenciaCollectionAsistenciaToAttach = em.getReference(asistenciaCollectionAsistenciaToAttach.getClass(), asistenciaCollectionAsistenciaToAttach.getIDAsistencia());
+                attachedAsistenciaCollection.add(asistenciaCollectionAsistenciaToAttach);
+            }
+            clase.setAsistenciaCollection(attachedAsistenciaCollection);
             Collection<Grupo> attachedGrupoCollection = new ArrayList<Grupo>();
             for (Grupo grupoCollectionGrupoToAttach : clase.getGrupoCollection()) {
                 grupoCollectionGrupoToAttach = em.getReference(grupoCollectionGrupoToAttach.getClass(), grupoCollectionGrupoToAttach.getIDGrupo());
@@ -58,6 +69,15 @@ public class ClaseJpaController implements Serializable {
             if (IDMaestroC != null) {
                 IDMaestroC.getClaseCollection().add(clase);
                 IDMaestroC = em.merge(IDMaestroC);
+            }
+            for (Asistencia asistenciaCollectionAsistencia : clase.getAsistenciaCollection()) {
+                Clase oldIDClaseAsisOfAsistenciaCollectionAsistencia = asistenciaCollectionAsistencia.getIDClaseAsis();
+                asistenciaCollectionAsistencia.setIDClaseAsis(clase);
+                asistenciaCollectionAsistencia = em.merge(asistenciaCollectionAsistencia);
+                if (oldIDClaseAsisOfAsistenciaCollectionAsistencia != null) {
+                    oldIDClaseAsisOfAsistenciaCollectionAsistencia.getAsistenciaCollection().remove(asistenciaCollectionAsistencia);
+                    oldIDClaseAsisOfAsistenciaCollectionAsistencia = em.merge(oldIDClaseAsisOfAsistenciaCollectionAsistencia);
+                }
             }
             for (Grupo grupoCollectionGrupo : clase.getGrupoCollection()) {
                 Clase oldIDClaseGOfGrupoCollectionGrupo = grupoCollectionGrupo.getIDClaseG();
@@ -76,7 +96,7 @@ public class ClaseJpaController implements Serializable {
         }
     }
 
-    public void edit(Clase clase) throws NonexistentEntityException, Exception {
+    public void edit(Clase clase) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -84,12 +104,41 @@ public class ClaseJpaController implements Serializable {
             Clase persistentClase = em.find(Clase.class, clase.getIDClase());
             Maestro IDMaestroCOld = persistentClase.getIDMaestroC();
             Maestro IDMaestroCNew = clase.getIDMaestroC();
+            Collection<Asistencia> asistenciaCollectionOld = persistentClase.getAsistenciaCollection();
+            Collection<Asistencia> asistenciaCollectionNew = clase.getAsistenciaCollection();
             Collection<Grupo> grupoCollectionOld = persistentClase.getGrupoCollection();
             Collection<Grupo> grupoCollectionNew = clase.getGrupoCollection();
+            List<String> illegalOrphanMessages = null;
+            for (Asistencia asistenciaCollectionOldAsistencia : asistenciaCollectionOld) {
+                if (!asistenciaCollectionNew.contains(asistenciaCollectionOldAsistencia)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Asistencia " + asistenciaCollectionOldAsistencia + " since its IDClaseAsis field is not nullable.");
+                }
+            }
+            for (Grupo grupoCollectionOldGrupo : grupoCollectionOld) {
+                if (!grupoCollectionNew.contains(grupoCollectionOldGrupo)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Grupo " + grupoCollectionOldGrupo + " since its IDClaseG field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (IDMaestroCNew != null) {
                 IDMaestroCNew = em.getReference(IDMaestroCNew.getClass(), IDMaestroCNew.getIDMaestro());
                 clase.setIDMaestroC(IDMaestroCNew);
             }
+            Collection<Asistencia> attachedAsistenciaCollectionNew = new ArrayList<Asistencia>();
+            for (Asistencia asistenciaCollectionNewAsistenciaToAttach : asistenciaCollectionNew) {
+                asistenciaCollectionNewAsistenciaToAttach = em.getReference(asistenciaCollectionNewAsistenciaToAttach.getClass(), asistenciaCollectionNewAsistenciaToAttach.getIDAsistencia());
+                attachedAsistenciaCollectionNew.add(asistenciaCollectionNewAsistenciaToAttach);
+            }
+            asistenciaCollectionNew = attachedAsistenciaCollectionNew;
+            clase.setAsistenciaCollection(asistenciaCollectionNew);
             Collection<Grupo> attachedGrupoCollectionNew = new ArrayList<Grupo>();
             for (Grupo grupoCollectionNewGrupoToAttach : grupoCollectionNew) {
                 grupoCollectionNewGrupoToAttach = em.getReference(grupoCollectionNewGrupoToAttach.getClass(), grupoCollectionNewGrupoToAttach.getIDGrupo());
@@ -106,10 +155,15 @@ public class ClaseJpaController implements Serializable {
                 IDMaestroCNew.getClaseCollection().add(clase);
                 IDMaestroCNew = em.merge(IDMaestroCNew);
             }
-            for (Grupo grupoCollectionOldGrupo : grupoCollectionOld) {
-                if (!grupoCollectionNew.contains(grupoCollectionOldGrupo)) {
-                    grupoCollectionOldGrupo.setIDClaseG(null);
-                    grupoCollectionOldGrupo = em.merge(grupoCollectionOldGrupo);
+            for (Asistencia asistenciaCollectionNewAsistencia : asistenciaCollectionNew) {
+                if (!asistenciaCollectionOld.contains(asistenciaCollectionNewAsistencia)) {
+                    Clase oldIDClaseAsisOfAsistenciaCollectionNewAsistencia = asistenciaCollectionNewAsistencia.getIDClaseAsis();
+                    asistenciaCollectionNewAsistencia.setIDClaseAsis(clase);
+                    asistenciaCollectionNewAsistencia = em.merge(asistenciaCollectionNewAsistencia);
+                    if (oldIDClaseAsisOfAsistenciaCollectionNewAsistencia != null && !oldIDClaseAsisOfAsistenciaCollectionNewAsistencia.equals(clase)) {
+                        oldIDClaseAsisOfAsistenciaCollectionNewAsistencia.getAsistenciaCollection().remove(asistenciaCollectionNewAsistencia);
+                        oldIDClaseAsisOfAsistenciaCollectionNewAsistencia = em.merge(oldIDClaseAsisOfAsistenciaCollectionNewAsistencia);
+                    }
                 }
             }
             for (Grupo grupoCollectionNewGrupo : grupoCollectionNew) {
@@ -140,7 +194,7 @@ public class ClaseJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -152,15 +206,28 @@ public class ClaseJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The clase with id " + id + " no longer exists.", enfe);
             }
+            List<String> illegalOrphanMessages = null;
+            Collection<Asistencia> asistenciaCollectionOrphanCheck = clase.getAsistenciaCollection();
+            for (Asistencia asistenciaCollectionOrphanCheckAsistencia : asistenciaCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Clase (" + clase + ") cannot be destroyed since the Asistencia " + asistenciaCollectionOrphanCheckAsistencia + " in its asistenciaCollection field has a non-nullable IDClaseAsis field.");
+            }
+            Collection<Grupo> grupoCollectionOrphanCheck = clase.getGrupoCollection();
+            for (Grupo grupoCollectionOrphanCheckGrupo : grupoCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Clase (" + clase + ") cannot be destroyed since the Grupo " + grupoCollectionOrphanCheckGrupo + " in its grupoCollection field has a non-nullable IDClaseG field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             Maestro IDMaestroC = clase.getIDMaestroC();
             if (IDMaestroC != null) {
                 IDMaestroC.getClaseCollection().remove(clase);
                 IDMaestroC = em.merge(IDMaestroC);
-            }
-            Collection<Grupo> grupoCollection = clase.getGrupoCollection();
-            for (Grupo grupoCollectionGrupo : grupoCollection) {
-                grupoCollectionGrupo.setIDClaseG(null);
-                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
             }
             em.remove(clase);
             em.getTransaction().commit();

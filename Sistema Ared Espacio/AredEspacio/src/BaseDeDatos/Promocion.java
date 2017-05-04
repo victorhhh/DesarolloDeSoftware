@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Promocion.findAll", query = "SELECT p FROM Promocion p")
     , @NamedQuery(name = "Promocion.findByIDPromocion", query = "SELECT p FROM Promocion p WHERE p.iDPromocion = :iDPromocion")
     , @NamedQuery(name = "Promocion.findByNombre", query = "SELECT p FROM Promocion p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "Promocion.findByDescripcion", query = "SELECT p FROM Promocion p WHERE p.descripcion = :descripcion")})
+    , @NamedQuery(name = "Promocion.findByDescripcion", query = "SELECT p FROM Promocion p WHERE p.descripcion = :descripcion")
+    , @NamedQuery(name = "Promocion.findByTipo", query = "SELECT p FROM Promocion p WHERE p.tipo = :tipo")
+    , @NamedQuery(name = "Promocion.findByPorcentaje", query = "SELECT p FROM Promocion p WHERE p.porcentaje = :porcentaje")})
 public class Promocion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +48,16 @@ public class Promocion implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "iDPromocion")
-    private Collection<Pagoingreso> pagoingresoCollection;
+    @Basic(optional = false)
+    @Column(name = "tipo")
+    private String tipo;
+    @Basic(optional = false)
+    @Column(name = "porcentaje")
+    private float porcentaje;
+    @OneToMany(mappedBy = "iDPromocionI")
+    private Collection<Inscripcion> inscripcionCollection;
+    @OneToMany(mappedBy = "iDPromocionM")
+    private Collection<Mensualidad> mensualidadCollection;
 
     public Promocion() {
     }
@@ -56,10 +66,12 @@ public class Promocion implements Serializable {
         this.iDPromocion = iDPromocion;
     }
 
-    public Promocion(Integer iDPromocion, String nombre, String descripcion) {
+    public Promocion(Integer iDPromocion, String nombre, String descripcion, String tipo, float porcentaje) {
         this.iDPromocion = iDPromocion;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.porcentaje = porcentaje;
     }
 
     public Integer getIDPromocion() {
@@ -86,13 +98,38 @@ public class Promocion implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public Collection<Pagoingreso> getPagoingresoCollection() {
-        return pagoingresoCollection;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setPagoingresoCollection(Collection<Pagoingreso> pagoingresoCollection) {
-        this.pagoingresoCollection = pagoingresoCollection;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public float getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(float porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    @XmlTransient
+    public Collection<Inscripcion> getInscripcionCollection() {
+        return inscripcionCollection;
+    }
+
+    public void setInscripcionCollection(Collection<Inscripcion> inscripcionCollection) {
+        this.inscripcionCollection = inscripcionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Mensualidad> getMensualidadCollection() {
+        return mensualidadCollection;
+    }
+
+    public void setMensualidadCollection(Collection<Mensualidad> mensualidadCollection) {
+        this.mensualidadCollection = mensualidadCollection;
     }
 
     @Override

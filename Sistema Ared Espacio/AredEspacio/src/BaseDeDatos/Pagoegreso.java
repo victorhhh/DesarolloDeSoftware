@@ -50,7 +50,7 @@ public class Pagoegreso implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
     @JoinColumn(name = "IDMaestroPE", referencedColumnName = "IDMaestro")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Maestro iDMaestroPE;
 
     public Pagoegreso() {

@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Mensualidad.findAll", query = "SELECT m FROM Mensualidad m")
     , @NamedQuery(name = "Mensualidad.findByIDMensualidad", query = "SELECT m FROM Mensualidad m WHERE m.iDMensualidad = :iDMensualidad")
     , @NamedQuery(name = "Mensualidad.findByMonto", query = "SELECT m FROM Mensualidad m WHERE m.monto = :monto")
-    , @NamedQuery(name = "Mensualidad.findByFechaPago", query = "SELECT m FROM Mensualidad m WHERE m.fechaPago = :fechaPago")
-    , @NamedQuery(name = "Mensualidad.findByIDPagoM", query = "SELECT m FROM Mensualidad m WHERE m.iDPagoM = :iDPagoM")})
+    , @NamedQuery(name = "Mensualidad.findByFechaPago", query = "SELECT m FROM Mensualidad m WHERE m.fechaPago = :fechaPago")})
 public class Mensualidad implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,13 +52,11 @@ public class Mensualidad implements Serializable {
     @Column(name = "fechaPago")
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
-    @Column(name = "IDPagoM")
-    private Integer iDPagoM;
-    @OneToMany(mappedBy = "iDMensualidad")
-    private Collection<Pagoingreso> pagoingresoCollection;
-    @JoinColumn(name = "IDAlumnoM", referencedColumnName = "IDAlumno")
+    @OneToMany(mappedBy = "iDMensualidadA")
+    private Collection<Alumno> alumnoCollection;
+    @JoinColumn(name = "IDPromocionM", referencedColumnName = "IDPromocion")
     @ManyToOne
-    private Alumno iDAlumnoM;
+    private Promocion iDPromocionM;
 
     public Mensualidad() {
     }
@@ -98,29 +95,21 @@ public class Mensualidad implements Serializable {
         this.fechaPago = fechaPago;
     }
 
-    public Integer getIDPagoM() {
-        return iDPagoM;
-    }
-
-    public void setIDPagoM(Integer iDPagoM) {
-        this.iDPagoM = iDPagoM;
-    }
-
     @XmlTransient
-    public Collection<Pagoingreso> getPagoingresoCollection() {
-        return pagoingresoCollection;
+    public Collection<Alumno> getAlumnoCollection() {
+        return alumnoCollection;
     }
 
-    public void setPagoingresoCollection(Collection<Pagoingreso> pagoingresoCollection) {
-        this.pagoingresoCollection = pagoingresoCollection;
+    public void setAlumnoCollection(Collection<Alumno> alumnoCollection) {
+        this.alumnoCollection = alumnoCollection;
     }
 
-    public Alumno getIDAlumnoM() {
-        return iDAlumnoM;
+    public Promocion getIDPromocionM() {
+        return iDPromocionM;
     }
 
-    public void setIDAlumnoM(Alumno iDAlumnoM) {
-        this.iDAlumnoM = iDAlumnoM;
+    public void setIDPromocionM(Promocion iDPromocionM) {
+        this.iDPromocionM = iDPromocionM;
     }
 
     @Override

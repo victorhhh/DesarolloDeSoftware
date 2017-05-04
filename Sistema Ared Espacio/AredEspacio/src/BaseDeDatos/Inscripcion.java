@@ -16,6 +16,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -53,12 +55,22 @@ public class Inscripcion implements Serializable {
     @Column(name = "fechaInscripcion")
     @Temporal(TemporalType.DATE)
     private Date fechaInscripcion;
+    @JoinColumn(name = "IDPromocionI", referencedColumnName = "IDPromocion")
+    @ManyToOne
+    private Promocion iDPromocionI;
     @OneToMany(mappedBy = "iDInscripcionA")
     private Collection<Alumno> alumnoCollection;
 
     public Inscripcion() {
     }
 
+    public List<Inscripcion> buscarInscripcionPorID(int IDInscripcion) {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Inscripcion> resultList = em.createNamedQuery("Inscripcion.findByIDInscripcion").setParameter("nombre",  + IDInscripcion ).getResultList();
+        return resultList;
+    }
+
+    
     public Inscripcion(Integer iDInscripcion) {
         this.iDInscripcion = iDInscripcion;
     }
@@ -69,11 +81,6 @@ public class Inscripcion implements Serializable {
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    public List<Inscripcion> buscarInscripcionPorID(int IDInscripcion) {
-        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
-        List<Inscripcion> resultList = em.createNamedQuery("Inscripcion.findByIDInscripcion").setParameter("nombre",  + IDInscripcion ).getResultList();
-        return resultList;
-    }
     public Integer getIDInscripcion() {
         return iDInscripcion;
     }
@@ -96,6 +103,14 @@ public class Inscripcion implements Serializable {
 
     public void setFechaInscripcion(Date fechaInscripcion) {
         this.fechaInscripcion = fechaInscripcion;
+    }
+
+    public Promocion getIDPromocionI() {
+        return iDPromocionI;
+    }
+
+    public void setIDPromocionI(Promocion iDPromocionI) {
+        this.iDPromocionI = iDPromocionI;
     }
 
     @XmlTransient

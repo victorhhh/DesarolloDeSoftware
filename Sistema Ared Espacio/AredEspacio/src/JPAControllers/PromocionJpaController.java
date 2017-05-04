@@ -10,11 +10,12 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import BaseDeDatos.Pagoingreso;
-import BaseDeDatos.Promocion;
-import JPAControllers.exceptions.NonexistentEntityException;
+import BaseDeDatos.Inscripcion;
 import java.util.ArrayList;
 import java.util.Collection;
+import BaseDeDatos.Mensualidad;
+import BaseDeDatos.Promocion;
+import JPAControllers.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,27 +36,45 @@ public class PromocionJpaController implements Serializable {
     }
 
     public void create(Promocion promocion) {
-        if (promocion.getPagoingresoCollection() == null) {
-            promocion.setPagoingresoCollection(new ArrayList<Pagoingreso>());
+        if (promocion.getInscripcionCollection() == null) {
+            promocion.setInscripcionCollection(new ArrayList<Inscripcion>());
+        }
+        if (promocion.getMensualidadCollection() == null) {
+            promocion.setMensualidadCollection(new ArrayList<Mensualidad>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Pagoingreso> attachedPagoingresoCollection = new ArrayList<Pagoingreso>();
-            for (Pagoingreso pagoingresoCollectionPagoingresoToAttach : promocion.getPagoingresoCollection()) {
-                pagoingresoCollectionPagoingresoToAttach = em.getReference(pagoingresoCollectionPagoingresoToAttach.getClass(), pagoingresoCollectionPagoingresoToAttach.getIDIngreso());
-                attachedPagoingresoCollection.add(pagoingresoCollectionPagoingresoToAttach);
+            Collection<Inscripcion> attachedInscripcionCollection = new ArrayList<Inscripcion>();
+            for (Inscripcion inscripcionCollectionInscripcionToAttach : promocion.getInscripcionCollection()) {
+                inscripcionCollectionInscripcionToAttach = em.getReference(inscripcionCollectionInscripcionToAttach.getClass(), inscripcionCollectionInscripcionToAttach.getIDInscripcion());
+                attachedInscripcionCollection.add(inscripcionCollectionInscripcionToAttach);
             }
-            promocion.setPagoingresoCollection(attachedPagoingresoCollection);
+            promocion.setInscripcionCollection(attachedInscripcionCollection);
+            Collection<Mensualidad> attachedMensualidadCollection = new ArrayList<Mensualidad>();
+            for (Mensualidad mensualidadCollectionMensualidadToAttach : promocion.getMensualidadCollection()) {
+                mensualidadCollectionMensualidadToAttach = em.getReference(mensualidadCollectionMensualidadToAttach.getClass(), mensualidadCollectionMensualidadToAttach.getIDMensualidad());
+                attachedMensualidadCollection.add(mensualidadCollectionMensualidadToAttach);
+            }
+            promocion.setMensualidadCollection(attachedMensualidadCollection);
             em.persist(promocion);
-            for (Pagoingreso pagoingresoCollectionPagoingreso : promocion.getPagoingresoCollection()) {
-                Promocion oldIDPromocionOfPagoingresoCollectionPagoingreso = pagoingresoCollectionPagoingreso.getIDPromocion();
-                pagoingresoCollectionPagoingreso.setIDPromocion(promocion);
-                pagoingresoCollectionPagoingreso = em.merge(pagoingresoCollectionPagoingreso);
-                if (oldIDPromocionOfPagoingresoCollectionPagoingreso != null) {
-                    oldIDPromocionOfPagoingresoCollectionPagoingreso.getPagoingresoCollection().remove(pagoingresoCollectionPagoingreso);
-                    oldIDPromocionOfPagoingresoCollectionPagoingreso = em.merge(oldIDPromocionOfPagoingresoCollectionPagoingreso);
+            for (Inscripcion inscripcionCollectionInscripcion : promocion.getInscripcionCollection()) {
+                Promocion oldIDPromocionIOfInscripcionCollectionInscripcion = inscripcionCollectionInscripcion.getIDPromocionI();
+                inscripcionCollectionInscripcion.setIDPromocionI(promocion);
+                inscripcionCollectionInscripcion = em.merge(inscripcionCollectionInscripcion);
+                if (oldIDPromocionIOfInscripcionCollectionInscripcion != null) {
+                    oldIDPromocionIOfInscripcionCollectionInscripcion.getInscripcionCollection().remove(inscripcionCollectionInscripcion);
+                    oldIDPromocionIOfInscripcionCollectionInscripcion = em.merge(oldIDPromocionIOfInscripcionCollectionInscripcion);
+                }
+            }
+            for (Mensualidad mensualidadCollectionMensualidad : promocion.getMensualidadCollection()) {
+                Promocion oldIDPromocionMOfMensualidadCollectionMensualidad = mensualidadCollectionMensualidad.getIDPromocionM();
+                mensualidadCollectionMensualidad.setIDPromocionM(promocion);
+                mensualidadCollectionMensualidad = em.merge(mensualidadCollectionMensualidad);
+                if (oldIDPromocionMOfMensualidadCollectionMensualidad != null) {
+                    oldIDPromocionMOfMensualidadCollectionMensualidad.getMensualidadCollection().remove(mensualidadCollectionMensualidad);
+                    oldIDPromocionMOfMensualidadCollectionMensualidad = em.merge(oldIDPromocionMOfMensualidadCollectionMensualidad);
                 }
             }
             em.getTransaction().commit();
@@ -72,30 +91,56 @@ public class PromocionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Promocion persistentPromocion = em.find(Promocion.class, promocion.getIDPromocion());
-            Collection<Pagoingreso> pagoingresoCollectionOld = persistentPromocion.getPagoingresoCollection();
-            Collection<Pagoingreso> pagoingresoCollectionNew = promocion.getPagoingresoCollection();
-            Collection<Pagoingreso> attachedPagoingresoCollectionNew = new ArrayList<Pagoingreso>();
-            for (Pagoingreso pagoingresoCollectionNewPagoingresoToAttach : pagoingresoCollectionNew) {
-                pagoingresoCollectionNewPagoingresoToAttach = em.getReference(pagoingresoCollectionNewPagoingresoToAttach.getClass(), pagoingresoCollectionNewPagoingresoToAttach.getIDIngreso());
-                attachedPagoingresoCollectionNew.add(pagoingresoCollectionNewPagoingresoToAttach);
+            Collection<Inscripcion> inscripcionCollectionOld = persistentPromocion.getInscripcionCollection();
+            Collection<Inscripcion> inscripcionCollectionNew = promocion.getInscripcionCollection();
+            Collection<Mensualidad> mensualidadCollectionOld = persistentPromocion.getMensualidadCollection();
+            Collection<Mensualidad> mensualidadCollectionNew = promocion.getMensualidadCollection();
+            Collection<Inscripcion> attachedInscripcionCollectionNew = new ArrayList<Inscripcion>();
+            for (Inscripcion inscripcionCollectionNewInscripcionToAttach : inscripcionCollectionNew) {
+                inscripcionCollectionNewInscripcionToAttach = em.getReference(inscripcionCollectionNewInscripcionToAttach.getClass(), inscripcionCollectionNewInscripcionToAttach.getIDInscripcion());
+                attachedInscripcionCollectionNew.add(inscripcionCollectionNewInscripcionToAttach);
             }
-            pagoingresoCollectionNew = attachedPagoingresoCollectionNew;
-            promocion.setPagoingresoCollection(pagoingresoCollectionNew);
+            inscripcionCollectionNew = attachedInscripcionCollectionNew;
+            promocion.setInscripcionCollection(inscripcionCollectionNew);
+            Collection<Mensualidad> attachedMensualidadCollectionNew = new ArrayList<Mensualidad>();
+            for (Mensualidad mensualidadCollectionNewMensualidadToAttach : mensualidadCollectionNew) {
+                mensualidadCollectionNewMensualidadToAttach = em.getReference(mensualidadCollectionNewMensualidadToAttach.getClass(), mensualidadCollectionNewMensualidadToAttach.getIDMensualidad());
+                attachedMensualidadCollectionNew.add(mensualidadCollectionNewMensualidadToAttach);
+            }
+            mensualidadCollectionNew = attachedMensualidadCollectionNew;
+            promocion.setMensualidadCollection(mensualidadCollectionNew);
             promocion = em.merge(promocion);
-            for (Pagoingreso pagoingresoCollectionOldPagoingreso : pagoingresoCollectionOld) {
-                if (!pagoingresoCollectionNew.contains(pagoingresoCollectionOldPagoingreso)) {
-                    pagoingresoCollectionOldPagoingreso.setIDPromocion(null);
-                    pagoingresoCollectionOldPagoingreso = em.merge(pagoingresoCollectionOldPagoingreso);
+            for (Inscripcion inscripcionCollectionOldInscripcion : inscripcionCollectionOld) {
+                if (!inscripcionCollectionNew.contains(inscripcionCollectionOldInscripcion)) {
+                    inscripcionCollectionOldInscripcion.setIDPromocionI(null);
+                    inscripcionCollectionOldInscripcion = em.merge(inscripcionCollectionOldInscripcion);
                 }
             }
-            for (Pagoingreso pagoingresoCollectionNewPagoingreso : pagoingresoCollectionNew) {
-                if (!pagoingresoCollectionOld.contains(pagoingresoCollectionNewPagoingreso)) {
-                    Promocion oldIDPromocionOfPagoingresoCollectionNewPagoingreso = pagoingresoCollectionNewPagoingreso.getIDPromocion();
-                    pagoingresoCollectionNewPagoingreso.setIDPromocion(promocion);
-                    pagoingresoCollectionNewPagoingreso = em.merge(pagoingresoCollectionNewPagoingreso);
-                    if (oldIDPromocionOfPagoingresoCollectionNewPagoingreso != null && !oldIDPromocionOfPagoingresoCollectionNewPagoingreso.equals(promocion)) {
-                        oldIDPromocionOfPagoingresoCollectionNewPagoingreso.getPagoingresoCollection().remove(pagoingresoCollectionNewPagoingreso);
-                        oldIDPromocionOfPagoingresoCollectionNewPagoingreso = em.merge(oldIDPromocionOfPagoingresoCollectionNewPagoingreso);
+            for (Inscripcion inscripcionCollectionNewInscripcion : inscripcionCollectionNew) {
+                if (!inscripcionCollectionOld.contains(inscripcionCollectionNewInscripcion)) {
+                    Promocion oldIDPromocionIOfInscripcionCollectionNewInscripcion = inscripcionCollectionNewInscripcion.getIDPromocionI();
+                    inscripcionCollectionNewInscripcion.setIDPromocionI(promocion);
+                    inscripcionCollectionNewInscripcion = em.merge(inscripcionCollectionNewInscripcion);
+                    if (oldIDPromocionIOfInscripcionCollectionNewInscripcion != null && !oldIDPromocionIOfInscripcionCollectionNewInscripcion.equals(promocion)) {
+                        oldIDPromocionIOfInscripcionCollectionNewInscripcion.getInscripcionCollection().remove(inscripcionCollectionNewInscripcion);
+                        oldIDPromocionIOfInscripcionCollectionNewInscripcion = em.merge(oldIDPromocionIOfInscripcionCollectionNewInscripcion);
+                    }
+                }
+            }
+            for (Mensualidad mensualidadCollectionOldMensualidad : mensualidadCollectionOld) {
+                if (!mensualidadCollectionNew.contains(mensualidadCollectionOldMensualidad)) {
+                    mensualidadCollectionOldMensualidad.setIDPromocionM(null);
+                    mensualidadCollectionOldMensualidad = em.merge(mensualidadCollectionOldMensualidad);
+                }
+            }
+            for (Mensualidad mensualidadCollectionNewMensualidad : mensualidadCollectionNew) {
+                if (!mensualidadCollectionOld.contains(mensualidadCollectionNewMensualidad)) {
+                    Promocion oldIDPromocionMOfMensualidadCollectionNewMensualidad = mensualidadCollectionNewMensualidad.getIDPromocionM();
+                    mensualidadCollectionNewMensualidad.setIDPromocionM(promocion);
+                    mensualidadCollectionNewMensualidad = em.merge(mensualidadCollectionNewMensualidad);
+                    if (oldIDPromocionMOfMensualidadCollectionNewMensualidad != null && !oldIDPromocionMOfMensualidadCollectionNewMensualidad.equals(promocion)) {
+                        oldIDPromocionMOfMensualidadCollectionNewMensualidad.getMensualidadCollection().remove(mensualidadCollectionNewMensualidad);
+                        oldIDPromocionMOfMensualidadCollectionNewMensualidad = em.merge(oldIDPromocionMOfMensualidadCollectionNewMensualidad);
                     }
                 }
             }
@@ -128,10 +173,15 @@ public class PromocionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The promocion with id " + id + " no longer exists.", enfe);
             }
-            Collection<Pagoingreso> pagoingresoCollection = promocion.getPagoingresoCollection();
-            for (Pagoingreso pagoingresoCollectionPagoingreso : pagoingresoCollection) {
-                pagoingresoCollectionPagoingreso.setIDPromocion(null);
-                pagoingresoCollectionPagoingreso = em.merge(pagoingresoCollectionPagoingreso);
+            Collection<Inscripcion> inscripcionCollection = promocion.getInscripcionCollection();
+            for (Inscripcion inscripcionCollectionInscripcion : inscripcionCollection) {
+                inscripcionCollectionInscripcion.setIDPromocionI(null);
+                inscripcionCollectionInscripcion = em.merge(inscripcionCollectionInscripcion);
+            }
+            Collection<Mensualidad> mensualidadCollection = promocion.getMensualidadCollection();
+            for (Mensualidad mensualidadCollectionMensualidad : mensualidadCollection) {
+                mensualidadCollectionMensualidad.setIDPromocionM(null);
+                mensualidadCollectionMensualidad = em.merge(mensualidadCollectionMensualidad);
             }
             em.remove(promocion);
             em.getTransaction().commit();

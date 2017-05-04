@@ -10,9 +10,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import BaseDeDatos.Promocion;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Mensualidad;
-import BaseDeDatos.Pagoingreso;
 import JPAControllers.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,36 +36,36 @@ public class MensualidadJpaController implements Serializable {
     }
 
     public void create(Mensualidad mensualidad) {
-        if (mensualidad.getPagoingresoCollection() == null) {
-            mensualidad.setPagoingresoCollection(new ArrayList<Pagoingreso>());
+        if (mensualidad.getAlumnoCollection() == null) {
+            mensualidad.setAlumnoCollection(new ArrayList<Alumno>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Alumno IDAlumnoM = mensualidad.getIDAlumnoM();
-            if (IDAlumnoM != null) {
-                IDAlumnoM = em.getReference(IDAlumnoM.getClass(), IDAlumnoM.getIDAlumno());
-                mensualidad.setIDAlumnoM(IDAlumnoM);
+            Promocion IDPromocionM = mensualidad.getIDPromocionM();
+            if (IDPromocionM != null) {
+                IDPromocionM = em.getReference(IDPromocionM.getClass(), IDPromocionM.getIDPromocion());
+                mensualidad.setIDPromocionM(IDPromocionM);
             }
-            Collection<Pagoingreso> attachedPagoingresoCollection = new ArrayList<Pagoingreso>();
-            for (Pagoingreso pagoingresoCollectionPagoingresoToAttach : mensualidad.getPagoingresoCollection()) {
-                pagoingresoCollectionPagoingresoToAttach = em.getReference(pagoingresoCollectionPagoingresoToAttach.getClass(), pagoingresoCollectionPagoingresoToAttach.getIDIngreso());
-                attachedPagoingresoCollection.add(pagoingresoCollectionPagoingresoToAttach);
+            Collection<Alumno> attachedAlumnoCollection = new ArrayList<Alumno>();
+            for (Alumno alumnoCollectionAlumnoToAttach : mensualidad.getAlumnoCollection()) {
+                alumnoCollectionAlumnoToAttach = em.getReference(alumnoCollectionAlumnoToAttach.getClass(), alumnoCollectionAlumnoToAttach.getIDAlumno());
+                attachedAlumnoCollection.add(alumnoCollectionAlumnoToAttach);
             }
-            mensualidad.setPagoingresoCollection(attachedPagoingresoCollection);
+            mensualidad.setAlumnoCollection(attachedAlumnoCollection);
             em.persist(mensualidad);
-            if (IDAlumnoM != null) {
-                IDAlumnoM.getMensualidadCollection().add(mensualidad);
-                IDAlumnoM = em.merge(IDAlumnoM);
+            if (IDPromocionM != null) {
+                IDPromocionM.getMensualidadCollection().add(mensualidad);
+                IDPromocionM = em.merge(IDPromocionM);
             }
-            for (Pagoingreso pagoingresoCollectionPagoingreso : mensualidad.getPagoingresoCollection()) {
-                Mensualidad oldIDMensualidadOfPagoingresoCollectionPagoingreso = pagoingresoCollectionPagoingreso.getIDMensualidad();
-                pagoingresoCollectionPagoingreso.setIDMensualidad(mensualidad);
-                pagoingresoCollectionPagoingreso = em.merge(pagoingresoCollectionPagoingreso);
-                if (oldIDMensualidadOfPagoingresoCollectionPagoingreso != null) {
-                    oldIDMensualidadOfPagoingresoCollectionPagoingreso.getPagoingresoCollection().remove(pagoingresoCollectionPagoingreso);
-                    oldIDMensualidadOfPagoingresoCollectionPagoingreso = em.merge(oldIDMensualidadOfPagoingresoCollectionPagoingreso);
+            for (Alumno alumnoCollectionAlumno : mensualidad.getAlumnoCollection()) {
+                Mensualidad oldIDMensualidadAOfAlumnoCollectionAlumno = alumnoCollectionAlumno.getIDMensualidadA();
+                alumnoCollectionAlumno.setIDMensualidadA(mensualidad);
+                alumnoCollectionAlumno = em.merge(alumnoCollectionAlumno);
+                if (oldIDMensualidadAOfAlumnoCollectionAlumno != null) {
+                    oldIDMensualidadAOfAlumnoCollectionAlumno.getAlumnoCollection().remove(alumnoCollectionAlumno);
+                    oldIDMensualidadAOfAlumnoCollectionAlumno = em.merge(oldIDMensualidadAOfAlumnoCollectionAlumno);
                 }
             }
             em.getTransaction().commit();
@@ -82,44 +82,44 @@ public class MensualidadJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Mensualidad persistentMensualidad = em.find(Mensualidad.class, mensualidad.getIDMensualidad());
-            Alumno IDAlumnoMOld = persistentMensualidad.getIDAlumnoM();
-            Alumno IDAlumnoMNew = mensualidad.getIDAlumnoM();
-            Collection<Pagoingreso> pagoingresoCollectionOld = persistentMensualidad.getPagoingresoCollection();
-            Collection<Pagoingreso> pagoingresoCollectionNew = mensualidad.getPagoingresoCollection();
-            if (IDAlumnoMNew != null) {
-                IDAlumnoMNew = em.getReference(IDAlumnoMNew.getClass(), IDAlumnoMNew.getIDAlumno());
-                mensualidad.setIDAlumnoM(IDAlumnoMNew);
+            Promocion IDPromocionMOld = persistentMensualidad.getIDPromocionM();
+            Promocion IDPromocionMNew = mensualidad.getIDPromocionM();
+            Collection<Alumno> alumnoCollectionOld = persistentMensualidad.getAlumnoCollection();
+            Collection<Alumno> alumnoCollectionNew = mensualidad.getAlumnoCollection();
+            if (IDPromocionMNew != null) {
+                IDPromocionMNew = em.getReference(IDPromocionMNew.getClass(), IDPromocionMNew.getIDPromocion());
+                mensualidad.setIDPromocionM(IDPromocionMNew);
             }
-            Collection<Pagoingreso> attachedPagoingresoCollectionNew = new ArrayList<Pagoingreso>();
-            for (Pagoingreso pagoingresoCollectionNewPagoingresoToAttach : pagoingresoCollectionNew) {
-                pagoingresoCollectionNewPagoingresoToAttach = em.getReference(pagoingresoCollectionNewPagoingresoToAttach.getClass(), pagoingresoCollectionNewPagoingresoToAttach.getIDIngreso());
-                attachedPagoingresoCollectionNew.add(pagoingresoCollectionNewPagoingresoToAttach);
+            Collection<Alumno> attachedAlumnoCollectionNew = new ArrayList<Alumno>();
+            for (Alumno alumnoCollectionNewAlumnoToAttach : alumnoCollectionNew) {
+                alumnoCollectionNewAlumnoToAttach = em.getReference(alumnoCollectionNewAlumnoToAttach.getClass(), alumnoCollectionNewAlumnoToAttach.getIDAlumno());
+                attachedAlumnoCollectionNew.add(alumnoCollectionNewAlumnoToAttach);
             }
-            pagoingresoCollectionNew = attachedPagoingresoCollectionNew;
-            mensualidad.setPagoingresoCollection(pagoingresoCollectionNew);
+            alumnoCollectionNew = attachedAlumnoCollectionNew;
+            mensualidad.setAlumnoCollection(alumnoCollectionNew);
             mensualidad = em.merge(mensualidad);
-            if (IDAlumnoMOld != null && !IDAlumnoMOld.equals(IDAlumnoMNew)) {
-                IDAlumnoMOld.getMensualidadCollection().remove(mensualidad);
-                IDAlumnoMOld = em.merge(IDAlumnoMOld);
+            if (IDPromocionMOld != null && !IDPromocionMOld.equals(IDPromocionMNew)) {
+                IDPromocionMOld.getMensualidadCollection().remove(mensualidad);
+                IDPromocionMOld = em.merge(IDPromocionMOld);
             }
-            if (IDAlumnoMNew != null && !IDAlumnoMNew.equals(IDAlumnoMOld)) {
-                IDAlumnoMNew.getMensualidadCollection().add(mensualidad);
-                IDAlumnoMNew = em.merge(IDAlumnoMNew);
+            if (IDPromocionMNew != null && !IDPromocionMNew.equals(IDPromocionMOld)) {
+                IDPromocionMNew.getMensualidadCollection().add(mensualidad);
+                IDPromocionMNew = em.merge(IDPromocionMNew);
             }
-            for (Pagoingreso pagoingresoCollectionOldPagoingreso : pagoingresoCollectionOld) {
-                if (!pagoingresoCollectionNew.contains(pagoingresoCollectionOldPagoingreso)) {
-                    pagoingresoCollectionOldPagoingreso.setIDMensualidad(null);
-                    pagoingresoCollectionOldPagoingreso = em.merge(pagoingresoCollectionOldPagoingreso);
+            for (Alumno alumnoCollectionOldAlumno : alumnoCollectionOld) {
+                if (!alumnoCollectionNew.contains(alumnoCollectionOldAlumno)) {
+                    alumnoCollectionOldAlumno.setIDMensualidadA(null);
+                    alumnoCollectionOldAlumno = em.merge(alumnoCollectionOldAlumno);
                 }
             }
-            for (Pagoingreso pagoingresoCollectionNewPagoingreso : pagoingresoCollectionNew) {
-                if (!pagoingresoCollectionOld.contains(pagoingresoCollectionNewPagoingreso)) {
-                    Mensualidad oldIDMensualidadOfPagoingresoCollectionNewPagoingreso = pagoingresoCollectionNewPagoingreso.getIDMensualidad();
-                    pagoingresoCollectionNewPagoingreso.setIDMensualidad(mensualidad);
-                    pagoingresoCollectionNewPagoingreso = em.merge(pagoingresoCollectionNewPagoingreso);
-                    if (oldIDMensualidadOfPagoingresoCollectionNewPagoingreso != null && !oldIDMensualidadOfPagoingresoCollectionNewPagoingreso.equals(mensualidad)) {
-                        oldIDMensualidadOfPagoingresoCollectionNewPagoingreso.getPagoingresoCollection().remove(pagoingresoCollectionNewPagoingreso);
-                        oldIDMensualidadOfPagoingresoCollectionNewPagoingreso = em.merge(oldIDMensualidadOfPagoingresoCollectionNewPagoingreso);
+            for (Alumno alumnoCollectionNewAlumno : alumnoCollectionNew) {
+                if (!alumnoCollectionOld.contains(alumnoCollectionNewAlumno)) {
+                    Mensualidad oldIDMensualidadAOfAlumnoCollectionNewAlumno = alumnoCollectionNewAlumno.getIDMensualidadA();
+                    alumnoCollectionNewAlumno.setIDMensualidadA(mensualidad);
+                    alumnoCollectionNewAlumno = em.merge(alumnoCollectionNewAlumno);
+                    if (oldIDMensualidadAOfAlumnoCollectionNewAlumno != null && !oldIDMensualidadAOfAlumnoCollectionNewAlumno.equals(mensualidad)) {
+                        oldIDMensualidadAOfAlumnoCollectionNewAlumno.getAlumnoCollection().remove(alumnoCollectionNewAlumno);
+                        oldIDMensualidadAOfAlumnoCollectionNewAlumno = em.merge(oldIDMensualidadAOfAlumnoCollectionNewAlumno);
                     }
                 }
             }
@@ -152,15 +152,15 @@ public class MensualidadJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The mensualidad with id " + id + " no longer exists.", enfe);
             }
-            Alumno IDAlumnoM = mensualidad.getIDAlumnoM();
-            if (IDAlumnoM != null) {
-                IDAlumnoM.getMensualidadCollection().remove(mensualidad);
-                IDAlumnoM = em.merge(IDAlumnoM);
+            Promocion IDPromocionM = mensualidad.getIDPromocionM();
+            if (IDPromocionM != null) {
+                IDPromocionM.getMensualidadCollection().remove(mensualidad);
+                IDPromocionM = em.merge(IDPromocionM);
             }
-            Collection<Pagoingreso> pagoingresoCollection = mensualidad.getPagoingresoCollection();
-            for (Pagoingreso pagoingresoCollectionPagoingreso : pagoingresoCollection) {
-                pagoingresoCollectionPagoingreso.setIDMensualidad(null);
-                pagoingresoCollectionPagoingreso = em.merge(pagoingresoCollectionPagoingreso);
+            Collection<Alumno> alumnoCollection = mensualidad.getAlumnoCollection();
+            for (Alumno alumnoCollectionAlumno : alumnoCollection) {
+                alumnoCollectionAlumno.setIDMensualidadA(null);
+                alumnoCollectionAlumno = em.merge(alumnoCollectionAlumno);
             }
             em.remove(mensualidad);
             em.getTransaction().commit();

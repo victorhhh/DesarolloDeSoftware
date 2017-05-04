@@ -5,14 +5,12 @@
  */
 package BaseDeDatos;
 
-import JPAControllers.GrupoJpaController;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grupo.findByIDAlumno", query = "SELECT g FROM Grupo g WHERE g.iDAlumnoG.iDAlumno = :IDAlumnoG")
     , @NamedQuery(name = "Grupo.findByIDClase", query = "SELECT g FROM Grupo g WHERE g.iDClaseG.iDClase = :IDClase")
     , @NamedQuery(name = "Grupo.findByIDGrupo", query = "SELECT g FROM Grupo g WHERE g.iDGrupo = :iDGrupo")})
+
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,15 +44,15 @@ public class Grupo implements Serializable {
     @Column(name = "IDGrupo")
     private Integer iDGrupo;
     @JoinColumn(name = "IDAlumnoG", referencedColumnName = "IDAlumno")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Alumno iDAlumnoG;
     @JoinColumn(name = "IDClaseG", referencedColumnName = "IDClase")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Clase iDClaseG;
 
     public Grupo() {
     }
-    
+
     public List<Grupo> buscarGruposAlumno(int IDAlumno) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
         List<Grupo> resultList = em.createNamedQuery("Grupo.findByIDAlumno").setParameter("IDAlumnoG",  IDAlumno).getResultList();
