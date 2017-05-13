@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
@@ -15,12 +12,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ModificarClaseController">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ModificarClaseController">
    <children>
       <Button fx:id="BRegresar" layoutX="268.0" layoutY="353.0" mnemonicParsing="false" onAction="#AccionRegresar" prefHeight="35.0" prefWidth="120.0" text="Regresar" />
       <ImageView fx:id="ivLogo" fitHeight="98.0" fitWidth="137.0" layoutX="648.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Imagenes/Logo_AredEspacio.png" />
+            <Image url="@../../../Ared%20Espacio%20Logo.png" />
          </image>
       </ImageView>
       <Label layoutX="285.0" layoutY="17.0" text="Modificar Clase">
@@ -31,27 +28,21 @@
       <Label layoutX="184.0" layoutY="101.0" prefHeight="35.0" prefWidth="145.0" text="Nombre de la clase" />
       <TextField fx:id="TFNombreClase" layoutX="327.0" layoutY="101.0" prefHeight="35.0" prefWidth="145.0" />
       <Label layoutX="184.0" layoutY="155.0" prefHeight="35.0" prefWidth="145.0" text="Nombre del profesor" />
-      <TextField fx:id="TFNombreProfesor" layoutX="328.0" layoutY="155.0" prefHeight="35.0" prefWidth="145.0" />
       <Label layoutX="229.0" layoutY="208.0" prefHeight="35.0" prefWidth="145.0" text="Dia" />
-      <TextField fx:id="TFDia" layoutX="329.0" layoutY="208.0" prefHeight="35.0" prefWidth="145.0" />
-      <Label layoutX="218.0" layoutY="266.0" prefHeight="35.0" prefWidth="67.0" text="Inicio Hora" />
-      <TextField fx:id="TFHoraInicio" layoutX="327.0" layoutY="266.0" prefHeight="35.0" prefWidth="56.0" />
-      <TextField fx:id="TFMinutosInicio" layoutX="418.0" layoutY="266.0" prefHeight="35.0" prefWidth="56.0" />
-      <TextField fx:id="TFHoraFin" layoutX="327.0" layoutY="313.0" prefHeight="35.0" prefWidth="56.0" />
-      <TextField fx:id="TFMinutosFin" layoutX="418.0" layoutY="313.0" prefHeight="35.0" prefWidth="56.0" />
+      <Label layoutX="218.0" layoutY="266.0" prefHeight="35.0" prefWidth="67.0" text=" Hora Inicio" />
       <Label layoutX="546.0" layoutY="110.0" text="Estado" />
       <TextField fx:id="TFEstado" layoutX="526.0" layoutY="138.0" prefHeight="35.0" prefWidth="76.0" />
       <Button fx:id="BGuardar" layoutX="401.0" layoutY="353.0" mnemonicParsing="false" onAction="#AccionGuardar" prefHeight="35.0" prefWidth="120.0" text="Guardar" />
       <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
         <items>
-          <MenuItem fx:id="MIRegistrarAlumno" mnemonicParsing="false" onAction="#MIRegistrarAlumnoAction" text="Inscribir" />
-          <MenuItem fx:id="IMConsultarAlumno" mnemonicParsing="false" onAction="#IMConsultarAlumno" text="Consultar/Editar" />
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
       <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
         <items>
-          <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar" />
-          <MenuItem fx:id="MIConsultarMaestro" mnemonicParsing="false" onAction="#MIConsultarMaestroAction" text="Consultar" />
+          <MenuItem mnemonicParsing="false" text="Registrar" />
+          <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
       <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
@@ -72,6 +63,10 @@
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </MenuButton>
-      <Label layoutX="218.0" layoutY="322.0" text="Fin Hora" />
+      <Label layoutX="218.0" layoutY="322.0" text="Hora Fin" />
+      <JFXTimePicker fx:id="TPHoraInicio" defaultColor="#ad0000" layoutX="323.0" layoutY="270.0" prefHeight="28.0" prefWidth="153.0" />
+      <JFXTimePicker fx:id="TPHoraFin" defaultColor="#ad0000" layoutX="323.0" layoutY="317.0" prefHeight="28.0" prefWidth="153.0" />
+      <ComboBox fx:id="CBDia" layoutX="327.0" layoutY="208.0" prefHeight="35.0" prefWidth="145.0" />
+      <TextField fx:id="TFNombreProfesor" layoutX="327.0" layoutY="155.0" prefHeight="35.0" prefWidth="145.0" />
    </children>
 </AnchorPane>

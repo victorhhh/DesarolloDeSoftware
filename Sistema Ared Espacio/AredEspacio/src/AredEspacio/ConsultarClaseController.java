@@ -26,8 +26,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import JPAControllers.ClaseJpaController;
 import javafx.scene.control.Alert;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.StageStyle;
 
@@ -43,38 +41,13 @@ public class ConsultarClaseController implements Initializable {
     @FXML
     TextField TFNombreClase, TFNombreProfesor;
     @FXML
-    Button BConsultar;
-    Button BModificar;
-    @FXML
-    Button BBaja, BBuscar;
+    Button BConsultar, BModificar, BBaja, BBuscar;
     @FXML
     TableView<Clase> TVClases;
     Clase c1 = new Clase();
     public int IDC;
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
-    @FXML
-    private MenuButton MBAlumnos;
-    @FXML
-    private MenuButton MBMaestros;
-    @FXML
-    private MenuItem MIRegisitrarMaestro;
-    @FXML
-    private MenuItem MIConsultarMaestro;
-    @FXML
-    private MenuButton MBClases;
-    @FXML
-    private MenuItem MIRegistrar;
-    @FXML
-    private MenuItem MIModificar;
-    @FXML
-    private MenuButton MBPromociones;
-    @FXML
-    private MenuButton MBReportes;
-    @FXML
-    private MenuItem MIInscribirAlumno;
-    @FXML
-    private MenuItem MIConsultarAlumno;
 
     public int tamañoLista() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
@@ -98,7 +71,6 @@ public class ConsultarClaseController implements Initializable {
         }
     }
 
-    @FXML
     public void AccionBuscar(ActionEvent evento) {
         Clase clase = new Clase();
         List<Clase> listaClases = clase.buscarClasesPorNombre(TFNombreClase.getText());
@@ -126,7 +98,6 @@ public class ConsultarClaseController implements Initializable {
         }
     }
 
-    @FXML
     public void AccionConsultar(ActionEvent evento) {
         if(TVClases.getSelectionModel().getSelectedItem()==null){
              Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
@@ -141,12 +112,10 @@ public class ConsultarClaseController implements Initializable {
         }
         
     } 
-    @FXML
     public void AccionRegistrarClase(ActionEvent evento) {
         RegistrarClaseController.initRootLayout(primaryStage);
     }
 
-    @FXML
     public void AccionModificarClase(ActionEvent evento) {
         if(TVClases.getSelectionModel().getSelectedItem()!=null){
             ModificarClaseController.initRootLayout(primaryStage,TVClases.getSelectionModel().getSelectedItem());
@@ -175,26 +144,6 @@ public class ConsultarClaseController implements Initializable {
         TVClases.setOnMouseClicked((event) -> {
             c1 = TVClases.getSelectionModel().getSelectedItem();
         });
-    }
-
-    @FXML
-    private void MIRegisitrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarMaestroAction(ActionEvent event) {
-        ConsultarMaestroController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIInscribirAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarAlumnoAction(ActionEvent event) {
-        ConsultarAlumno1Controller.initRootLayout(primaryStage);
     }
 
 }

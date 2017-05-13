@@ -46,6 +46,12 @@ public class PrincipalController implements Initializable {
     private MenuItem MIRegistrarClases;
     @FXML
     private MenuItem MIConsultarClases;
+    @FXML
+    private MenuItem MICrearReporte;
+    @FXML
+    private MenuItem MICrearPromocion;
+    @FXML
+    private MenuItem MIConsultarPromociones;
 
     @FXML
     public void MIConsultarAction(ActionEvent event) {
@@ -125,4 +131,22 @@ public class PrincipalController implements Initializable {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
+    @FXML
+   
+        void MICrearReporteAction(ActionEvent event) {
+        MostrarHorarioController.initRootLayout(primaryStage);
+    }
+    
+    @FXML
+   
+        void MICrearPromocionAction(ActionEvent event) {
+        CrearPromocionController.initRootLayout(primaryStage);
+    }
+
+        
+    @FXML
+   
+        void MIConsultarPromocionesAction(ActionEvent event) {
+        ConsultarPromocionController.initRootLayout(primaryStage);
+    }
 }

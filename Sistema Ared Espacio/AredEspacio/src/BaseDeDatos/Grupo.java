@@ -53,6 +53,13 @@ public class Grupo implements Serializable {
     public Grupo() {
     }
 
+     public List<Grupo> buscarGruposPorIDClase() {
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
+        List<Grupo> resultList = em.createNamedQuery("Grupo.findAll").getResultList();
+        return resultList;
+    }
+
+    
     public List<Grupo> buscarGruposAlumno(int IDAlumno) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
         List<Grupo> resultList = em.createNamedQuery("Grupo.findByIDAlumno").setParameter("IDAlumnoG",  IDAlumno).getResultList();

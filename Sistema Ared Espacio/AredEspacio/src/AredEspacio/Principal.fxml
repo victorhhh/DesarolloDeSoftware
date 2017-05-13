@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.PrincipalController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.PrincipalController">
     <stylesheets>
         <URL value="@principal.css" />
     </stylesheets>
@@ -45,13 +46,13 @@
             </MenuButton>
             <MenuButton fx:id="BPromociones" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="49.0" prefWidth="153.0" text="Promociones">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem fx:id="MICrearPromocion" mnemonicParsing="false" onAction="#MICrearPromocionAction" text="Crear Promociones" />
+                <MenuItem fx:id="MIConsultarPromociones" mnemonicParsing="false" onAction="#MIConsultarPromocionesAction" text="Consultar Promociones" />
               </items>
             </MenuButton>
             <MenuButton fx:id="BReportes" mnemonicParsing="false" onAction="#BReporteAction" prefHeight="45.0" prefWidth="160.0" text="Reportes">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="MICrearReporte" mnemonicParsing="false" onAction="#MICrearReporteAction" text="Crear Reporte" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
             </MenuButton>

@@ -11,20 +11,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarClaseController">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarPromocionController">
    <children>
-      <Label layoutX="300.0" layoutY="14.0" text="Consultar Clase">
+      <Label layoutX="241.0" layoutY="14.0" text="Consultar Promoción">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
       </Label>
-      <ImageView fx:id="IVLogo" fitHeight="98.0" fitWidth="137.0" layoutX="657.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="IVLogo" fitHeight="98.0" fitWidth="137.0" layoutX="657.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Ared%20Espacio%20Logo.png" />
          </image>
       </ImageView>
-      <Label layoutX="72.0" layoutY="114.0" prefHeight="35.0" prefWidth="145.0" text="Nombre de la clase" />
-      <TextField fx:id="TFNombreClase" layoutX="72.0" layoutY="148.0" prefHeight="35.0" prefWidth="145.0" />
+      <Label layoutX="72.0" layoutY="114.0" prefHeight="35.0" prefWidth="145.0" text="Nombre de la Promoción" />
+      <TextField fx:id="TFNombrePromocion" layoutX="72.0" layoutY="148.0" prefHeight="35.0" prefWidth="145.0" />
       <Button fx:id="BConsultar" layoutX="337.0" layoutY="334.0" mnemonicParsing="false" onAction="#AccionConsultar" prefHeight="35.0" prefWidth="145.0" text="Consultar" />
       <MenuButton fx:id="MBAlumnos" layoutX="657.0" layoutY="102.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
         <items>
@@ -46,8 +46,7 @@
       </MenuButton>
       <MenuButton fx:id="MBPromociones" layoutX="657.0" layoutY="276.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
         <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
+          <MenuItem fx:id="MICrearPromocion" mnemonicParsing="false" onAction="#AccionCrearPromocion" text="Registrar Promoción" />
         </items>
       </MenuButton>
       <MenuButton fx:id="MBReportes" layoutX="657.0" layoutY="339.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
@@ -58,7 +57,7 @@
       </MenuButton>
       <TextField fx:id="TFNombreProfesor" layoutX="149.0" layoutY="102.0" prefHeight="35.0" prefWidth="161.0" visible="false" />
       <Button fx:id="BBuscar" layoutX="72.0" layoutY="189.0" mnemonicParsing="false" onAction="#AccionBuscar" prefHeight="35.0" prefWidth="145.0" text="Buscar" />
-      <TableView fx:id="TVClases" layoutX="309.0" layoutY="118.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="TVPromociones" editable="true" layoutX="309.0" layoutY="118.0" prefHeight="200.0" prefWidth="200.0">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>

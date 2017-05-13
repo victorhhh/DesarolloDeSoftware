@@ -97,6 +97,12 @@ public class Maestro implements Serializable {
     }
 
 
+     public List<Maestro> obtenerListaDeMaestros(){
+        EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU",null).createEntityManager();
+        List<Maestro> resultList = em.createNamedQuery("Maestro.findAll").getResultList();   
+        return resultList;
+    }
+    
     public Maestro(Integer iDMaestro) {
         this.iDMaestro = iDMaestro;
     }

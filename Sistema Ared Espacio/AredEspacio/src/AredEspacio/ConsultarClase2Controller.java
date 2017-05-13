@@ -6,11 +6,16 @@
 package AredEspacio;
 
 import BaseDeDatos.Clase;
+import BaseDeDatos.Grupo;
 import BaseDeDatos.Maestro;
+import JPAControllers.ClaseJpaController;
 import JPAControllers.MaestroJpaController;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -33,21 +39,21 @@ import javax.persistence.Persistence;
  * @author ossiel
  */
 public class ConsultarClase2Controller implements Initializable {
+
     @FXML
-    MenuItem MIRegistrar,MIConsultar;
-    MenuButton BAlumnos;
+    MenuItem MIRegistrar, MIConsultar;
     @FXML
-    MenuButton BMaestros, BClases, bPromociones, BReportes;
+    MenuButton BAlumnos, BMaestros, BClases, bPromociones, BReportes;
     @FXML
     Button BBaja, BModificar;
     @FXML
-    Label LNombreProfesor, LNombreClase, LHora, LDia,LNumeroAlumnos,LEstado;
+    Label LNombreProfesor, LNombreClase, LHora, LDia, LNumeroAlumnos, LEstado;
     private static Clase c1;
     public int IDC;
     private int IDM;
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
-    
+
     static void initRootLayout(Stage primaryStage, Clase clase1) {
         c1 = clase1;
         try {
@@ -64,35 +70,55 @@ public class ConsultarClase2Controller implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private MenuItem MIInscribirAlumno;
-    @FXML
-    private MenuItem BIConsultarAlumno;
-    @FXML
-    private MenuItem BIRegistrarMaestro;
-    @FXML
-    private MenuItem BIConsultarMaestro;
-    @FXML
-    private MenuButton BPromociones;
-    
-    @FXML
-     public void AccionBaja(ActionEvent evento) {      
-         DarDeBajaClaseController.initRootLayout(primaryStage, c1);
+
+    public void AccionBaja(ActionEvent evento) {
+        //DarDeBajaClaseController.initRootLayout(primaryStage, c1);
+
+        Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
+        dialogoAlerta.setTitle("Ared Espacio");
+        dialogoAlerta.setHeaderText(null);
+        dialogoAlerta.initStyle(StageStyle.UTILITY);
+        dialogoAlerta.setContentText("Realmente ¿quieres dar de baja la clase de " + " " + c1.getNombre() + "?");
+        Optional<ButtonType> result = dialogoAlerta.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
+            ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);
+            if (c1.getEstado() == false) {
+                Alert d = new Alert(Alert.AlertType.WARNING);
+                d.setTitle("Ared Espacio");
+                d.setHeaderText("¡Aviso!" + " " + "Clase inactiva");
+                d.setContentText("Esta clase ya esta dada de baja");
+                d.initStyle(StageStyle.UTILITY);
+                d.showAndWait();
+
+            } else {
+                c1.setEstado(false);
+                try {
+                    controllerClases.edit(c1);
+                    Alert da = new Alert(Alert.AlertType.INFORMATION);
+                    da.setTitle("Ared Espacio");
+                    da.setHeaderText("Clase dada de baja");
+                    da.setContentText("La clase" + " " + c1.getNombre() + " " + " fue dada de baja ");
+                    da.initStyle(StageStyle.UTILITY);
+                    da.showAndWait();
+                } catch (Exception e) {
+                    Logger.getLogger(RegistrarClaseController.class.getName());
+                }
+                RegistrarClaseController.initRootLayout(primaryStage);
+            }
+        }
     }
-    
-    @FXML
-     public void AccionModificar(ActionEvent evento) {
-        
+
+    public void AccionModificar(ActionEvent evento) {
+
         ModificarClaseController.initRootLayout(primaryStage, c1);
 
     }
-     
-    @FXML
-      public void AccionConsultarClase(ActionEvent evento) {
+
+    public void AccionConsultarClase(ActionEvent evento) {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
-    @FXML
     public void AccionRegistrarClase(ActionEvent evento) {
         RegistrarClaseController.initRootLayout(primaryStage);
     }
@@ -102,26 +128,34 @@ public class ConsultarClase2Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         MaestroJpaController controllerMaestros = new MaestroJpaController(entityManagerFactory);
-        
-        if (c1.getIDMaestroC()==null) {
+
+        if (c1.getIDMaestroC() == null) {
             LNombreProfesor.setText(" ");
-            
+
             LNombreClase.setText(c1.getNombre());
-           
+
             LHora.setText(c1.getHora());
-           
+
             LDia.setText(c1.getDia());
-            
-            LNumeroAlumnos.setText("0");
-           
-            if(c1.getEstado()==true){
+            Grupo grupo = new Grupo();
+
+            List<Grupo> listaDeGrupos = grupo.buscarGruposPorIDClase();
+            int nA = 0;
+            for (int i = 0; i < listaDeGrupos.size(); i++) {
+                if (listaDeGrupos.get(i).getIDClaseG().getIDClase().equals(c1.getIDClase())) {
+                    nA++;
+                }
+            }
+            LNumeroAlumnos.setText(" " + nA);
+
+            if (c1.getEstado() == true) {
                 LEstado.setText("Activa");
-                
-            }else{
+
+            } else {
                 LEstado.setText("Inactiva");
-                
+
             }
             Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
             dialogoAlerta.setTitle("Ared Espacio");
@@ -129,46 +163,34 @@ public class ConsultarClase2Controller implements Initializable {
             dialogoAlerta.setContentText("Esta clase aun no tiene un maestro asignado");
             dialogoAlerta.initStyle(StageStyle.UTILITY);
             dialogoAlerta.showAndWait();
-        }else{
+        } else {
             IDM = c1.getIDMaestroC().getIDMaestro();
             Maestro maestro = controllerMaestros.findMaestro(IDM);
-            LNombreProfesor.setText(maestro.getNombre()+" "+maestro.getPrimerApellido()+" "+maestro.getSegundoApellido());
-            
+            LNombreProfesor.setText(maestro.getNombre() + " " + maestro.getPrimerApellido() + " " + maestro.getSegundoApellido());
+
             LNombreClase.setText(c1.getNombre());
-            
+
             LHora.setText(c1.getHora());
-            
+
             LDia.setText(c1.getDia());
-            LNumeroAlumnos.setText(" ");
-            
-            if(c1.getEstado()==true){
+            Grupo grupo = new Grupo();
+
+            List<Grupo> listaDeGrupos = grupo.buscarGruposPorIDClase();
+            int nA = 0;
+            for (int i = 0; i < listaDeGrupos.size(); i++) {
+                if (listaDeGrupos.get(i).getIDClaseG().getIDClase().equals(c1.getIDClase())) {
+                    nA++;
+                }
+            }
+            LNumeroAlumnos.setText(" " + nA);
+            if (c1.getEstado() == true) {
                 LEstado.setText("Activa");
-               
-            }else{
+
+            } else {
                 LEstado.setText("Inactiva");
-                
+
             }
         }
-    }    
-
-    @FXML
-    private void MIInscribirAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
     }
 
-    @FXML
-    private void BIConsultarAlumnoAction(ActionEvent event) {
-        ConsultarAlumno1Controller.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void BIRegistrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void BIConsultarMaestroAction(ActionEvent event) {
-        ConsultarClaseController.initRootLayout(primaryStage);
-    }
-    
 }

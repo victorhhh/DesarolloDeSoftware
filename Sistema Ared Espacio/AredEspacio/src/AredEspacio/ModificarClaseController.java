@@ -25,12 +25,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import JPAControllers.ClaseJpaController;
 import JPAControllers.MaestroJpaController;
-import java.util.ArrayList;
+import com.jfoenix.controls.JFXTimePicker;
+import java.time.LocalTime;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
 
@@ -42,20 +45,52 @@ import javafx.stage.StageStyle;
 public class ModificarClaseController implements Initializable {
 
     @FXML
-    MenuButton BAlumnos;
+    ListView LVClases;
     @FXML
-    MenuButton BMaestros;
-    MenuButton BClases;
-
+    TextField TFNombreProfesor;
     @FXML
-    MenuButton bPromociones, BReportes;
+    ComboBox CBDia;
+    @FXML
+    MenuButton BAlumnos, BMaestros, BClases, bPromociones, BReportes;
     @FXML
     Button BGuardar, BRegresar;
     @FXML
-    TextField TFNombreProfesor, TFNombreClase, TFHoraInicio, TFMinutosInicio, TFHoraFin, TFMinutosFin, TFEstado, TFDia;
+    TextField TFNombreClase, TFEstado;
+    @FXML
+    JFXTimePicker TPHoraInicio;
+    @FXML
+    JFXTimePicker TPHoraFin;
+    Comprobacion comprobacion = new Comprobacion();
 
-    private String dia;
+    public static class LDia {
 
+        String dia;
+
+        public LDia(String dia) {
+            this.dia = dia;
+        }
+
+        public String getDia() {
+            return dia;
+        }
+
+        public void setDia(String dia) {
+            dia = dia;
+        }
+
+        @Override
+        public String toString() {
+            return dia;
+        }
+    }
+    private final ObservableList<LDia> listaDias
+            = FXCollections.observableArrayList(
+                    new LDia("Lunes"),
+                    new LDia("Martes"),
+                    new LDia("Miercoles"),
+                    new LDia("Jueves"),
+                    new LDia("Viernes"),
+                    new LDia("Sabado"));
     private int IDM;
     private static Clase c1 = new Clase();
     public static Stage primaryStage;
@@ -77,159 +112,179 @@ public class ModificarClaseController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private ImageView ivLogo;
-    @FXML
-    private MenuItem MIRegistrarAlumno;
-    @FXML
-    private MenuItem IMConsultarAlumno;
-    @FXML
-    private MenuItem MIRegistrarMaestro;
-    @FXML
-    private MenuItem MIRegistrar;
-    @FXML
-    private MenuItem MIConsultar;
-    @FXML
-    private MenuButton BPromociones;
-    @FXML
-    private MenuItem MIConsultarMaestro;
 
-    @FXML
     public void AccionGuardar(ActionEvent evento) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);
 
-        if (!TFNombreClase.getText().isEmpty() && !TFDia.getText().isEmpty() && (!TFHoraInicio.getText().isEmpty() && !TFMinutosInicio.getText().isEmpty() && !TFHoraFin.getText().isEmpty() && !TFMinutosFin.getText().isEmpty())) {
-            if (disponibilidadHorario() == false) {
-                Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
-                dialogoAlerta.setTitle("Ared Espacio");
-                dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Espacio ocupado");
-                dialogoAlerta.setContentText("No puedes registrar una clase este dia a esta hora");
-                dialogoAlerta.initStyle(StageStyle.UTILITY);
-                dialogoAlerta.showAndWait();
-                BGuardar.setDisable(true);
-            } else {
-                if (horarioMayor() == true) {
+        if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() != null)) {
+            if (comprobacion.horarioPrudente(TPHoraInicio, TPHoraFin) == false) {
+                String horaIArray[] = TPHoraInicio.getValue().toString().split(":");
+                String horaFArray[] = TPHoraFin.getValue().toString().split(":");
+                int hI = Integer.parseInt(horaIArray[0]);
+                int mI = Integer.parseInt(horaIArray[1]);
+                int hF = Integer.parseInt(horaFArray[0]);
+                int mF = Integer.parseInt(horaFArray[1]);
+                if (hI < 8) {
                     Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                     dialogoAlerta.setTitle("Ared Espacio");
-                    dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Limite de horas de clase");
-                    dialogoAlerta.setContentText("Una clase no puede ser dada mas de tres horas");
+                    dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Inicio de Clases antes de las 8 am ");
+                    dialogoAlerta.setContentText("No puedes registrar una clase antes de que abra la escuela");
                     dialogoAlerta.initStyle(StageStyle.UTILITY);
-                    
                     dialogoAlerta.showAndWait();
-                    BGuardar.setDisable(true);
                 } else {
-                    if (horarioMenor() == true) {
+                    if (hF > 21 || (hF == 21 && mF > 1)) {
                         Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                         dialogoAlerta.setTitle("Ared Espacio");
-                        dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Hora insuficiente");
-                        dialogoAlerta.setContentText("Una clase no puede durar menos de una hora");
+                        dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Fin de Clases hasta de las 9 pm ");
+                        dialogoAlerta.setContentText("No puedes registrar una clase que acabe despues de que cierre la escuela");
                         dialogoAlerta.initStyle(StageStyle.UTILITY);
-                        
                         dialogoAlerta.showAndWait();
-                        BGuardar.setDisable(true);
+                    }
+                }
+            } else {
+                if (disponibilidadHorario() == false) {
+                    Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
+                    dialogoAlerta.setTitle("Ared Espacio");
+                    dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Espacio ocupado");
+                    dialogoAlerta.setContentText("No puedes registrar una clase este dia a esta hora");
+                    dialogoAlerta.initStyle(StageStyle.UTILITY);
+                    dialogoAlerta.showAndWait();
+                    // BGuardar.setDisable(true);
+                } else {
+                    if (comprobacion.horarioMayor(TPHoraInicio, TPHoraFin) == true) {
+                        Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
+                        dialogoAlerta.setTitle("Ared Espacio");
+                        dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Limite de horas de clase");
+                        dialogoAlerta.setContentText("Una clase no puede ser dada mas de tres horas");
+                        dialogoAlerta.initStyle(StageStyle.UTILITY);
+
+                        dialogoAlerta.showAndWait();
+                        // BGuardar.setDisable(true);
                     } else {
-                        String h = TFHoraInicio.getText().concat(":").concat(TFMinutosInicio.getText()).concat("-").concat(TFHoraFin.getText()).concat(":").concat(TFMinutosFin.getText());
-                        c1.setDia(TFDia.getText());
-                        c1.setEstado(true);
-                        c1.setHora(h);
-                        c1.setNombre(TFNombreClase.getText());
-                        try {
-                            controllerClases.edit(c1);
-                            Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                        if (comprobacion.horarioMenor(TPHoraInicio, TPHoraFin) == true) {
+                            Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                             dialogoAlerta.setTitle("Ared Espacio");
-                            dialogoAlerta.setHeaderText(null);
-                            dialogoAlerta.setContentText("Se ha modificado la clase en la base de datos");
+                            dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Hora insuficiente");
+                            dialogoAlerta.setContentText("Una clase no puede durar menos de una hora");
                             dialogoAlerta.initStyle(StageStyle.UTILITY);
+
                             dialogoAlerta.showAndWait();
-                        } catch (Exception e) {
-                            Logger.getLogger(RegistrarClaseController.class.getName());
+                            //BGuardar.setDisable(true);
+                        } else {
+                            BGuardar.setDisable(false);
+                            String h = TPHoraInicio.getValue().toString().concat("-").concat(TPHoraFin.getValue().toString());
+                            c1.setDia(CBDia.getValue().toString());
+                            c1.setEstado(true);
+                            c1.setHora(h);
+                            c1.setNombre(TFNombreClase.getText());
+                            try {
+                                controllerClases.edit(c1);
+                                Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);
+                                dialogoAlerta.setTitle("Ared Espacio");
+                                dialogoAlerta.setHeaderText(null);
+                                dialogoAlerta.setContentText("Se ha modificado la clase en la base de datos");
+                                dialogoAlerta.initStyle(StageStyle.UTILITY);
+                                dialogoAlerta.showAndWait();
+                            } catch (Exception e) {
+                                Logger.getLogger(RegistrarClaseController.class.getName());
+                            }
+                            ConsultarClaseController.initRootLayout(primaryStage);
                         }
-                        RegistrarClaseController.initRootLayout(primaryStage);
                     }
                 }
             }
 
         } else {
-            if (TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty() && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty() && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())) {
+            if (TFNombreClase.getText().isEmpty() && CBDia.getValue() == null && (TPHoraInicio.getValue() == null && TPHoraFin.getValue() == null)) {
                 Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                 dialogoAlerta.setTitle("Ared Espacio");
                 dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                 dialogoAlerta.setContentText("No puedes dejar vacios los campos");
                 dialogoAlerta.initStyle(StageStyle.UTILITY);
                 dialogoAlerta.showAndWait();
-                BGuardar.setDisable(true);
+                //BGuardar.setDisable(true);
             } else {
-                if (dosCamposVacios() == true) {
-                    if (!TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty()
-                            && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty()
-                            && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())) {
+                if (comprobacion.dosCamposVacios(TFNombreClase, CBDia, TPHoraInicio, TPHoraFin) == true) {
+                    if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() == null
+                            && (TPHoraInicio.getValue() == null && TPHoraFin.getValue() == null)) {
                         Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                         dialogoAlerta.setTitle("Ared Espacio");
                         dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                         dialogoAlerta.setContentText("No puedes dejar el dia y la hora vacios");
                         dialogoAlerta.initStyle(StageStyle.UTILITY);
-                        
                         dialogoAlerta.showAndWait();
-                        BGuardar.setDisable(true);
+                        //BGuardar.setDisable(true);
                     } else {
-                        if (TFNombreClase.getText().isEmpty() && !TFDia.getText().isEmpty()
-                                && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty()
-                                && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())) {
+                        if (TFNombreClase.getText().isEmpty() && CBDia.getValue() != null
+                                && (TPHoraInicio.getValue() == null && TPHoraFin.getValue() == null)) {
                             Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                             dialogoAlerta.setTitle("Ared Espacio");
                             dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                             dialogoAlerta.setContentText("No puedes dejar el nombre de la clase y la hora vacios");
                             dialogoAlerta.initStyle(StageStyle.UTILITY);
-                           
                             dialogoAlerta.showAndWait();
-                            BGuardar.setDisable(true);
+                            //BGuardar.setDisable(true);
                         } else {
-                            if (TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty()
-                                    && (!TFHoraInicio.getText().isEmpty() && !TFMinutosInicio.getText().isEmpty()
-                                    && !TFHoraFin.getText().isEmpty() && !TFMinutosFin.getText().isEmpty())) {
+                            if (TFNombreClase.getText().isEmpty() && CBDia.getValue() == null
+                                    && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() != null)) {
                                 Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                                 dialogoAlerta.setTitle("Ared Espacio");
                                 dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                                 dialogoAlerta.setContentText("No puedes dejar el nombre y el dia vacios");
                                 dialogoAlerta.initStyle(StageStyle.UTILITY);
-                               
                                 dialogoAlerta.showAndWait();
-
-                                BGuardar.setDisable(true);
+                                //BGuardar.setDisable(true);
                             }
                         }
                     }
                 } else {
-                    if (TFNombreClase.getText().isEmpty() && !TFDia.getText().isEmpty() && (!TFHoraInicio.getText().isEmpty() && !TFMinutosInicio.getText().isEmpty() && !TFHoraFin.getText().isEmpty() && !TFMinutosFin.getText().isEmpty())) {
+                    if (TFNombreClase.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() != null)) {
                         Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                         dialogoAlerta.setTitle("Ared Espacio");
                         dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                         dialogoAlerta.setContentText("No puedes dejar el nombre de la clase vacio");
                         dialogoAlerta.initStyle(StageStyle.UTILITY);
-                        
                         dialogoAlerta.showAndWait();
-                        BGuardar.setDisable(true);
+                        //BGuardar.setDisable(true);
                     } else {
-                        if (!TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty() && (!TFHoraInicio.getText().isEmpty() && !TFMinutosInicio.getText().isEmpty() && !TFHoraFin.getText().isEmpty() && !TFMinutosFin.getText().isEmpty())) {
+                        if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() == null && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() != null)) {
                             Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                             dialogoAlerta.setTitle("Ared Espacio");
                             dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                             dialogoAlerta.setContentText("No puedes dejar el dia vacio");
                             dialogoAlerta.initStyle(StageStyle.UTILITY);
-                            
                             dialogoAlerta.showAndWait();
-                            BGuardar.setDisable(true);
+                            //BGuardar.setDisable(true);
                         } else {
-                            if (!TFNombreClase.getText().isEmpty() && !TFDia.getText().isEmpty() && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty() && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())) {
+                            if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() == null && TPHoraFin.getValue() == null)) {
                                 Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
                                 dialogoAlerta.setTitle("Ared Espacio");
                                 dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
                                 dialogoAlerta.setContentText("No puedes dejar la hora vacia");
                                 dialogoAlerta.initStyle(StageStyle.UTILITY);
-                                
                                 dialogoAlerta.showAndWait();
-                                BGuardar.setDisable(true);
+                                //BGuardar.setDisable(true);
+                            } else {
+                                if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() == null && TPHoraFin.getValue() != null)) {
+                                    Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
+                                    dialogoAlerta.setTitle("Ared Espacio");
+                                    dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
+                                    dialogoAlerta.setContentText("No puedes dejar la hora de inicio vacia");
+                                    dialogoAlerta.initStyle(StageStyle.UTILITY);
+                                    dialogoAlerta.showAndWait();
+                                    //BGuardar.setDisable(true);
+                                } else {
+                                    if (!TFNombreClase.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() == null)) {
+                                        Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
+                                        dialogoAlerta.setTitle("Ared Espacio");
+                                        dialogoAlerta.setHeaderText("!Aviso¡" + " " + "Campos vacios");
+                                        dialogoAlerta.setContentText("No puedes dejar la hora de fin  vacia");
+                                        dialogoAlerta.initStyle(StageStyle.UTILITY);
+                                        dialogoAlerta.showAndWait();
+                                        //BGuardar.setDisable(true);
+                                    }
+                                }
                             }
                         }
                     }
@@ -238,50 +293,12 @@ public class ModificarClaseController implements Initializable {
         }
 
     }
-
-    @FXML
-    public void AccionRegresar(ActionEvent evento) {
-        ConsultarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    public void AccionConsultarClase(ActionEvent evento) {
-        ConsultarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    public void AccionRegistrarClase(ActionEvent evento) {
-        RegistrarClaseController.initRootLayout(primaryStage);
-    }
-
-    public boolean horarioMayor() {
-        int hI = Integer.parseInt(TFHoraInicio.getText());
-        int mI = Integer.parseInt(TFMinutosInicio.getText());
-        int hF = Integer.parseInt(TFHoraFin.getText());
-        int mF = Integer.parseInt(TFMinutosFin.getText());
-        if ((hF > (hI + 3)) || (hF == (hI + 3) && mF > mI)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean horarioMenor() {
-        int hI = Integer.parseInt(TFHoraInicio.getText());
-        int mI = Integer.parseInt(TFMinutosInicio.getText());
-        int hF = Integer.parseInt(TFHoraFin.getText());
-        int mF = Integer.parseInt(TFMinutosFin.getText());
-        if ((hF < hI) || (hF == hI) || (hF == (hI + 1) && mF < mI)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean disponibilidadHorario() {
-        String h = TFHoraInicio.getText().concat(":").concat(TFMinutosInicio.getText()).concat("-").concat(TFHoraFin.getText()).concat(":").concat(TFMinutosFin.getText());
+     public boolean disponibilidadHorario() {
+        String h = TPHoraInicio.getValue().toString().concat("-").concat(TPHoraFin.getValue().toString());
         Clase clase = new Clase();
         List<Clase> listaClases = clase.obtenerListaDeClases();
         for (int i = 0; i < listaClases.size(); i++) {
-            if (listaClases.get(i).getDia().equals(TFDia.getText())) {
+            if (listaClases.get(i).getDia().equals(CBDia.getValue().toString())) {
                 if (listaClases.get(i).getHora().equals(h)) {
                     return false;
                 }
@@ -289,46 +306,38 @@ public class ModificarClaseController implements Initializable {
         }
         return true;
     }
-    
-    
 
-    public boolean dosCamposVacios() {
-        if (!TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty()
-                && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty()
-                && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())
-                || TFNombreClase.getText().isEmpty() && !TFDia.getText().isEmpty()
-                && (TFHoraInicio.getText().isEmpty() && TFMinutosInicio.getText().isEmpty()
-                && TFHoraFin.getText().isEmpty() && TFMinutosFin.getText().isEmpty())
-                || TFNombreClase.getText().isEmpty() && TFDia.getText().isEmpty()
-                && (!TFHoraInicio.getText().isEmpty() && !TFMinutosInicio.getText().isEmpty()
-                && !TFHoraFin.getText().isEmpty() && !TFMinutosFin.getText().isEmpty())) {
-            return true;
-        }
-        return false;
+    public void AccionRegresar(ActionEvent evento) {
+        ConsultarClaseController.initRootLayout(primaryStage);
     }
-    
+
+    public void AccionConsultarClase(ActionEvent evento) {
+        ConsultarClaseController.initRootLayout(primaryStage);
+    }
+
+    public void AccionRegistrarClase(ActionEvent evento) {
+        RegistrarClaseController.initRootLayout(primaryStage);
+    }
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         MaestroJpaController controllerMaestros = new MaestroJpaController(entityManagerFactory);
-
+        
         if (c1.getIDMaestroC() == null) {
-            TFNombreProfesor.setText(" ");
-            TFNombreProfesor.setEditable(false);
+            Maestro maestro = new Maestro();
             TFNombreClase.setText(c1.getNombre());
-            /*System.out.println(c1.getHora().substring(0, 2));
-            System.out.println(c1.getHora().substring(3, 5));
-            System.out.println(c1.getHora().substring(6, 8));
-            System.out.println(c1.getHora().substring(9, 11));*/
-            TFHoraInicio.setText(c1.getHora().substring(0, 2));
-            TFMinutosInicio.setText(c1.getHora().substring(3, 5));
-            TFHoraFin.setText(c1.getHora().substring(6, 8));
-            TFMinutosFin.setText(c1.getHora().substring(9, 11));
-            TFDia.setText(c1.getDia());
+
+            String horaArray[] = c1.getHora().split("-");
+            TPHoraInicio.setValue(LocalTime.parse(horaArray[0]));
+            TPHoraFin.setValue(LocalTime.parse(horaArray[1]));
+            CBDia.setItems(listaDias);
+           TFNombreProfesor.setText(" ");
+           TFNombreProfesor.setEditable(false);
             if (c1.getEstado() == true) {
                 TFEstado.setText("Activa");
                 TFEstado.setEditable(false);
@@ -345,14 +354,13 @@ public class ModificarClaseController implements Initializable {
         } else {
             IDM = c1.getIDMaestroC().getIDMaestro();
             Maestro maestro = controllerMaestros.findMaestro(IDM);
-            TFNombreProfesor.setText(maestro.getNombre());
-            TFNombreProfesor.setEditable(false);
+            TFNombreProfesor.setText(maestro.getNombre()+" "+maestro.getPrimerApellido()+" "+maestro.getSegundoApellido());
+           TFNombreProfesor.setEditable(false);
             TFNombreClase.setText(c1.getNombre());
-            TFHoraInicio.setText(c1.getHora().substring(0, 2));
-            TFMinutosInicio.setText(c1.getHora().substring(3, 5));
-            TFHoraFin.setText(c1.getHora().substring(6, 8));
-            TFMinutosFin.setText(c1.getHora().substring(9, 11));
-            TFDia.setText(c1.getDia());
+            String horaArray[] = c1.getHora().split("-");
+            TPHoraInicio.setValue(LocalTime.parse(horaArray[0]));
+            TPHoraFin.setValue(LocalTime.parse(horaArray[1]));
+            CBDia.setItems(listaDias);
             if (c1.getEstado() == true) {
                 TFEstado.setText("Activa");
                 TFEstado.setEditable(false);
@@ -373,90 +381,7 @@ public class ModificarClaseController implements Initializable {
                 }
             }
         });
-        TFDia.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                char car = event.getCharacter().charAt(0);
-                if (Character.isDigit(car)) {
-                    event.consume();
-                }
-                if (TFDia.getText().length() >11) {
-                    event.consume();
-                }
-            }
-        });
-        TFHoraInicio.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                int car = event.getCharacter().charAt(0);
-                if (Character.isDigit(car)) {
-                } else {
-                    event.consume();
-                }
-                if (TFHoraInicio.getText().length() > 1) {
-                    event.consume();
-                }
-            }
-        });
-        TFMinutosInicio.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                int car = event.getCharacter().charAt(0);
-                if (Character.isDigit(car)) {
-                } else {
-                    event.consume();
-                }
-                if (TFMinutosInicio.getText().length() > 1) {
-                    event.consume();
-                }
-            }
-        });
-        TFHoraFin.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                int car = event.getCharacter().charAt(0);
-                if (Character.isDigit(car)) {
-                } else {
-                    event.consume();
-                }
-                if (TFHoraFin.getText().length() > 1) {
-                    event.consume();
-                }
-            }
-        });
-        TFMinutosFin.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                int car = event.getCharacter().charAt(0);
-                if (Character.isDigit(car)) {
-                } else {
-                    event.consume();
-                }
-                if (TFMinutosFin.getText().length() > 1) {
-                    event.consume();
-                }
-            }
-        });
-    }
 
-    @FXML
-    private void MIRegistrarAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void IMConsultarAlumno(ActionEvent event) {
-        ConsultarAlumno1Controller.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIRegistrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarMaestroAction(ActionEvent event) {
-        ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
 }
