@@ -178,7 +178,6 @@ public class EditarAlumnoController implements Initializable {
             AlumnoJpaController jpaA = new AlumnoJpaController(emf);
             crearAlumno();
             alumno.getIDAlumno();
-            System.out.println("werewer " + alumno.getIDAlumno());
             try {
                 jpaA.edit(alumno);
                 Alert dialogoAlerta = new Alert(Alert.AlertType.INFORMATION);

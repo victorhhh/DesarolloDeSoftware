@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.RegistrarPagoAlumno2Controller">
+   <children>
+      <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos">
+            </MenuButton>
+            <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases">
+              <items>
+                <MenuItem fx:id="MIRegistrarClases" mnemonicParsing="false" onAction="#MIRegistrarClasesAction" text="Registrar" />
+                <MenuItem fx:id="MIConsultarClase" mnemonicParsing="false" onAction="#MIConsultarClaseAction" text="Consultar" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" layoutX="9.0" layoutY="191.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="50.0" prefWidth="109.0" text="Promiciones">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="109.0" text="Reportes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BMaestros" layoutX="9.0" layoutY="91.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="50.0" prefWidth="109.0" text="Maestros">
+              <items>
+                <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar" />
+                <MenuItem fx:id="MIConsultarMaestro" mnemonicParsing="false" onAction="#MIConsultarMaestroAction" text="Consultar" />
+              </items>
+            </MenuButton>
+         </children></AnchorPane>
+      <AnchorPane layoutX="172.0" prefHeight="57.0" prefWidth="600.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="LConsultarAlumnos" layoutX="241.0" layoutY="9.0" text="Pago Mensualidad">
+               <font>
+                  <Font name="DejaVu Sans Mono Bold" size="31.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="94.0" fitWidth="130.0" layoutX="666.0">
+               <image>
+                  <Image url="@../Imagenes/Logo_AredEspacio.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="9.0" layoutY="55.0" prefHeight="345.0" prefWidth="665.0">
+         <children>
+            <Label fx:id="LNombre" layoutX="45.0" layoutY="118.0" text="Nombre :" />
+            <Label fx:id="LTelefono" layoutX="41.0" layoutY="155.0" prefHeight="20.0" prefWidth="64.0" text="Teléfono :" />
+            <Label fx:id="LFechaDeNac" layoutX="7.0" layoutY="194.0" prefHeight="20.0" prefWidth="98.0" text="Fecha de Nac. :" />
+            <Label fx:id="LDireccion" layoutX="38.0" layoutY="233.0" text="Dirección :" />
+            <Label fx:id="LFechaDeProximoPago" layoutX="334.0" layoutY="119.0" text="Ultimo pago :" />
+            <Label fx:id="LMonto" layoutX="337.0" layoutY="157.0" text="Monto :" />
+            <Button fx:id="BCancelar" layoutX="442.0" layoutY="293.0" mnemonicParsing="false" onAction="#BCancelarAction" prefHeight="30.0" prefWidth="80.0" text="Cancelar" />
+            <Button fx:id="BPagar" layoutX="549.0" layoutY="293.0" mnemonicParsing="false" onAction="#BPagarAction" prefHeight="30.0" prefWidth="80.0" text="Pagar" />
+            <ImageView fx:id="PaneImagen" fitHeight="87.0" fitWidth="92.0" layoutX="26.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="LCNombre" layoutX="103.0" layoutY="113.0" prefHeight="25.0" prefWidth="231.0" />
+            <Label fx:id="LCTelefono" layoutX="103.0" layoutY="154.0" prefHeight="25.0" prefWidth="164.0" />
+            <Label fx:id="LCFechaDeNacimiento" layoutX="103.0" layoutY="193.0" prefHeight="25.0" prefWidth="164.0" />
+            <Label fx:id="LCDireccion" layoutX="103.0" layoutY="229.0" prefHeight="25.0" prefWidth="164.0" />
+            <Label fx:id="LCFechaProximoPago" layoutX="486.0" layoutY="114.0" prefHeight="25.0" prefWidth="164.0" />
+            <ImageView fitHeight="102.0" fitWidth="109.0" layoutX="26.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="montoPromo" layoutX="335.0" layoutY="247.0" prefHeight="17.0" prefWidth="285.0" text="Monto con promocion:" />
+            <Label layoutX="337.0" layoutY="215.0" text="Promocion :" />
+            <Label fx:id="LabelFechaDeCorte" layoutX="428.0" layoutY="119.0" prefHeight="15.0" prefWidth="150.0" />
+            <TextField fx:id="LInscripcion" layoutX="384.0" layoutY="152.0" prefHeight="25.0" prefWidth="177.0" />
+            <Label layoutX="466.0" layoutY="223.0" prefHeight="15.0" prefWidth="92.0" />
+            <SplitMenuButton fx:id="BMPromocion" layoutX="416.0" layoutY="211.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="Promocion">
+              <items>
+                
+              </items>
+            </SplitMenuButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

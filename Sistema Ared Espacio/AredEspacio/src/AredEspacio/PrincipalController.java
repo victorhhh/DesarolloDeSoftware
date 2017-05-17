@@ -52,6 +52,8 @@ public class PrincipalController implements Initializable {
     private MenuItem MICrearPromocion;
     @FXML
     private MenuItem MIConsultarPromociones;
+    @FXML
+    private MenuItem BPagoMensualidad;
 
     @FXML
     public void MIConsultarAction(ActionEvent event) {
@@ -148,5 +150,10 @@ public class PrincipalController implements Initializable {
    
         void MIConsultarPromocionesAction(ActionEvent event) {
         ConsultarPromocionController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void BPagoMensualidadAction(ActionEvent event) {
+        RegistrarPagoAlumnoController.initRootLayout(primaryStage);
     }
 }

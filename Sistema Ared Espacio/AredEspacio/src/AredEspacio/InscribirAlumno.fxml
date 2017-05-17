@@ -69,7 +69,7 @@
             <TextField fx:id="TTelefono" layoutX="98.0" layoutY="229.0" prefHeight="25.0" prefWidth="264.0" />
             <TextField fx:id="TDireccion" layoutX="98.0" layoutY="302.0" prefHeight="25.0" prefWidth="264.0" />
             <TextField fx:id="LInscripcion" layoutX="455.0" layoutY="188.0" prefHeight="25.0" prefWidth="202.0" />
-            <Label layoutX="381.0" layoutY="232.0" text="Promosion:" />
+            <Label layoutX="381.0" layoutY="232.0" text="Promocion:" />
             <SplitMenuButton fx:id="BMPromocion" layoutX="455.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Escoja alguna promocion">
               <items>
               </items>
@@ -82,6 +82,8 @@
             <TextField fx:id="TPApellido" layoutX="100.0" layoutY="153.0" prefHeight="25.0" prefWidth="264.0" />
             <TableView fx:id="TClases" layoutX="456.0" layoutY="30.0" prefHeight="106.0" prefWidth="200.0">
             </TableView>
+            <Button fx:id="ButtonCancelar" layoutX="468.0" layoutY="295.0" mnemonicParsing="false" onAction="#ButtonCancelarAction" prefHeight="30.0" prefWidth="78.0" text="Cancelar" />
+            <Label fx:id="montoPromo" layoutX="381.0" layoutY="269.0" prefHeight="15.0" prefWidth="244.0" text="Monto con promocion:                               " />
          </children>
       </AnchorPane>
    </children>

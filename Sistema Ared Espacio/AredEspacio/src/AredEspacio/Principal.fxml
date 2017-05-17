@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
@@ -10,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.PrincipalController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.PrincipalController">
     <stylesheets>
         <URL value="@principal.css" />
     </stylesheets>
@@ -31,6 +37,7 @@
                <items>
                   <MenuItem fx:id="IMInscribirAlumno" mnemonicParsing="false" onAction="#IMInscribirAlumnoAction" text="Inscribir" />
                   <MenuItem fx:id="MIConsultarAlumno" mnemonicParsing="false" onAction="#MIConsultarAlumnoAction" text="Consultar/Editar" />
+                  <MenuItem fx:id="BPagoMensualidad" mnemonicParsing="false" onAction="#BPagoMensualidadAction" text="Pago mensualidad" />
                </items></MenuButton>
             <MenuButton fx:id="BMaestros" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="44.0" prefWidth="157.0" text="Maestros">
               <items>

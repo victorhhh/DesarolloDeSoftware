@@ -5,19 +5,24 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
 import BaseDeDatos.Grupo;
 import BaseDeDatos.Inscripcion;
+import BaseDeDatos.Promocion;
 import JPAControllers.AlumnoJpaController;
 import JPAControllers.GrupoJpaController;
 import JPAControllers.InscripcionJpaController;
+import JPAControllers.PromocionJpaController;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -106,17 +111,35 @@ public class InscribirAlumnoController implements Initializable {
     @FXML
     private TableView<Clase> TClases;
     @FXML
+    private MenuItem c;
+    @FXML
+    private MenuItem MIConsultarClase;
+    @FXML
+    private MenuItem MIRegistrarMaestro;
+    @FXML
+    private MenuItem MIConsultarMaestro;
+    @FXML
+    private Button ButtonCancelar;
+    @FXML
+    private Label LabelMontoPromocion;
+    @FXML
+    private Label montoPromo;
+    @FXML
     private Button BModificarClases;
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("AredEspacioPU");
     static Alumno alumnoNuevo = new Alumno();
     static Inscripcion nuevaInscripcion = new Inscripcion();
+    static Promocion promocion = new Promocion();
     static List<Clase> clases;
     static boolean primeraVez;
+    static private double total;
+    private static int numeroPromocion;
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
 
     static void initRootLayout(Stage primaryStage) {
+        total = 0;
         primeraVez = true;
         try {
             InscribirAlumnoController.primaryStage = primaryStage;
@@ -130,20 +153,38 @@ public class InscribirAlumnoController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private MenuItem c;
-    @FXML
-    private MenuItem MIConsultarClase;
-    @FXML
-    private MenuItem MIRegistrarMaestro;
-    @FXML
-    private MenuItem MIConsultarMaestro;
+    
+    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        
+
+        List<Promocion> listaPromo;
+        listaPromo = promocion.buscarPromocionPorNombre("");
+        for (int i = 0; i < listaPromo.size(); i++) {
+            if (listaPromo.get(i).getTipo().equals("Inscripcion")) {
+                MenuItem menuItem = new MenuItem(listaPromo.get(i).getNombre());
+                menuItem.setId(listaPromo.get(i).getNombre());
+                BMPromocion.getItems().add(menuItem);
+                menuItem.setOnAction((ActionEvent event) -> {
+                    String promo = menuItem.getId();
+                    promocion = promocion.buscarPromocionPorNombre(promo).get(0);
+                    float descuentoPorciento = promocion.buscarPromocionPorNombre(promo).get(0).getPorcentaje();
+                    numeroPromocion = promocion.buscarPromocionPorNombre(promo).get(0).getIDPromocion();
+                    double montoNeto  = Double.parseDouble(LInscripcion.getText());
+                    total = (montoNeto/100) * (100 - descuentoPorciento);
+                    total  = Math.round(total * 100.0) / 100.0;
+                    montoPromo.setText("");
+                    montoPromo.setText("Monto con promocion: "+  Math.round(total * 100.0) / 100.0);
+                    BMPromocion.setText(promo);
+                });
+            }
+        }
 
         TableColumn<Clase, String> cNombre = new TableColumn<>("Nombre");
         TableColumn<Clase, String> cDia = new TableColumn<>("Dia");
@@ -156,7 +197,6 @@ public class InscribirAlumnoController implements Initializable {
             }
         }
         if (alumnoNuevo != null) {
-            System.out.println("Se entro");
             llenarCampos();
         }
         if (nuevaInscripcion != null) {
@@ -169,9 +209,6 @@ public class InscribirAlumnoController implements Initializable {
         editarAlumno.setOnAction((ActionEvent event) -> {
             ConsultarAlumno1Controller.initRootLayout(primaryStage);
         });
-        /*consultarAlumno.setOnAction((ActionEvent event) -> {
-            ConsultarAlumno1Controller.initRootLayout(primaryStage);
-        });*/
 
         TNombre.setOnKeyTyped((KeyEvent event) -> {
             char car = event.getCharacter().charAt(0);
@@ -237,7 +274,6 @@ public class InscribirAlumnoController implements Initializable {
         } else {
             crearAlumno();
             crearInscripcion();
-            System.out.println("alumno " + alumnoNuevo.getNombre());
             AlumnoSeleccionarClaseController.initRootLayout(primaryStage, TClases.getItems(), alumnoNuevo, nuevaInscripcion);
         }
     }
@@ -254,7 +290,7 @@ public class InscribirAlumnoController implements Initializable {
             date.setYear(DFechaDeNacimiento.getValue().getYear() - 1900);
             alumnoNuevo.setFechaNacimiento(date);
         } catch (Exception e) {
-            System.out.println("No hay fecha");
+            
         }
 
         alumnoNuevo.setDireccion(TDireccion.getText());
@@ -263,7 +299,13 @@ public class InscribirAlumnoController implements Initializable {
 
     public void crearInscripcion() {
         if (LInscripcion.getText() != null) {
-            nuevaInscripcion.setMonto(Integer.parseInt(LInscripcion.getText()));
+            if(total == 0){
+                nuevaInscripcion.setMonto(Integer.parseInt(LInscripcion.getText()));
+            }else{
+                nuevaInscripcion.setMonto((int) total);
+                nuevaInscripcion.setIDPromocionI(promocion);
+            }
+            
             nuevaInscripcion.setFechaInscripcion(new Date());
             InscripcionJpaController jpaI = new InscripcionJpaController(emf);
             nuevaInscripcion.setIDInscripcion(jpaI.getInscripcionCount() + 1);
@@ -272,7 +314,8 @@ public class InscribirAlumnoController implements Initializable {
     }
 
     public boolean validarGuardado() {
-        if (TNombre.getText().isEmpty() || TPApellido.getText().isEmpty() || TSApellido.getText().isEmpty()
+        if (TNombre.getText().isEmpty() || TPApellido.getText().isEmpty() || LInscripcion.getText().equals("0")
+                || TSApellido.getText().isEmpty()
                 || TTelefono.getText().isEmpty() || TDireccion.getText().isEmpty()
                 || LInscripcion.getText().isEmpty() || DFechaDeNacimiento.getValue() == null
                 || alumnoNuevo.getRutaImagen() == null) {
@@ -291,7 +334,7 @@ public class InscribirAlumnoController implements Initializable {
             AlumnoJpaController jpaA = new AlumnoJpaController(emf);
             GrupoJpaController jpaG = new GrupoJpaController(emf);
             InscripcionJpaController jpaI = new InscripcionJpaController(emf);
-
+            
             jpaI.create(nuevaInscripcion);
             alumnoNuevo.setIDAlumno(jpaA.getAlumnoCount() + 1);
             alumnoNuevo.setIDInscripcionA(nuevaInscripcion);
@@ -318,6 +361,7 @@ public class InscribirAlumnoController implements Initializable {
             dialogoAlerta.initStyle(StageStyle.UTILITY);
             dialogoAlerta.showAndWait();
         }
+        total = 0;
 
     }
 
@@ -330,7 +374,7 @@ public class InscribirAlumnoController implements Initializable {
             alumnoNuevo.setRutaImagen(src);
             PaneImagen.setImage(img);
         } catch (NullPointerException e) {
-           
+
         }
     }
 
@@ -398,5 +442,10 @@ public class InscribirAlumnoController implements Initializable {
     @FXML
     private void MIConsultarMaestroAction(ActionEvent event) {
         ConsultarMaestroController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void ButtonCancelarAction(ActionEvent event) {
+        PrincipalController.initRootLayout(primaryStage);
     }
 }
