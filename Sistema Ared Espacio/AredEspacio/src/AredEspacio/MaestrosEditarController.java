@@ -5,8 +5,13 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
+import BaseDeDatos.Clase;
 import BaseDeDatos.Maestro;
 import JPAControllers.MaestroJpaController;
+import static AredEspacio.ConsultarMaestroConfirmarController.primaryStage;
+import static AredEspacio.PrincipalController.primaryStage;
+import static AredEspacio.RegistrarMaestroController.primaryStage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +19,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,7 +36,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -43,6 +48,7 @@ import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.StringConverter;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -59,7 +65,9 @@ public class MaestrosEditarController implements Initializable {
     @FXML
     private Button BQuitar, BGuardar, BAgregar;
     @FXML
-    private TextField TFNombre, TFCelular, TFDireccion, TFSueldo, TFPrimerApellido, TFSegundoApellido;
+    private TextField TFNombre, TFCelular, TFFechaNac, TFDireccion, TFSueldo, TFPrimerApellido, TFSegundoApellido;
+    @FXML
+    private ScrollPane SPClases;
     @FXML
     private MenuButton BAlumnos, BMaestros, BClases, BPromociones, BReportes;
     @FXML
@@ -90,27 +98,17 @@ public class MaestrosEditarController implements Initializable {
         }
     }
     @FXML
-    private MenuItem IMInscribirAlumno;
-    @FXML
-    private MenuItem IMConsultarMaestro;
-    @FXML
-    private MenuItem MIConsultarMaestros;
-    @FXML
-    private MenuItem MIRegistrarMaestro;
-    @FXML
-    private MenuItem MIRegistrarClase;
-    @FXML
-    private MenuItem MIConsultarClase;
-    @FXML
-    private Button BExaminar;
-    @FXML
     public void MIConsultarMaestrosAction(ActionEvent event) {
         ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
     @FXML
     public void MIRegistrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
+         List<Clase> cls = null;
+        
+        Maestro ma = null;
+        
+        RegistrarMaestroController.initRootLayout(primaryStage, cls, ma, true);
     }
 
     @FXML
@@ -145,6 +143,12 @@ public class MaestrosEditarController implements Initializable {
         Image img = new Image(new File(src).toURI().toString());
      IVMaestro.setImage(img);
     }
+    
+    
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
 
     @FXML
     public void BQuitarAction(ActionEvent event) {
@@ -173,7 +177,7 @@ public class MaestrosEditarController implements Initializable {
         Alert dialogoAlerta = new Alert(Alert.AlertType.CONFIRMATION);
         dialogoAlerta.setTitle("Ared Espacio");
         dialogoAlerta.setHeaderText("!Aviso¡" + " " + "!Esta apunto de modificar a" + maestroSeleccionado.getNombre());
-        dialogoAlerta.setContentText("¿Esta seguro que desea darlo de baja? ");
+        dialogoAlerta.setContentText("¿Esta seguro que desea modificarlo? ");
         dialogoAlerta.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
         
@@ -325,26 +329,6 @@ public class MaestrosEditarController implements Initializable {
                 }
             }
         });
-    }
-
-    @FXML
-    private void IMInscribirAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void IMConsultarMaestroAction(ActionEvent event) {
-        ConsultarMaestroController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIRegistrarClaseAction(ActionEvent event) {
-        RegistrarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarClaseAction(ActionEvent event) {
-        ConsultarClaseController.initRootLayout(primaryStage);
     }
 
 }

@@ -154,6 +154,10 @@ public class RegistrarPagoAlumnoController implements Initializable {
     @FXML
     private void BClasesAction(ActionEvent event) {
     }
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
 
     @FXML
     private void BPromocionesAction(ActionEvent event) {

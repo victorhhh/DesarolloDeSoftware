@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Promocion;
 import JPAControllers.PromocionJpaController;
 import java.io.IOException;
@@ -158,6 +159,11 @@ public class ModificarPromocionController implements Initializable {
         ConsultarPromocionController.initRootLayout(primaryStage);
     }
 
+    
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
     @FXML
     void AccionGuardar(ActionEvent event) {
         if (!TFNombrePromocion.getText().isEmpty() && !TADescripcion.getText().isEmpty() && CBTipo.getValue() != null) {

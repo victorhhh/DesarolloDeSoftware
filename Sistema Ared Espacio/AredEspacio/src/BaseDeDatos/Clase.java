@@ -6,7 +6,6 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -28,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "clase")
@@ -40,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Clase.findByNombre", query = "SELECT c FROM Clase c WHERE c.nombre = :nombre")
     , @NamedQuery(name = "Clase.findByEstado", query = "SELECT c FROM Clase c WHERE c.estado = :estado")
     , @NamedQuery(name = "Clase.findByDia", query = "SELECT c FROM Clase c WHERE c.dia = :dia")
-    , @NamedQuery(name = "Clase.findByHora", query = "SELECT c FROM Clase c WHERE c.hora = :hora")})
+    , @NamedQuery(name = "Clase.findByHora", query = "SELECT c FROM Clase c WHERE c.hora = :hora")
+    , @NamedQuery(name = "Clase.findByCosto", query = "SELECT c FROM Clase c WHERE c.costo = :costo")})
 public class Clase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,16 +61,16 @@ public class Clase implements Serializable {
     @Basic(optional = false)
     @Column(name = "hora")
     private String hora;
+    @Basic(optional = false)
+    @Column(name = "costo")
+    private double costo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDClaseAsis")
-    private Collection<Asistencia> asistenciaCollection;
+    private List<Asistencia> asistenciaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDClaseG")
-    private Collection<Grupo> grupoCollection;
+    private List<Grupo> grupoList;
     @JoinColumn(name = "IDMaestroC", referencedColumnName = "IDMaestro")
     @ManyToOne
     private Maestro iDMaestroC;
-
-    public Clase() {
-    }
 
     public List<Clase> buscarClasesPorNombre(String nombre) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
@@ -95,17 +95,20 @@ public class Clase implements Serializable {
         List<Clase> resultList = em.createNamedQuery("Clase.findByIDClase").setParameter("iDClase", iDClase).getResultList();
         return resultList;
     }
+    public Clase() {
+    }
 
     public Clase(Integer iDClase) {
         this.iDClase = iDClase;
     }
 
-    public Clase(Integer iDClase, String nombre, boolean estado, String dia, String hora) {
+    public Clase(Integer iDClase, String nombre, boolean estado, String dia, String hora, double costo) {
         this.iDClase = iDClase;
         this.nombre = nombre;
         this.estado = estado;
         this.dia = dia;
         this.hora = hora;
+        this.costo = costo;
     }
 
     public Integer getIDClase() {
@@ -148,22 +151,30 @@ public class Clase implements Serializable {
         this.hora = hora;
     }
 
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
     @XmlTransient
-    public Collection<Asistencia> getAsistenciaCollection() {
-        return asistenciaCollection;
+    public List<Asistencia> getAsistenciaList() {
+        return asistenciaList;
     }
 
-    public void setAsistenciaCollection(Collection<Asistencia> asistenciaCollection) {
-        this.asistenciaCollection = asistenciaCollection;
+    public void setAsistenciaList(List<Asistencia> asistenciaList) {
+        this.asistenciaList = asistenciaList;
     }
 
     @XmlTransient
-    public Collection<Grupo> getGrupoCollection() {
-        return grupoCollection;
+    public List<Grupo> getGrupoList() {
+        return grupoList;
     }
 
-    public void setGrupoCollection(Collection<Grupo> grupoCollection) {
-        this.grupoCollection = grupoCollection;
+    public void setGrupoList(List<Grupo> grupoList) {
+        this.grupoList = grupoList;
     }
 
     public Maestro getIDMaestroC() {
@@ -198,5 +209,5 @@ public class Clase implements Serializable {
     public String toString() {
         return "BaseDeDatos.Clase[ iDClase=" + iDClase + " ]";
     }
-
+    
 }

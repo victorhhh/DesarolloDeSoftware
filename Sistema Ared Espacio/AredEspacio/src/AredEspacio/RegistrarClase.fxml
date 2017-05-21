@@ -25,31 +25,31 @@
             <Image url="@../../../Ared%20Espacio%20Logo.png" />
          </image>
       </ImageView>
-      <MenuButton fx:id="BAlumnos" layoutX="632.0" layoutY="106.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+      <MenuButton fx:id="BAlumnos" layoutX="632.0" layoutY="106.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BMaestros" layoutX="632.0" layoutY="164.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+      <MenuButton fx:id="BMaestros" layoutX="632.0" layoutY="164.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BClases" layoutX="632.0" layoutY="222.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+      <MenuButton fx:id="BClases" layoutX="632.0" layoutY="222.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases" visible="false">
         <items>
           <MenuItem fx:id="MIModificar" mnemonicParsing="false" onAction="#AccionModificarClase" text="Modificar" />
           <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#AccionConsultarClases" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BPromociones" layoutX="632.0" layoutY="277.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+      <MenuButton fx:id="BPromociones" layoutX="632.0" layoutY="277.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Crear" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BReportes" layoutX="632.0" layoutY="335.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+      <MenuButton fx:id="BReportes" layoutX="632.0" layoutY="335.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -61,10 +61,13 @@
       <ComboBox fx:id="CBDia" layoutX="217.0" layoutY="135.0" prefHeight="35.0" prefWidth="145.0" />
       <Button fx:id="BAgregar" layoutX="144.0" layoutY="347.0" mnemonicParsing="false" onAction="#AccionAgregar" prefHeight="35.0" prefWidth="145.0" text="Agregar" />
       <Button fx:id="BGuardar" layoutX="434.0" layoutY="349.0" mnemonicParsing="false" onAction="#AccionGuardar" prefHeight="35.0" prefWidth="145.0" text="Guardar" />
-      <Label layoutX="52.0" layoutY="214.0" prefHeight="8.0" prefWidth="75.0" text="Hora de Inicio" />
+      <Label layoutX="53.0" layoutY="243.0" prefHeight="8.0" prefWidth="75.0" text="Hora de Inicio" />
       <Label layoutX="59.0" layoutY="291.0" text="Hora de Fin" />
-      <ListView fx:id="LVClases" layoutX="400.0" layoutY="106.0" prefHeight="200.0" prefWidth="200.0" />
-      <JFXTimePicker fx:id="TPHoraInicio" defaultColor="#ad0000" editable="true" layoutX="197.0" layoutY="208.0" />
+      <ListView fx:id="LVClases" layoutX="434.0" layoutY="114.0" prefHeight="200.0" prefWidth="200.0" />
+      <JFXTimePicker fx:id="TPHoraInicio" defaultColor="#ad0000" editable="true" layoutX="197.0" layoutY="237.0" />
       <JFXTimePicker fx:id="TPHoraFin" defaultColor="#ae0000" layoutX="197.0" layoutY="277.0" />
+      <Button layoutX="687.0" layoutY="287.0" mnemonicParsing="false" onAction="#BRegresarAction" text="Regresar" />
+      <Label layoutX="53.0" layoutY="185.0" text="Costo" />
+      <TextField fx:id="TFCosto" layoutX="91.0" layoutY="181.0" prefHeight="28.0" prefWidth="149.0" />
    </children>
 </AnchorPane>

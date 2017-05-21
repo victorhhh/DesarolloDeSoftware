@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import static AredEspacio.InscribirAlumnoController.promocion;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Grupo;
@@ -182,7 +183,6 @@ public class RegistrarPagoAlumno2Controller implements Initializable {
                     } else {
 
                         String promo = menuItem.getId();
-                        System.out.println("asdasdsa" + promo);
                         promocion = promocion.buscarPromocionPorNombre(promo).get(0);
                         float descuentoPorciento = promocion.buscarPromocionPorNombre(promo).get(0).getPorcentaje();
                         numeroPromocion = promocion.buscarPromocionPorNombre(promo).get(0).getIDPromocion();
@@ -231,6 +231,10 @@ public class RegistrarPagoAlumno2Controller implements Initializable {
 
     @FXML
     private void MIConsultarMaestroAction(ActionEvent event) {
+    }
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
     @FXML

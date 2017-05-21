@@ -38,6 +38,7 @@
                   <MenuItem fx:id="IMInscribirAlumno" mnemonicParsing="false" onAction="#IMInscribirAlumnoAction" text="Inscribir" />
                   <MenuItem fx:id="MIConsultarAlumno" mnemonicParsing="false" onAction="#MIConsultarAlumnoAction" text="Consultar/Editar" />
                   <MenuItem fx:id="BPagoMensualidad" mnemonicParsing="false" onAction="#BPagoMensualidadAction" text="Pago mensualidad" />
+                  <MenuItem fx:id="MIPaseLista" mnemonicParsing="false" onAction="#paseListaAction" text="Pase de lista" />
                </items></MenuButton>
             <MenuButton fx:id="BMaestros" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="44.0" prefWidth="157.0" text="Maestros">
               <items>

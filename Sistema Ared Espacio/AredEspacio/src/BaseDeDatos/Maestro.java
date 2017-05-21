@@ -6,7 +6,6 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -29,14 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "maestro")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Maestro.findAll", query = "SELECT m FROM Maestro m")
-    , @NamedQuery(name = "Maestro.findByName", query = "SELECT m FROM Maestro m WHERE m.nombre LIKE :nombre")
     , @NamedQuery(name = "Maestro.findByIDMaestro", query = "SELECT m FROM Maestro m WHERE m.iDMaestro = :iDMaestro")
     , @NamedQuery(name = "Maestro.findByNombre", query = "SELECT m FROM Maestro m WHERE m.nombre = :nombre")
     , @NamedQuery(name = "Maestro.findByPrimerApellido", query = "SELECT m FROM Maestro m WHERE m.primerApellido = :primerApellido")
@@ -83,14 +81,11 @@ public class Maestro implements Serializable {
     @Column(name = "rutaImagen")
     private String rutaImagen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDMaestroPE")
-    private Collection<Pagoegreso> pagoegresoCollection;
+    private List<Pagoegreso> pagoegresoList;
     @OneToMany(mappedBy = "iDMaestroC")
-    private Collection<Clase> claseCollection;
+    private List<Clase> claseList;
 
-    public Maestro() {
-    }
-    
-    public List<Maestro> buscarMaestroPorNombre(String nombre){
+     public List<Maestro> buscarMaestroPorNombre(String nombre){
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU",null).createEntityManager();
         List<Maestro> resultList = em.createNamedQuery("Maestro.findByName").setParameter("nombre", "%"+nombre+"%").getResultList();   
         return resultList;
@@ -102,7 +97,9 @@ public class Maestro implements Serializable {
         List<Maestro> resultList = em.createNamedQuery("Maestro.findAll").getResultList();   
         return resultList;
     }
-    
+    public Maestro() {
+    }
+
     public Maestro(Integer iDMaestro) {
         this.iDMaestro = iDMaestro;
     }
@@ -200,21 +197,21 @@ public class Maestro implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Pagoegreso> getPagoegresoCollection() {
-        return pagoegresoCollection;
+    public List<Pagoegreso> getPagoegresoList() {
+        return pagoegresoList;
     }
 
-    public void setPagoegresoCollection(Collection<Pagoegreso> pagoegresoCollection) {
-        this.pagoegresoCollection = pagoegresoCollection;
+    public void setPagoegresoList(List<Pagoegreso> pagoegresoList) {
+        this.pagoegresoList = pagoegresoList;
     }
 
     @XmlTransient
-    public Collection<Clase> getClaseCollection() {
-        return claseCollection;
+    public List<Clase> getClaseList() {
+        return claseList;
     }
 
-    public void setClaseCollection(Collection<Clase> claseCollection) {
-        this.claseCollection = claseCollection;
+    public void setClaseList(List<Clase> claseList) {
+        this.claseList = claseList;
     }
 
     @Override

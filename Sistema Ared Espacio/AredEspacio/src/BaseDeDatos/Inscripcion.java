@@ -6,7 +6,6 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "inscripcion")
@@ -59,18 +58,17 @@ public class Inscripcion implements Serializable {
     @ManyToOne
     private Promocion iDPromocionI;
     @OneToMany(mappedBy = "iDInscripcionA")
-    private Collection<Alumno> alumnoCollection;
+    private List<Alumno> alumnoList;
 
     public Inscripcion() {
     }
 
-    public List<Inscripcion> buscarInscripcionPorID(int IDInscripcion) {
+     public List<Inscripcion> buscarInscripcionPorID(int IDInscripcion) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
         List<Inscripcion> resultList = em.createNamedQuery("Inscripcion.findByIDInscripcion").setParameter("nombre",  + IDInscripcion ).getResultList();
         return resultList;
     }
 
-    
     public Inscripcion(Integer iDInscripcion) {
         this.iDInscripcion = iDInscripcion;
     }
@@ -114,12 +112,12 @@ public class Inscripcion implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Alumno> getAlumnoCollection() {
-        return alumnoCollection;
+    public List<Alumno> getAlumnoList() {
+        return alumnoList;
     }
 
-    public void setAlumnoCollection(Collection<Alumno> alumnoCollection) {
-        this.alumnoCollection = alumnoCollection;
+    public void setAlumnoList(List<Alumno> alumnoList) {
+        this.alumnoList = alumnoList;
     }
 
     @Override

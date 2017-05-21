@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Clase;
 import JPAControllers.ClaseJpaController;
 import java.io.IOException;
@@ -49,8 +50,9 @@ public class RegistrarClaseController implements Initializable {
     JFXTimePicker TPHoraFin;
     @FXML
     MenuButton BAlumnos, BMaestros, BClases, BPromociones, BReportes;
+    MenuItem MIRegistar;
     @FXML
-    MenuItem MIRegistar, MIConsultar;
+            MenuItem MIConsultar;
     @FXML
     Button BGuardar, BAgregar;
     @FXML
@@ -66,6 +68,10 @@ public class RegistrarClaseController implements Initializable {
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
+    @FXML
+    private MenuItem MIModificar;
+    @FXML
+    private TextField TFCosto;
 
     public static class LDia {
 
@@ -113,6 +119,7 @@ public class RegistrarClaseController implements Initializable {
         }
     }
 
+    @FXML
     public void AccionAgregar(ActionEvent evento) {
         if (!TFNombre.getText().isEmpty() && CBDia.getValue() != null && (TPHoraInicio.getValue() != null && TPHoraFin.getValue() != null)) {
             if (comprobacion.horarioPrudente(TPHoraInicio, TPHoraFin) == false) {
@@ -281,11 +288,14 @@ public class RegistrarClaseController implements Initializable {
 
     }
 
+    @FXML
     public void AccionGuardar(ActionEvent evento) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);
         String h = TPHoraInicio.getValue().toString().concat("-").concat(TPHoraFin.getValue().toString());
         Clase clase = new Clase();
+        double c=Double.parseDouble(TFCosto.getText());
+        clase.setCosto(c);
         clase.setDia(CBDia.getValue().toString());
         clase.setEstado(true);
         clase.setHora(h);
@@ -307,10 +317,12 @@ public class RegistrarClaseController implements Initializable {
         }
     }
 
+    @FXML
     public void AccionConsultarClases(ActionEvent evento) {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
+    @FXML
     public void AccionModificarClase(ActionEvent evento) {
         Alert dialogoAlerta = new Alert(Alert.AlertType.WARNING);
         dialogoAlerta.setTitle("Ared Espacio");
@@ -318,6 +330,10 @@ public class RegistrarClaseController implements Initializable {
         dialogoAlerta.setContentText("Debes consultar una clase antes de modificarla");
         dialogoAlerta.initStyle(StageStyle.UTILITY);
         dialogoAlerta.showAndWait();
+    }
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
    
@@ -358,7 +374,18 @@ public class RegistrarClaseController implements Initializable {
                 }
             }
         });
-
+        TFCosto.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                int car = event.getCharacter().charAt(0);
+                if (Character.isLetter(car)) {
+                    event.consume();
+                }
+                if (TFCosto.getText().length() > 5) {
+                    event.consume();
+                }
+            }
+        });
     }
 
 }

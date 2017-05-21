@@ -6,8 +6,8 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "mensualidad")
@@ -53,7 +53,7 @@ public class Mensualidad implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
     @OneToMany(mappedBy = "iDMensualidadA")
-    private Collection<Alumno> alumnoCollection;
+    private List<Alumno> alumnoList;
     @JoinColumn(name = "IDPromocionM", referencedColumnName = "IDPromocion")
     @ManyToOne
     private Promocion iDPromocionM;
@@ -96,12 +96,12 @@ public class Mensualidad implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Alumno> getAlumnoCollection() {
-        return alumnoCollection;
+    public List<Alumno> getAlumnoList() {
+        return alumnoList;
     }
 
-    public void setAlumnoCollection(Collection<Alumno> alumnoCollection) {
-        this.alumnoCollection = alumnoCollection;
+    public void setAlumnoList(List<Alumno> alumnoList) {
+        this.alumnoList = alumnoList;
     }
 
     public Promocion getIDPromocionM() {

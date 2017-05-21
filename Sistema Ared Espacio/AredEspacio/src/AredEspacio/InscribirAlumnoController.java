@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.AlumnoSeleccionarClaseController.primaryStage;
 import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
@@ -161,7 +162,7 @@ public class InscribirAlumnoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         
 
         List<Promocion> listaPromo;
@@ -249,6 +250,11 @@ public class InscribirAlumnoController implements Initializable {
 
     @FXML
     private void BAlumnosAction(ActionEvent event) {
+    }
+    
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
     @FXML

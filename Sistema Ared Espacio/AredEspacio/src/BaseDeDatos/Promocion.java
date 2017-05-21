@@ -6,7 +6,6 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -25,13 +24,13 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "promocion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Promocion.findAll", query = "SELECT p FROM Promocion p")
+    @NamedQuery(name = "Promocion.findAll", query = "SELECT p FROM Promocion p") 
     ,@NamedQuery(name = "Promocion.containsNombre", query = "SELECT p FROM Promocion p WHERE p.nombre LIKE :nombre")     
     , @NamedQuery(name = "Promocion.findByIDPromocion", query = "SELECT p FROM Promocion p WHERE p.iDPromocion = :iDPromocion")
     , @NamedQuery(name = "Promocion.findByNombre", query = "SELECT p FROM Promocion p WHERE p.nombre = :nombre")
@@ -59,14 +58,11 @@ public class Promocion implements Serializable {
     @Column(name = "porcentaje")
     private float porcentaje;
     @OneToMany(mappedBy = "iDPromocionI")
-    private Collection<Inscripcion> inscripcionCollection;
+    private List<Inscripcion> inscripcionList;
     @OneToMany(mappedBy = "iDPromocionM")
-    private Collection<Mensualidad> mensualidadCollection;
+    private List<Mensualidad> mensualidadList;
 
-    public Promocion() {
-    }
-
-    public List<Promocion> buscarPromocionPorNombre(String nombre) {
+     public List<Promocion> buscarPromocionPorNombre(String nombre) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
         List<Promocion> resultList = em.createNamedQuery("Promocion.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
         return resultList;
@@ -77,7 +73,9 @@ public class Promocion implements Serializable {
         return resultList;
     }
 
-    
+    public Promocion() {
+    }
+
     public Promocion(Integer iDPromocion) {
         this.iDPromocion = iDPromocion;
     }
@@ -131,21 +129,21 @@ public class Promocion implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Inscripcion> getInscripcionCollection() {
-        return inscripcionCollection;
+    public List<Inscripcion> getInscripcionList() {
+        return inscripcionList;
     }
 
-    public void setInscripcionCollection(Collection<Inscripcion> inscripcionCollection) {
-        this.inscripcionCollection = inscripcionCollection;
+    public void setInscripcionList(List<Inscripcion> inscripcionList) {
+        this.inscripcionList = inscripcionList;
     }
 
     @XmlTransient
-    public Collection<Mensualidad> getMensualidadCollection() {
-        return mensualidadCollection;
+    public List<Mensualidad> getMensualidadList() {
+        return mensualidadList;
     }
 
-    public void setMensualidadCollection(Collection<Mensualidad> mensualidadCollection) {
-        this.mensualidadCollection = mensualidadCollection;
+    public void setMensualidadList(List<Mensualidad> mensualidadList) {
+        this.mensualidadList = mensualidadList;
     }
 
     @Override

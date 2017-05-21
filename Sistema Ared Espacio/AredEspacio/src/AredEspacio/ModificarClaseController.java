@@ -34,6 +34,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
 
@@ -44,14 +46,14 @@ import javafx.stage.StageStyle;
  */
 public class ModificarClaseController implements Initializable {
 
-    @FXML
     ListView LVClases;
     @FXML
     TextField TFNombreProfesor;
     @FXML
     ComboBox CBDia;
+    MenuButton BAlumnos;
     @FXML
-    MenuButton BAlumnos, BMaestros, BClases, bPromociones, BReportes;
+    MenuButton BMaestros, BClases, bPromociones, BReportes;
     @FXML
     Button BGuardar, BRegresar;
     @FXML
@@ -61,6 +63,16 @@ public class ModificarClaseController implements Initializable {
     @FXML
     JFXTimePicker TPHoraFin;
     Comprobacion comprobacion = new Comprobacion();
+    @FXML
+    private ImageView ivLogo;
+    @FXML
+    private MenuItem MIRegistrar;
+    @FXML
+    private MenuItem MIConsultar;
+    @FXML
+    private MenuButton BPromociones;
+    @FXML
+    private TextField TFCosto;
 
     public static class LDia {
 
@@ -112,7 +124,12 @@ public class ModificarClaseController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
 
+    @FXML
     public void AccionGuardar(ActionEvent evento) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);
@@ -307,14 +324,17 @@ public class ModificarClaseController implements Initializable {
         return true;
     }
 
+    @FXML
     public void AccionRegresar(ActionEvent evento) {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
+    @FXML
     public void AccionConsultarClase(ActionEvent evento) {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
+    @FXML
     public void AccionRegistrarClase(ActionEvent evento) {
         RegistrarClaseController.initRootLayout(primaryStage);
     }
@@ -338,6 +358,8 @@ public class ModificarClaseController implements Initializable {
             CBDia.setItems(listaDias);
            TFNombreProfesor.setText(" ");
            TFNombreProfesor.setEditable(false);
+           String cos=String.valueOf(c1.getCosto());
+            TFCosto.setText(cos);
             if (c1.getEstado() == true) {
                 TFEstado.setText("Activa");
                 TFEstado.setEditable(false);
@@ -361,6 +383,8 @@ public class ModificarClaseController implements Initializable {
             TPHoraInicio.setValue(LocalTime.parse(horaArray[0]));
             TPHoraFin.setValue(LocalTime.parse(horaArray[1]));
             CBDia.setItems(listaDias);
+            String cos=String.valueOf(c1.getCosto());
+            TFCosto.setText(cos);
             if (c1.getEstado() == true) {
                 TFEstado.setText("Activa");
                 TFEstado.setEditable(false);
@@ -368,6 +392,7 @@ public class ModificarClaseController implements Initializable {
                 TFEstado.setText("Inactiva");
                 TFEstado.setEditable(false);
             }
+            
         }
         TFNombreClase.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
@@ -382,6 +407,18 @@ public class ModificarClaseController implements Initializable {
             }
         });
 
+        TFCosto.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                int car = event.getCharacter().charAt(0);
+                if (Character.isLetter(car)) {
+                    event.consume();
+                }
+                if (TFCosto.getText().length() > 4) {
+                    event.consume();
+                }
+            }
+        });
     }
 
 }

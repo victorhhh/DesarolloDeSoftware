@@ -6,8 +6,11 @@
 package AredEspacio;
 
 import static AredEspacio.EditarAlumnoController.primaryStage;
+import BaseDeDatos.Clase;
+import BaseDeDatos.Maestro;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,17 +57,22 @@ public class PrincipalController implements Initializable {
     private MenuItem MIConsultarPromociones;
     @FXML
     private MenuItem BPagoMensualidad;
-
     @FXML
+    private MenuItem MIPaseLista;
+
+   @FXML
     public void MIConsultarAction(ActionEvent event) {
         ConsultarMaestroController.initRootLayout(primaryStage);
     }
 
     @FXML
     public void MIRegistrarAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
+        List<Clase> cls = null;
+        
+        Maestro ma = null;
+        
+        RegistrarMaestroController.initRootLayout(primaryStage, cls, ma, true);
     }
-
     @FXML
     public void BAlumnosAction(ActionEvent event) {
 
@@ -112,6 +120,7 @@ public class PrincipalController implements Initializable {
             e.printStackTrace();
         }
     }
+    
 
     @FXML
     private void IMInscribirAlumnoAction(ActionEvent event) {
@@ -136,7 +145,7 @@ public class PrincipalController implements Initializable {
     @FXML
    
         void MICrearReporteAction(ActionEvent event) {
-        MostrarHorarioController.initRootLayout(primaryStage);
+        ReportesController.initRootLayout(primaryStage);
     }
     
     @FXML
@@ -155,5 +164,10 @@ public class PrincipalController implements Initializable {
     @FXML
     private void BPagoMensualidadAction(ActionEvent event) {
         RegistrarPagoAlumnoController.initRootLayout(primaryStage);
+    }
+
+    @FXML
+    private void paseListaAction(ActionEvent event) {
+        PaseDeListaController.initRootLayout(primaryStage);
     }
 }

@@ -24,17 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "grupo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")
-    , @NamedQuery(name = "Grupo.findByIDAlumno", query = "SELECT g FROM Grupo g WHERE g.iDAlumnoG.iDAlumno = :IDAlumnoG")
-    , @NamedQuery(name = "Grupo.findByIDClase", query = "SELECT g FROM Grupo g WHERE g.iDClaseG.iDClase = :IDClase")
     , @NamedQuery(name = "Grupo.findByIDGrupo", query = "SELECT g FROM Grupo g WHERE g.iDGrupo = :iDGrupo")})
-
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,9 +46,6 @@ public class Grupo implements Serializable {
     @JoinColumn(name = "IDClaseG", referencedColumnName = "IDClase")
     @ManyToOne(optional = false)
     private Clase iDClaseG;
-
-    public Grupo() {
-    }
 
      public List<Grupo> buscarGruposPorIDClase() {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
@@ -71,7 +65,9 @@ public class Grupo implements Serializable {
         List<Clase> resultList = em.createNamedQuery("Grupo.findByIDClase").setParameter("IDClase",  IDClase).getResultList();
         return resultList;
     }
-    
+    public Grupo() {
+    }
+
     public Grupo(Integer iDGrupo) {
         this.iDGrupo = iDGrupo;
     }

@@ -6,7 +6,6 @@
 package BaseDeDatos;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -31,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 @Entity
 @Table(name = "alumno")
@@ -81,9 +80,9 @@ public class Alumno implements Serializable {
     @Column(name = "rutaImagen")
     private String rutaImagen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDAlumnoAsis")
-    private Collection<Asistencia> asistenciaCollection;
+    private List<Asistencia> asistenciaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "iDAlumnoG")
-    private Collection<Grupo> grupoCollection;
+    private List<Grupo> grupoList;
     @JoinColumn(name = "IDInscripcionA", referencedColumnName = "IDInscripcion")
     @ManyToOne
     private Inscripcion iDInscripcionA;
@@ -91,16 +90,15 @@ public class Alumno implements Serializable {
     @ManyToOne
     private Mensualidad iDMensualidadA;
 
-    public Alumno() {
-    }
     
     public List<Alumno> buscarAlumnosPorNombre(String nombre) {
         EntityManager em = Persistence.createEntityManagerFactory("AredEspacioPU", null).createEntityManager();
         List<Alumno> resultList = em.createNamedQuery("Alumno.containsNombre").setParameter("nombre", "%" + nombre + "%").getResultList();
         return resultList;
     }
-
-
+    
+    public Alumno() {
+    }
 
     public Alumno(Integer iDAlumno) {
         this.iDAlumno = iDAlumno;
@@ -190,21 +188,21 @@ public class Alumno implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Asistencia> getAsistenciaCollection() {
-        return asistenciaCollection;
+    public List<Asistencia> getAsistenciaList() {
+        return asistenciaList;
     }
 
-    public void setAsistenciaCollection(Collection<Asistencia> asistenciaCollection) {
-        this.asistenciaCollection = asistenciaCollection;
+    public void setAsistenciaList(List<Asistencia> asistenciaList) {
+        this.asistenciaList = asistenciaList;
     }
 
     @XmlTransient
-    public Collection<Grupo> getGrupoCollection() {
-        return grupoCollection;
+    public List<Grupo> getGrupoList() {
+        return grupoList;
     }
 
-    public void setGrupoCollection(Collection<Grupo> grupoCollection) {
-        this.grupoCollection = grupoCollection;
+    public void setGrupoList(List<Grupo> grupoList) {
+        this.grupoList = grupoList;
     }
 
     public Inscripcion getIDInscripcionA() {

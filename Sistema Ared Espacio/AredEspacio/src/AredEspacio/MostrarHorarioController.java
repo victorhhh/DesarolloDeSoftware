@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package AredEspacio;
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Clase;
 import BaseDeDatos.Maestro;
 import java.io.IOException;
@@ -74,6 +75,10 @@ public class MostrarHorarioController implements Initializable {
     @FXML
     void AccionLimpiar(ActionEvent event) {
         TVHorario.getItems().clear();
+    }
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
     @FXML

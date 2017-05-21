@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.MostrarHorarioController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.MostrarHorarioController">
     <children>
       <ImageView fitHeight="91.0" fitWidth="161.0" layoutX="648.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -26,30 +26,30 @@
       </Label>
       <Label layoutX="14.0" layoutY="74.0" prefHeight="35.0" prefWidth="120.0" text="Nombre de maestro" />
       <Button fx:id="BConsultar" layoutX="15.0" layoutY="173.0" mnemonicParsing="false" onAction="#AccionConsultar" prefHeight="35.0" prefWidth="145.0" text="Consultar" />
-      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases" visible="false">
         <items>
           <MenuItem fx:id="MIRegistrar" mnemonicParsing="false" onAction="#AccionRegistrarClase" text="Registrar" />
           <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#AccionConsultarClase" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Consultar Promocion" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -67,5 +67,6 @@
          </columnResizePolicy>
       </TableView>
       <Button fx:id="BLimpiar" layoutX="332.0" layoutY="353.0" mnemonicParsing="false" onAction="#AccionLimpiar" prefHeight="35.0" prefWidth="145.0" text="Limpiar" />
+      <Button layoutX="685.0" layoutY="283.0" mnemonicParsing="false" onAction="#BRegresarAction" text="Regresar" />
    </children>
 </AnchorPane>
