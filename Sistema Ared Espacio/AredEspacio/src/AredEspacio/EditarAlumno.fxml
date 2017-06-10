@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.EditarAlumnoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.EditarAlumnoController">
    <children>
       <AnchorPane layoutX="670.0" layoutY="55.0" prefHeight="345.0" prefWidth="130.0">
          <children>
-            <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos">
+            <MenuButton fx:id="BAlumnos" layoutX="9.0" layoutY="41.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="50.0" prefWidth="109.0" text="Alumnos" visible="false">
             </MenuButton>
-            <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases">
+            <MenuButton fx:id="BClases" layoutX="9.0" layoutY="141.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="50.0" prefWidth="109.0" text="Clases" visible="false">
               <items>
                 <MenuItem fx:id="MIRegistrarClase" mnemonicParsing="false" onAction="#MIRegistrarClaseAction" text="Registrar" />
                 <MenuItem fx:id="MIConsultarClase" mnemonicParsing="false" onAction="#MIConsultarClaseAction" text="Consultar" />
               </items>
             </MenuButton>
-            <MenuButton fx:id="BPromociones" layoutX="9.0" layoutY="191.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="50.0" prefWidth="109.0" text="Promiciones">
+            <MenuButton fx:id="BPromociones" layoutX="9.0" layoutY="191.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="50.0" prefWidth="109.0" text="Promiciones" visible="false">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
             </MenuButton>
-            <MenuButton fx:id="BReportes" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="109.0" text="Reportes">
+            <MenuButton fx:id="BReportes" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="109.0" text="Reportes" visible="false">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
             </MenuButton>
-            <MenuButton fx:id="BMaestros" layoutX="9.0" layoutY="91.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="50.0" prefWidth="109.0" text="Maestros">
+            <MenuButton fx:id="BMaestros" layoutX="9.0" layoutY="91.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="50.0" prefWidth="109.0" text="Maestros" visible="false">
               <items>
                 <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar" />
                 <MenuItem fx:id="MIConsultarMaestro" mnemonicParsing="false" onAction="#MIConsultarMaestroAction" text="Consultar" />
               </items>
             </MenuButton>
+            <Button layoutX="37.0" layoutY="252.0" mnemonicParsing="false" onAction="#BRegresarAction" text="Regresar" />
          </children></AnchorPane>
       <AnchorPane layoutX="172.0" prefHeight="57.0" prefWidth="600.0" AnchorPane.bottomAnchor="343.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

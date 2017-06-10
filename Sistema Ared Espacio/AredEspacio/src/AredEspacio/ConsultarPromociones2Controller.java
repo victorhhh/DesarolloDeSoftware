@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Promocion;
 import java.io.IOException;
 import java.net.URL;
@@ -78,6 +79,10 @@ public class ConsultarPromociones2Controller implements Initializable {
     /**
      * Initializes the controller class.
      */
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Float porc=promo.getPorcentaje();

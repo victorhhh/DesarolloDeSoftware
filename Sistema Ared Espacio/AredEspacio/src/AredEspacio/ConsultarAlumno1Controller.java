@@ -95,6 +95,10 @@ public class ConsultarAlumno1Controller implements Initializable {
      * @param url
      * @param rb
      */
+    @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //BOpcionesAlumno.setDisable(true);

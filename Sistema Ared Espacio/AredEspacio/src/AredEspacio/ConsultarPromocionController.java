@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Promocion;
 import java.io.IOException;
 import java.net.URL;
@@ -72,6 +73,11 @@ public class ConsultarPromocionController implements Initializable {
             e.printStackTrace();
         }
     }
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
     @FXML
     void AccionBuscar(ActionEvent event) {
        Promocion pr = new Promocion();

@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Clase;
 import BaseDeDatos.Grupo;
 import BaseDeDatos.Maestro;
@@ -42,8 +43,9 @@ public class ConsultarClase2Controller implements Initializable {
 
     @FXML
     MenuItem MIRegistrar, MIConsultar;
+    MenuButton BAlumnos;
     @FXML
-    MenuButton BAlumnos, BMaestros, BClases, bPromociones, BReportes;
+    MenuButton BMaestros, BClases, bPromociones, BReportes;
     @FXML
     Button BBaja, BModificar;
     @FXML
@@ -70,7 +72,19 @@ public class ConsultarClase2Controller implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private MenuButton BPromociones;
+    @FXML
+    private Button BRegresar;
+    @FXML
+    private Label LCosto;
 
+    @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
+    @FXML
     public void AccionBaja(ActionEvent evento) {
         //DarDeBajaClaseController.initRootLayout(primaryStage, c1);
 
@@ -109,16 +123,19 @@ public class ConsultarClase2Controller implements Initializable {
         }
     }
 
+    @FXML
     public void AccionModificar(ActionEvent evento) {
 
         ModificarClaseController.initRootLayout(primaryStage, c1);
 
     }
 
+    @FXML
     public void AccionConsultarClase(ActionEvent evento) {
         ConsultarClaseController.initRootLayout(primaryStage);
     }
 
+    @FXML
     public void AccionRegistrarClase(ActionEvent evento) {
         RegistrarClaseController.initRootLayout(primaryStage);
     }
@@ -149,7 +166,8 @@ public class ConsultarClase2Controller implements Initializable {
                 }
             }
             LNumeroAlumnos.setText(" " + nA);
-
+            String cos=String.valueOf(c1.getCosto());
+            LCosto.setText(cos);
             if (c1.getEstado() == true) {
                 LEstado.setText("Activa");
 
@@ -182,6 +200,8 @@ public class ConsultarClase2Controller implements Initializable {
                     nA++;
                 }
             }
+            String cos=String.valueOf(c1.getCosto());
+            LCosto.setText(cos);
             LNumeroAlumnos.setText(" " + nA);
             if (c1.getEstado() == true) {
                 LEstado.setText("Activa");

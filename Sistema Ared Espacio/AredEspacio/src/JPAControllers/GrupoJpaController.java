@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 public class GrupoJpaController implements Serializable {
 
@@ -50,11 +50,11 @@ public class GrupoJpaController implements Serializable {
             }
             em.persist(grupo);
             if (IDAlumnoG != null) {
-                IDAlumnoG.getGrupoCollection().add(grupo);
+                IDAlumnoG.getGrupoList().add(grupo);
                 IDAlumnoG = em.merge(IDAlumnoG);
             }
             if (IDClaseG != null) {
-                IDClaseG.getGrupoCollection().add(grupo);
+                IDClaseG.getGrupoList().add(grupo);
                 IDClaseG = em.merge(IDClaseG);
             }
             em.getTransaction().commit();
@@ -85,19 +85,19 @@ public class GrupoJpaController implements Serializable {
             }
             grupo = em.merge(grupo);
             if (IDAlumnoGOld != null && !IDAlumnoGOld.equals(IDAlumnoGNew)) {
-                IDAlumnoGOld.getGrupoCollection().remove(grupo);
+                IDAlumnoGOld.getGrupoList().remove(grupo);
                 IDAlumnoGOld = em.merge(IDAlumnoGOld);
             }
             if (IDAlumnoGNew != null && !IDAlumnoGNew.equals(IDAlumnoGOld)) {
-                IDAlumnoGNew.getGrupoCollection().add(grupo);
+                IDAlumnoGNew.getGrupoList().add(grupo);
                 IDAlumnoGNew = em.merge(IDAlumnoGNew);
             }
             if (IDClaseGOld != null && !IDClaseGOld.equals(IDClaseGNew)) {
-                IDClaseGOld.getGrupoCollection().remove(grupo);
+                IDClaseGOld.getGrupoList().remove(grupo);
                 IDClaseGOld = em.merge(IDClaseGOld);
             }
             if (IDClaseGNew != null && !IDClaseGNew.equals(IDClaseGOld)) {
-                IDClaseGNew.getGrupoCollection().add(grupo);
+                IDClaseGNew.getGrupoList().add(grupo);
                 IDClaseGNew = em.merge(IDClaseGNew);
             }
             em.getTransaction().commit();
@@ -131,12 +131,12 @@ public class GrupoJpaController implements Serializable {
             }
             Alumno IDAlumnoG = grupo.getIDAlumnoG();
             if (IDAlumnoG != null) {
-                IDAlumnoG.getGrupoCollection().remove(grupo);
+                IDAlumnoG.getGrupoList().remove(grupo);
                 IDAlumnoG = em.merge(IDAlumnoG);
             }
             Clase IDClaseG = grupo.getIDClaseG();
             if (IDClaseG != null) {
-                IDClaseG.getGrupoCollection().remove(grupo);
+                IDClaseG.getGrupoList().remove(grupo);
                 IDClaseG = em.merge(IDClaseG);
             }
             em.remove(grupo);

@@ -1,115 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarMaestroConfirmarController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AredEspacio.ConsultarMaestroConfirmarController">
     <stylesheets>
         <URL value="@consultarmaestroconfirmar.css" />
     </stylesheets>
-    <children>
-        <AnchorPane layoutX="670.0" layoutY="86.0" prefHeight="314.0" prefWidth="133.0">
-            <children>
-                <MenuButton fx:id="BAlumnos" layoutX="-3.0" layoutY="2.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="56.0" prefWidth="133.0" text="Alumnos">
-                    <items>
-                        <MenuItem fx:id="MIInscribirAlumno" mnemonicParsing="false" onAction="#MIInscribirAlumnoAction" text="Inscribir" />
-                        <MenuItem fx:id="MIConsultarAlumno" mnemonicParsing="false" onAction="#MIConsultarAlumnoAction" text="Consultar/Editar" />
-                    </items>
-                </MenuButton>
-                <MenuButton fx:id="BMaestros" layoutX="-3.0" layoutY="58.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="56.0" prefWidth="133.0" text="Maestros">
-                    <items>
-                        <MenuItem fx:id="MIConsultarMaestro" mnemonicParsing="false" onAction="#MIConsultarMaestroAction" text="Consultar maestro" />
-                        <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar maestro" />
-                    </items>
-                </MenuButton>
-                <MenuButton fx:id="BClases" layoutX="-3.0" layoutY="114.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="62.0" prefWidth="133.0" text="Clases">
-                    <items>
-                        <MenuItem fx:id="MIRegistrarClase" mnemonicParsing="false" onAction="#MIRegistrarClaseAction" text="Registrar" />
-                        <MenuItem fx:id="MIConsultarClase" mnemonicParsing="false" onAction="#MIConsultarClaseAction" text="Consultar" />
-                    </items>
-                </MenuButton>
-                <MenuButton fx:id="BPromociones" layoutX="-3.0" layoutY="176.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="56.0" prefWidth="133.0" text="Promociones">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                </MenuButton>
-                <MenuButton fx:id="BReportes" layoutX="-3.0" layoutY="232.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="133.0" text="Reportes">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                </MenuButton>
-            </children>
-        </AnchorPane>
-        <AnchorPane layoutX="4.0" layoutY="87.0" prefHeight="308.0" prefWidth="667.0">
-            <children>
-                <Label layoutX="225.0" layoutY="47.0" text="Nombre:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label fx:id="LProfesor" layoutX="304.0" layoutY="47.0" text="Rodrigo Ruiz Salmoran" />
-                <Button fx:id="BEditar" layoutX="596.0" layoutY="267.0" mnemonicParsing="false" onAction="#BEditarAction" text="Editar" />
-                <Button fx:id="BBaja" layoutX="515.0" layoutY="267.0" mnemonicParsing="false" onAction="#BBajaAction" text="Baja" />
-                <Label layoutX="228.0" layoutY="80.0" text="Celular:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label fx:id="LFechaNac" layoutX="304.0" layoutY="111.0" text="Label" />
-                <Label layoutX="187.0" layoutY="111.0" text="Fecha de nac.:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label fx:id="LCelular" layoutX="304.0" layoutY="80.0" text="Label" />
-                <Label layoutX="221.0" layoutY="147.0" text="Dirección:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label fx:id="LDireccion" layoutX="304.0" layoutY="146.0" text="Label" />
-                <Label layoutX="235.0" layoutY="181.0" text="Clases:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label layoutX="497.0" layoutY="39.0" text="Sueldo:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label layoutX="571.0" layoutY="39.0" text="Label" />
-                <ListView fx:id="LVClases" layoutX="304.0" layoutY="188.0" prefHeight="103.0" prefWidth="193.0" />
-                <ImageView fx:id="IVMaestro" fitHeight="150.0" fitWidth="155.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
-                <Label layoutX="501.0" layoutY="63.0" text="Estado:">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
-                </Label>
-                <Label fx:id="LEstado" layoutX="571.0" layoutY="63.0" text="Label" />
-            </children>
-        </AnchorPane>
-        <AnchorPane layoutX="3.0" prefHeight="86.0" prefWidth="800.0">
-            <children>
-                <Label layoutX="97.0" layoutY="26.0" text="Consultar maestro">
-                    <font>
-                        <Font name="System Bold" size="29.0" />
-                    </font>
-                </Label>
-                <ImageView fitHeight="86.0" fitWidth="139.0" layoutX="664.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../Imagenes/Logo_AredEspacio.png" />
-                    </image>
-                </ImageView>
-            </children>
-        </AnchorPane>
-    </children>
+   <children>
+      <AnchorPane layoutX="670.0" layoutY="86.0" prefHeight="314.0" prefWidth="133.0">
+         <children>
+            <MenuButton fx:id="BAlumnos" layoutX="-3.0" layoutY="2.0" mnemonicParsing="false" onAction="#BAlumnosAction" prefHeight="56.0" prefWidth="133.0" text="Alumnos" visible="false">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BMaestros" layoutX="-3.0" layoutY="58.0" mnemonicParsing="false" onAction="#BMaestrosAction" prefHeight="56.0" prefWidth="133.0" text="Maestros" visible="false">
+              <items>
+                <MenuItem fx:id="MIConsultarMaestro" mnemonicParsing="false" onAction="#MIConsultarMaestroAction" text="Consultar maestro" />
+                <MenuItem fx:id="MIRegistrarMaestro" mnemonicParsing="false" onAction="#MIRegistrarMaestroAction" text="Registrar maestro" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BClases" layoutX="-3.0" layoutY="114.0" mnemonicParsing="false" onAction="#BClasesAction" prefHeight="62.0" prefWidth="133.0" text="Clases" visible="false">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BPromociones" layoutX="-3.0" layoutY="176.0" mnemonicParsing="false" onAction="#BPromocionesAction" prefHeight="56.0" prefWidth="133.0" text="Promociones" visible="false">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <MenuButton fx:id="BReportes" layoutX="-3.0" layoutY="232.0" mnemonicParsing="false" onAction="#BReportesAction" prefHeight="50.0" prefWidth="133.0" text="Reportes" visible="false">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <Button layoutX="36.0" layoutY="244.0" mnemonicParsing="false" onAction="#BRegresarAction" text="Regresar" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="4.0" layoutY="87.0" prefHeight="308.0" prefWidth="667.0">
+         <children>
+            <Label layoutX="225.0" layoutY="47.0" text="Nombre:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="LProfesor" layoutX="304.0" layoutY="47.0" text="Rodrigo Ruiz Salmoran" />
+            <Button fx:id="BEditar" layoutX="596.0" layoutY="267.0" mnemonicParsing="false" onAction="#BEditarAction" text="Editar" />
+            <Button fx:id="BBaja" layoutX="515.0" layoutY="267.0" mnemonicParsing="false" onAction="#BBajaAction" text="Baja" />
+            <Label layoutX="228.0" layoutY="80.0" text="Celular:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="LFechaNac" layoutX="304.0" layoutY="111.0" text="Label" />
+            <Label layoutX="187.0" layoutY="111.0" text="Fecha de nac.:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="LCelular" layoutX="304.0" layoutY="80.0" text="Label" />
+            <Label layoutX="221.0" layoutY="147.0" text="Dirección:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="LDireccion" layoutX="304.0" layoutY="146.0" text="Label" />
+            <Label layoutX="235.0" layoutY="181.0" text="Clases:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label layoutX="462.0" layoutY="43.0" text="Sueldo:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+            <Label fx:id="LSueldo" layoutX="536.0" layoutY="43.0" text="Label" />
+            <ImageView fx:id="IVMaestro" fitHeight="150.0" fitWidth="155.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="466.0" layoutY="67.0" text="Estado:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="LEstado" layoutX="536.0" layoutY="67.0" text="Label" />
+            <TableView fx:id="TVClases" layoutX="285.0" layoutY="180.0" prefHeight="120.0" prefWidth="200.0" />
+            <Button fx:id="BAsignar" layoutX="579.0" layoutY="42.0" mnemonicParsing="false" onAction="#AsignarAction" text="Asignar" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="3.0" prefHeight="86.0" prefWidth="800.0">
+         <children>
+            <Label layoutX="97.0" layoutY="26.0" text="Consultar maestro">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="86.0" fitWidth="139.0" layoutX="664.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../17198058_10208141553439863_1862740370_n.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

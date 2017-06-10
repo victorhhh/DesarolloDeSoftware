@@ -80,6 +80,7 @@ public class AlumnoSeleccionarClaseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
         MenuItem editarAlumno = new MenuItem("Consultar/Editar");
         BAlumnos.getItems().addAll(editarAlumno);
 
@@ -196,7 +197,6 @@ public class AlumnoSeleccionarClaseController implements Initializable {
     @FXML
     private void BOpcionesAlumnoAction(ActionEvent event) {
         List<Clase> clasesAgregar = TClasesAgregadas.getItems();
-        System.out.println("se va " + alumnoNuevo.getNombre());
         InscribirAlumnoController.initRootLayout(primaryStage, clasesAgregar, alumnoNuevo);
     }
 

@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 public class AsistenciaJpaController implements Serializable {
 
@@ -50,11 +50,11 @@ public class AsistenciaJpaController implements Serializable {
             }
             em.persist(asistencia);
             if (IDAlumnoAsis != null) {
-                IDAlumnoAsis.getAsistenciaCollection().add(asistencia);
+                IDAlumnoAsis.getAsistenciaList().add(asistencia);
                 IDAlumnoAsis = em.merge(IDAlumnoAsis);
             }
             if (IDClaseAsis != null) {
-                IDClaseAsis.getAsistenciaCollection().add(asistencia);
+                IDClaseAsis.getAsistenciaList().add(asistencia);
                 IDClaseAsis = em.merge(IDClaseAsis);
             }
             em.getTransaction().commit();
@@ -85,19 +85,19 @@ public class AsistenciaJpaController implements Serializable {
             }
             asistencia = em.merge(asistencia);
             if (IDAlumnoAsisOld != null && !IDAlumnoAsisOld.equals(IDAlumnoAsisNew)) {
-                IDAlumnoAsisOld.getAsistenciaCollection().remove(asistencia);
+                IDAlumnoAsisOld.getAsistenciaList().remove(asistencia);
                 IDAlumnoAsisOld = em.merge(IDAlumnoAsisOld);
             }
             if (IDAlumnoAsisNew != null && !IDAlumnoAsisNew.equals(IDAlumnoAsisOld)) {
-                IDAlumnoAsisNew.getAsistenciaCollection().add(asistencia);
+                IDAlumnoAsisNew.getAsistenciaList().add(asistencia);
                 IDAlumnoAsisNew = em.merge(IDAlumnoAsisNew);
             }
             if (IDClaseAsisOld != null && !IDClaseAsisOld.equals(IDClaseAsisNew)) {
-                IDClaseAsisOld.getAsistenciaCollection().remove(asistencia);
+                IDClaseAsisOld.getAsistenciaList().remove(asistencia);
                 IDClaseAsisOld = em.merge(IDClaseAsisOld);
             }
             if (IDClaseAsisNew != null && !IDClaseAsisNew.equals(IDClaseAsisOld)) {
-                IDClaseAsisNew.getAsistenciaCollection().add(asistencia);
+                IDClaseAsisNew.getAsistenciaList().add(asistencia);
                 IDClaseAsisNew = em.merge(IDClaseAsisNew);
             }
             em.getTransaction().commit();
@@ -131,12 +131,12 @@ public class AsistenciaJpaController implements Serializable {
             }
             Alumno IDAlumnoAsis = asistencia.getIDAlumnoAsis();
             if (IDAlumnoAsis != null) {
-                IDAlumnoAsis.getAsistenciaCollection().remove(asistencia);
+                IDAlumnoAsis.getAsistenciaList().remove(asistencia);
                 IDAlumnoAsis = em.merge(IDAlumnoAsis);
             }
             Clase IDClaseAsis = asistencia.getIDClaseAsis();
             if (IDClaseAsis != null) {
-                IDClaseAsis.getAsistenciaCollection().remove(asistencia);
+                IDClaseAsis.getAsistenciaList().remove(asistencia);
                 IDClaseAsis = em.merge(IDClaseAsis);
             }
             em.remove(asistencia);

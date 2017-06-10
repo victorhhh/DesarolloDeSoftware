@@ -15,17 +15,16 @@ import BaseDeDatos.Inscripcion;
 import BaseDeDatos.Mensualidad;
 import BaseDeDatos.Asistencia;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import BaseDeDatos.Grupo;
 import JPAControllers.exceptions.IllegalOrphanException;
 import JPAControllers.exceptions.NonexistentEntityException;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 public class AlumnoJpaController implements Serializable {
 
@@ -39,11 +38,11 @@ public class AlumnoJpaController implements Serializable {
     }
 
     public void create(Alumno alumno) {
-        if (alumno.getAsistenciaCollection() == null) {
-            alumno.setAsistenciaCollection(new ArrayList<Asistencia>());
+        if (alumno.getAsistenciaList() == null) {
+            alumno.setAsistenciaList(new ArrayList<Asistencia>());
         }
-        if (alumno.getGrupoCollection() == null) {
-            alumno.setGrupoCollection(new ArrayList<Grupo>());
+        if (alumno.getGrupoList() == null) {
+            alumno.setGrupoList(new ArrayList<Grupo>());
         }
         EntityManager em = null;
         try {
@@ -59,43 +58,43 @@ public class AlumnoJpaController implements Serializable {
                 IDMensualidadA = em.getReference(IDMensualidadA.getClass(), IDMensualidadA.getIDMensualidad());
                 alumno.setIDMensualidadA(IDMensualidadA);
             }
-            Collection<Asistencia> attachedAsistenciaCollection = new ArrayList<Asistencia>();
-            for (Asistencia asistenciaCollectionAsistenciaToAttach : alumno.getAsistenciaCollection()) {
-                asistenciaCollectionAsistenciaToAttach = em.getReference(asistenciaCollectionAsistenciaToAttach.getClass(), asistenciaCollectionAsistenciaToAttach.getIDAsistencia());
-                attachedAsistenciaCollection.add(asistenciaCollectionAsistenciaToAttach);
+            List<Asistencia> attachedAsistenciaList = new ArrayList<Asistencia>();
+            for (Asistencia asistenciaListAsistenciaToAttach : alumno.getAsistenciaList()) {
+                asistenciaListAsistenciaToAttach = em.getReference(asistenciaListAsistenciaToAttach.getClass(), asistenciaListAsistenciaToAttach.getIDAsistencia());
+                attachedAsistenciaList.add(asistenciaListAsistenciaToAttach);
             }
-            alumno.setAsistenciaCollection(attachedAsistenciaCollection);
-            Collection<Grupo> attachedGrupoCollection = new ArrayList<Grupo>();
-            for (Grupo grupoCollectionGrupoToAttach : alumno.getGrupoCollection()) {
-                grupoCollectionGrupoToAttach = em.getReference(grupoCollectionGrupoToAttach.getClass(), grupoCollectionGrupoToAttach.getIDGrupo());
-                attachedGrupoCollection.add(grupoCollectionGrupoToAttach);
+            alumno.setAsistenciaList(attachedAsistenciaList);
+            List<Grupo> attachedGrupoList = new ArrayList<Grupo>();
+            for (Grupo grupoListGrupoToAttach : alumno.getGrupoList()) {
+                grupoListGrupoToAttach = em.getReference(grupoListGrupoToAttach.getClass(), grupoListGrupoToAttach.getIDGrupo());
+                attachedGrupoList.add(grupoListGrupoToAttach);
             }
-            alumno.setGrupoCollection(attachedGrupoCollection);
+            alumno.setGrupoList(attachedGrupoList);
             em.persist(alumno);
             if (IDInscripcionA != null) {
-                IDInscripcionA.getAlumnoCollection().add(alumno);
+                IDInscripcionA.getAlumnoList().add(alumno);
                 IDInscripcionA = em.merge(IDInscripcionA);
             }
             if (IDMensualidadA != null) {
-                IDMensualidadA.getAlumnoCollection().add(alumno);
+                IDMensualidadA.getAlumnoList().add(alumno);
                 IDMensualidadA = em.merge(IDMensualidadA);
             }
-            for (Asistencia asistenciaCollectionAsistencia : alumno.getAsistenciaCollection()) {
-                Alumno oldIDAlumnoAsisOfAsistenciaCollectionAsistencia = asistenciaCollectionAsistencia.getIDAlumnoAsis();
-                asistenciaCollectionAsistencia.setIDAlumnoAsis(alumno);
-                asistenciaCollectionAsistencia = em.merge(asistenciaCollectionAsistencia);
-                if (oldIDAlumnoAsisOfAsistenciaCollectionAsistencia != null) {
-                    oldIDAlumnoAsisOfAsistenciaCollectionAsistencia.getAsistenciaCollection().remove(asistenciaCollectionAsistencia);
-                    oldIDAlumnoAsisOfAsistenciaCollectionAsistencia = em.merge(oldIDAlumnoAsisOfAsistenciaCollectionAsistencia);
+            for (Asistencia asistenciaListAsistencia : alumno.getAsistenciaList()) {
+                Alumno oldIDAlumnoAsisOfAsistenciaListAsistencia = asistenciaListAsistencia.getIDAlumnoAsis();
+                asistenciaListAsistencia.setIDAlumnoAsis(alumno);
+                asistenciaListAsistencia = em.merge(asistenciaListAsistencia);
+                if (oldIDAlumnoAsisOfAsistenciaListAsistencia != null) {
+                    oldIDAlumnoAsisOfAsistenciaListAsistencia.getAsistenciaList().remove(asistenciaListAsistencia);
+                    oldIDAlumnoAsisOfAsistenciaListAsistencia = em.merge(oldIDAlumnoAsisOfAsistenciaListAsistencia);
                 }
             }
-            for (Grupo grupoCollectionGrupo : alumno.getGrupoCollection()) {
-                Alumno oldIDAlumnoGOfGrupoCollectionGrupo = grupoCollectionGrupo.getIDAlumnoG();
-                grupoCollectionGrupo.setIDAlumnoG(alumno);
-                grupoCollectionGrupo = em.merge(grupoCollectionGrupo);
-                if (oldIDAlumnoGOfGrupoCollectionGrupo != null) {
-                    oldIDAlumnoGOfGrupoCollectionGrupo.getGrupoCollection().remove(grupoCollectionGrupo);
-                    oldIDAlumnoGOfGrupoCollectionGrupo = em.merge(oldIDAlumnoGOfGrupoCollectionGrupo);
+            for (Grupo grupoListGrupo : alumno.getGrupoList()) {
+                Alumno oldIDAlumnoGOfGrupoListGrupo = grupoListGrupo.getIDAlumnoG();
+                grupoListGrupo.setIDAlumnoG(alumno);
+                grupoListGrupo = em.merge(grupoListGrupo);
+                if (oldIDAlumnoGOfGrupoListGrupo != null) {
+                    oldIDAlumnoGOfGrupoListGrupo.getGrupoList().remove(grupoListGrupo);
+                    oldIDAlumnoGOfGrupoListGrupo = em.merge(oldIDAlumnoGOfGrupoListGrupo);
                 }
             }
             em.getTransaction().commit();
@@ -116,25 +115,25 @@ public class AlumnoJpaController implements Serializable {
             Inscripcion IDInscripcionANew = alumno.getIDInscripcionA();
             Mensualidad IDMensualidadAOld = persistentAlumno.getIDMensualidadA();
             Mensualidad IDMensualidadANew = alumno.getIDMensualidadA();
-            Collection<Asistencia> asistenciaCollectionOld = persistentAlumno.getAsistenciaCollection();
-            Collection<Asistencia> asistenciaCollectionNew = alumno.getAsistenciaCollection();
-            Collection<Grupo> grupoCollectionOld = persistentAlumno.getGrupoCollection();
-            Collection<Grupo> grupoCollectionNew = alumno.getGrupoCollection();
+            List<Asistencia> asistenciaListOld = persistentAlumno.getAsistenciaList();
+            List<Asistencia> asistenciaListNew = alumno.getAsistenciaList();
+            List<Grupo> grupoListOld = persistentAlumno.getGrupoList();
+            List<Grupo> grupoListNew = alumno.getGrupoList();
             List<String> illegalOrphanMessages = null;
-            for (Asistencia asistenciaCollectionOldAsistencia : asistenciaCollectionOld) {
-                if (!asistenciaCollectionNew.contains(asistenciaCollectionOldAsistencia)) {
+            for (Asistencia asistenciaListOldAsistencia : asistenciaListOld) {
+                if (!asistenciaListNew.contains(asistenciaListOldAsistencia)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Asistencia " + asistenciaCollectionOldAsistencia + " since its IDAlumnoAsis field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Asistencia " + asistenciaListOldAsistencia + " since its IDAlumnoAsis field is not nullable.");
                 }
             }
-            for (Grupo grupoCollectionOldGrupo : grupoCollectionOld) {
-                if (!grupoCollectionNew.contains(grupoCollectionOldGrupo)) {
+            for (Grupo grupoListOldGrupo : grupoListOld) {
+                if (!grupoListNew.contains(grupoListOldGrupo)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Grupo " + grupoCollectionOldGrupo + " since its IDAlumnoG field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Grupo " + grupoListOldGrupo + " since its IDAlumnoG field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -148,56 +147,56 @@ public class AlumnoJpaController implements Serializable {
                 IDMensualidadANew = em.getReference(IDMensualidadANew.getClass(), IDMensualidadANew.getIDMensualidad());
                 alumno.setIDMensualidadA(IDMensualidadANew);
             }
-            Collection<Asistencia> attachedAsistenciaCollectionNew = new ArrayList<Asistencia>();
-            for (Asistencia asistenciaCollectionNewAsistenciaToAttach : asistenciaCollectionNew) {
-                asistenciaCollectionNewAsistenciaToAttach = em.getReference(asistenciaCollectionNewAsistenciaToAttach.getClass(), asistenciaCollectionNewAsistenciaToAttach.getIDAsistencia());
-                attachedAsistenciaCollectionNew.add(asistenciaCollectionNewAsistenciaToAttach);
+            List<Asistencia> attachedAsistenciaListNew = new ArrayList<Asistencia>();
+            for (Asistencia asistenciaListNewAsistenciaToAttach : asistenciaListNew) {
+                asistenciaListNewAsistenciaToAttach = em.getReference(asistenciaListNewAsistenciaToAttach.getClass(), asistenciaListNewAsistenciaToAttach.getIDAsistencia());
+                attachedAsistenciaListNew.add(asistenciaListNewAsistenciaToAttach);
             }
-            asistenciaCollectionNew = attachedAsistenciaCollectionNew;
-            alumno.setAsistenciaCollection(asistenciaCollectionNew);
-            Collection<Grupo> attachedGrupoCollectionNew = new ArrayList<Grupo>();
-            for (Grupo grupoCollectionNewGrupoToAttach : grupoCollectionNew) {
-                grupoCollectionNewGrupoToAttach = em.getReference(grupoCollectionNewGrupoToAttach.getClass(), grupoCollectionNewGrupoToAttach.getIDGrupo());
-                attachedGrupoCollectionNew.add(grupoCollectionNewGrupoToAttach);
+            asistenciaListNew = attachedAsistenciaListNew;
+            alumno.setAsistenciaList(asistenciaListNew);
+            List<Grupo> attachedGrupoListNew = new ArrayList<Grupo>();
+            for (Grupo grupoListNewGrupoToAttach : grupoListNew) {
+                grupoListNewGrupoToAttach = em.getReference(grupoListNewGrupoToAttach.getClass(), grupoListNewGrupoToAttach.getIDGrupo());
+                attachedGrupoListNew.add(grupoListNewGrupoToAttach);
             }
-            grupoCollectionNew = attachedGrupoCollectionNew;
-            alumno.setGrupoCollection(grupoCollectionNew);
+            grupoListNew = attachedGrupoListNew;
+            alumno.setGrupoList(grupoListNew);
             alumno = em.merge(alumno);
             if (IDInscripcionAOld != null && !IDInscripcionAOld.equals(IDInscripcionANew)) {
-                IDInscripcionAOld.getAlumnoCollection().remove(alumno);
+                IDInscripcionAOld.getAlumnoList().remove(alumno);
                 IDInscripcionAOld = em.merge(IDInscripcionAOld);
             }
             if (IDInscripcionANew != null && !IDInscripcionANew.equals(IDInscripcionAOld)) {
-                IDInscripcionANew.getAlumnoCollection().add(alumno);
+                IDInscripcionANew.getAlumnoList().add(alumno);
                 IDInscripcionANew = em.merge(IDInscripcionANew);
             }
             if (IDMensualidadAOld != null && !IDMensualidadAOld.equals(IDMensualidadANew)) {
-                IDMensualidadAOld.getAlumnoCollection().remove(alumno);
+                IDMensualidadAOld.getAlumnoList().remove(alumno);
                 IDMensualidadAOld = em.merge(IDMensualidadAOld);
             }
             if (IDMensualidadANew != null && !IDMensualidadANew.equals(IDMensualidadAOld)) {
-                IDMensualidadANew.getAlumnoCollection().add(alumno);
+                IDMensualidadANew.getAlumnoList().add(alumno);
                 IDMensualidadANew = em.merge(IDMensualidadANew);
             }
-            for (Asistencia asistenciaCollectionNewAsistencia : asistenciaCollectionNew) {
-                if (!asistenciaCollectionOld.contains(asistenciaCollectionNewAsistencia)) {
-                    Alumno oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia = asistenciaCollectionNewAsistencia.getIDAlumnoAsis();
-                    asistenciaCollectionNewAsistencia.setIDAlumnoAsis(alumno);
-                    asistenciaCollectionNewAsistencia = em.merge(asistenciaCollectionNewAsistencia);
-                    if (oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia != null && !oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia.equals(alumno)) {
-                        oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia.getAsistenciaCollection().remove(asistenciaCollectionNewAsistencia);
-                        oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia = em.merge(oldIDAlumnoAsisOfAsistenciaCollectionNewAsistencia);
+            for (Asistencia asistenciaListNewAsistencia : asistenciaListNew) {
+                if (!asistenciaListOld.contains(asistenciaListNewAsistencia)) {
+                    Alumno oldIDAlumnoAsisOfAsistenciaListNewAsistencia = asistenciaListNewAsistencia.getIDAlumnoAsis();
+                    asistenciaListNewAsistencia.setIDAlumnoAsis(alumno);
+                    asistenciaListNewAsistencia = em.merge(asistenciaListNewAsistencia);
+                    if (oldIDAlumnoAsisOfAsistenciaListNewAsistencia != null && !oldIDAlumnoAsisOfAsistenciaListNewAsistencia.equals(alumno)) {
+                        oldIDAlumnoAsisOfAsistenciaListNewAsistencia.getAsistenciaList().remove(asistenciaListNewAsistencia);
+                        oldIDAlumnoAsisOfAsistenciaListNewAsistencia = em.merge(oldIDAlumnoAsisOfAsistenciaListNewAsistencia);
                     }
                 }
             }
-            for (Grupo grupoCollectionNewGrupo : grupoCollectionNew) {
-                if (!grupoCollectionOld.contains(grupoCollectionNewGrupo)) {
-                    Alumno oldIDAlumnoGOfGrupoCollectionNewGrupo = grupoCollectionNewGrupo.getIDAlumnoG();
-                    grupoCollectionNewGrupo.setIDAlumnoG(alumno);
-                    grupoCollectionNewGrupo = em.merge(grupoCollectionNewGrupo);
-                    if (oldIDAlumnoGOfGrupoCollectionNewGrupo != null && !oldIDAlumnoGOfGrupoCollectionNewGrupo.equals(alumno)) {
-                        oldIDAlumnoGOfGrupoCollectionNewGrupo.getGrupoCollection().remove(grupoCollectionNewGrupo);
-                        oldIDAlumnoGOfGrupoCollectionNewGrupo = em.merge(oldIDAlumnoGOfGrupoCollectionNewGrupo);
+            for (Grupo grupoListNewGrupo : grupoListNew) {
+                if (!grupoListOld.contains(grupoListNewGrupo)) {
+                    Alumno oldIDAlumnoGOfGrupoListNewGrupo = grupoListNewGrupo.getIDAlumnoG();
+                    grupoListNewGrupo.setIDAlumnoG(alumno);
+                    grupoListNewGrupo = em.merge(grupoListNewGrupo);
+                    if (oldIDAlumnoGOfGrupoListNewGrupo != null && !oldIDAlumnoGOfGrupoListNewGrupo.equals(alumno)) {
+                        oldIDAlumnoGOfGrupoListNewGrupo.getGrupoList().remove(grupoListNewGrupo);
+                        oldIDAlumnoGOfGrupoListNewGrupo = em.merge(oldIDAlumnoGOfGrupoListNewGrupo);
                     }
                 }
             }
@@ -231,31 +230,31 @@ public class AlumnoJpaController implements Serializable {
                 throw new NonexistentEntityException("The alumno with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Asistencia> asistenciaCollectionOrphanCheck = alumno.getAsistenciaCollection();
-            for (Asistencia asistenciaCollectionOrphanCheckAsistencia : asistenciaCollectionOrphanCheck) {
+            List<Asistencia> asistenciaListOrphanCheck = alumno.getAsistenciaList();
+            for (Asistencia asistenciaListOrphanCheckAsistencia : asistenciaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the Asistencia " + asistenciaCollectionOrphanCheckAsistencia + " in its asistenciaCollection field has a non-nullable IDAlumnoAsis field.");
+                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the Asistencia " + asistenciaListOrphanCheckAsistencia + " in its asistenciaList field has a non-nullable IDAlumnoAsis field.");
             }
-            Collection<Grupo> grupoCollectionOrphanCheck = alumno.getGrupoCollection();
-            for (Grupo grupoCollectionOrphanCheckGrupo : grupoCollectionOrphanCheck) {
+            List<Grupo> grupoListOrphanCheck = alumno.getGrupoList();
+            for (Grupo grupoListOrphanCheckGrupo : grupoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the Grupo " + grupoCollectionOrphanCheckGrupo + " in its grupoCollection field has a non-nullable IDAlumnoG field.");
+                illegalOrphanMessages.add("This Alumno (" + alumno + ") cannot be destroyed since the Grupo " + grupoListOrphanCheckGrupo + " in its grupoList field has a non-nullable IDAlumnoG field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Inscripcion IDInscripcionA = alumno.getIDInscripcionA();
             if (IDInscripcionA != null) {
-                IDInscripcionA.getAlumnoCollection().remove(alumno);
+                IDInscripcionA.getAlumnoList().remove(alumno);
                 IDInscripcionA = em.merge(IDInscripcionA);
             }
             Mensualidad IDMensualidadA = alumno.getIDMensualidadA();
             if (IDMensualidadA != null) {
-                IDMensualidadA.getAlumnoCollection().remove(alumno);
+                IDMensualidadA.getAlumnoList().remove(alumno);
                 IDMensualidadA = em.merge(IDMensualidadA);
             }
             em.remove(alumno);

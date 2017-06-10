@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Alumno;
 import BaseDeDatos.Grupo;
 import BaseDeDatos.Inscripcion;
@@ -112,7 +113,12 @@ public class ConsultarAlumno2Controller implements Initializable {
     private void agregarAlumno() {
 
     }
-
+    
+    @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
     static void initRootLayout(Stage primaryStage, Alumno alumno1) {
         alumno = alumno1;
         try {
@@ -145,7 +151,7 @@ public class ConsultarAlumno2Controller implements Initializable {
         LCDireccion.setText(alumno.getDireccion());
         LCTelefono.setText(alumno.getNumeroDeCelular());
         LCFechaDeNacimiento.setText(alumno.getFechaNacimiento().getDate() + " / " + (alumno.getFechaNacimiento().getMonth() + 1) + " / " + alumno.getFechaNacimiento().getYear());
-        Grupo grupo = new Grupo();
+        /*Grupo grupo = new Grupo();
         List<Grupo> listGrupo = grupo.buscarGruposAlumno(alumno.getIDAlumno());
         LCFechaProximoPago.setText(alumno.getIDInscripcionA().getFechaInscripcion().getDate() + " / " + (alumno.getIDInscripcionA().getFechaInscripcion().getMonth() + 1) + " / "
                 + (alumno.getIDInscripcionA().getFechaInscripcion().getYear() - 100));
@@ -161,7 +167,7 @@ public class ConsultarAlumno2Controller implements Initializable {
                     System.out.println(LCClases.getText() + listGrupo.get(o).getIDClaseG().getNombre());
                 }
             }
-        }
+        }*/
     }
 
     public void desabilitarEstado(){

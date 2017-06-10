@@ -103,6 +103,13 @@ public class Mensualidad implements Serializable {
     public void setAlumnoList(List<Alumno> alumnoList) {
         this.alumnoList = alumnoList;
     }
+    
+    public String getPromocion() {
+        if (this.iDPromocionM != null)
+          return this.iDPromocionM.getNombre();
+        else
+          return "";
+    }
 
     public Promocion getIDPromocionM() {
         return iDPromocionM;

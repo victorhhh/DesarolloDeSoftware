@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Clase;
 import java.io.IOException;
 import java.net.URL;
@@ -60,6 +61,8 @@ public class DarDeBajaClaseController implements Initializable {
         }
     }
 
+     
+    
     public void AccionAceptar(ActionEvent evento) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
         ClaseJpaController controllerClases = new ClaseJpaController(entityManagerFactory);

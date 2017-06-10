@@ -12,17 +12,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import BaseDeDatos.Inscripcion;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import BaseDeDatos.Mensualidad;
 import BaseDeDatos.Promocion;
 import JPAControllers.exceptions.NonexistentEntityException;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 public class PromocionJpaController implements Serializable {
 
@@ -36,45 +35,45 @@ public class PromocionJpaController implements Serializable {
     }
 
     public void create(Promocion promocion) {
-        if (promocion.getInscripcionCollection() == null) {
-            promocion.setInscripcionCollection(new ArrayList<Inscripcion>());
+        if (promocion.getInscripcionList() == null) {
+            promocion.setInscripcionList(new ArrayList<Inscripcion>());
         }
-        if (promocion.getMensualidadCollection() == null) {
-            promocion.setMensualidadCollection(new ArrayList<Mensualidad>());
+        if (promocion.getMensualidadList() == null) {
+            promocion.setMensualidadList(new ArrayList<Mensualidad>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Inscripcion> attachedInscripcionCollection = new ArrayList<Inscripcion>();
-            for (Inscripcion inscripcionCollectionInscripcionToAttach : promocion.getInscripcionCollection()) {
-                inscripcionCollectionInscripcionToAttach = em.getReference(inscripcionCollectionInscripcionToAttach.getClass(), inscripcionCollectionInscripcionToAttach.getIDInscripcion());
-                attachedInscripcionCollection.add(inscripcionCollectionInscripcionToAttach);
+            List<Inscripcion> attachedInscripcionList = new ArrayList<Inscripcion>();
+            for (Inscripcion inscripcionListInscripcionToAttach : promocion.getInscripcionList()) {
+                inscripcionListInscripcionToAttach = em.getReference(inscripcionListInscripcionToAttach.getClass(), inscripcionListInscripcionToAttach.getIDInscripcion());
+                attachedInscripcionList.add(inscripcionListInscripcionToAttach);
             }
-            promocion.setInscripcionCollection(attachedInscripcionCollection);
-            Collection<Mensualidad> attachedMensualidadCollection = new ArrayList<Mensualidad>();
-            for (Mensualidad mensualidadCollectionMensualidadToAttach : promocion.getMensualidadCollection()) {
-                mensualidadCollectionMensualidadToAttach = em.getReference(mensualidadCollectionMensualidadToAttach.getClass(), mensualidadCollectionMensualidadToAttach.getIDMensualidad());
-                attachedMensualidadCollection.add(mensualidadCollectionMensualidadToAttach);
+            promocion.setInscripcionList(attachedInscripcionList);
+            List<Mensualidad> attachedMensualidadList = new ArrayList<Mensualidad>();
+            for (Mensualidad mensualidadListMensualidadToAttach : promocion.getMensualidadList()) {
+                mensualidadListMensualidadToAttach = em.getReference(mensualidadListMensualidadToAttach.getClass(), mensualidadListMensualidadToAttach.getIDMensualidad());
+                attachedMensualidadList.add(mensualidadListMensualidadToAttach);
             }
-            promocion.setMensualidadCollection(attachedMensualidadCollection);
+            promocion.setMensualidadList(attachedMensualidadList);
             em.persist(promocion);
-            for (Inscripcion inscripcionCollectionInscripcion : promocion.getInscripcionCollection()) {
-                Promocion oldIDPromocionIOfInscripcionCollectionInscripcion = inscripcionCollectionInscripcion.getIDPromocionI();
-                inscripcionCollectionInscripcion.setIDPromocionI(promocion);
-                inscripcionCollectionInscripcion = em.merge(inscripcionCollectionInscripcion);
-                if (oldIDPromocionIOfInscripcionCollectionInscripcion != null) {
-                    oldIDPromocionIOfInscripcionCollectionInscripcion.getInscripcionCollection().remove(inscripcionCollectionInscripcion);
-                    oldIDPromocionIOfInscripcionCollectionInscripcion = em.merge(oldIDPromocionIOfInscripcionCollectionInscripcion);
+            for (Inscripcion inscripcionListInscripcion : promocion.getInscripcionList()) {
+                Promocion oldIDPromocionIOfInscripcionListInscripcion = inscripcionListInscripcion.getIDPromocionI();
+                inscripcionListInscripcion.setIDPromocionI(promocion);
+                inscripcionListInscripcion = em.merge(inscripcionListInscripcion);
+                if (oldIDPromocionIOfInscripcionListInscripcion != null) {
+                    oldIDPromocionIOfInscripcionListInscripcion.getInscripcionList().remove(inscripcionListInscripcion);
+                    oldIDPromocionIOfInscripcionListInscripcion = em.merge(oldIDPromocionIOfInscripcionListInscripcion);
                 }
             }
-            for (Mensualidad mensualidadCollectionMensualidad : promocion.getMensualidadCollection()) {
-                Promocion oldIDPromocionMOfMensualidadCollectionMensualidad = mensualidadCollectionMensualidad.getIDPromocionM();
-                mensualidadCollectionMensualidad.setIDPromocionM(promocion);
-                mensualidadCollectionMensualidad = em.merge(mensualidadCollectionMensualidad);
-                if (oldIDPromocionMOfMensualidadCollectionMensualidad != null) {
-                    oldIDPromocionMOfMensualidadCollectionMensualidad.getMensualidadCollection().remove(mensualidadCollectionMensualidad);
-                    oldIDPromocionMOfMensualidadCollectionMensualidad = em.merge(oldIDPromocionMOfMensualidadCollectionMensualidad);
+            for (Mensualidad mensualidadListMensualidad : promocion.getMensualidadList()) {
+                Promocion oldIDPromocionMOfMensualidadListMensualidad = mensualidadListMensualidad.getIDPromocionM();
+                mensualidadListMensualidad.setIDPromocionM(promocion);
+                mensualidadListMensualidad = em.merge(mensualidadListMensualidad);
+                if (oldIDPromocionMOfMensualidadListMensualidad != null) {
+                    oldIDPromocionMOfMensualidadListMensualidad.getMensualidadList().remove(mensualidadListMensualidad);
+                    oldIDPromocionMOfMensualidadListMensualidad = em.merge(oldIDPromocionMOfMensualidadListMensualidad);
                 }
             }
             em.getTransaction().commit();
@@ -91,56 +90,56 @@ public class PromocionJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Promocion persistentPromocion = em.find(Promocion.class, promocion.getIDPromocion());
-            Collection<Inscripcion> inscripcionCollectionOld = persistentPromocion.getInscripcionCollection();
-            Collection<Inscripcion> inscripcionCollectionNew = promocion.getInscripcionCollection();
-            Collection<Mensualidad> mensualidadCollectionOld = persistentPromocion.getMensualidadCollection();
-            Collection<Mensualidad> mensualidadCollectionNew = promocion.getMensualidadCollection();
-            Collection<Inscripcion> attachedInscripcionCollectionNew = new ArrayList<Inscripcion>();
-            for (Inscripcion inscripcionCollectionNewInscripcionToAttach : inscripcionCollectionNew) {
-                inscripcionCollectionNewInscripcionToAttach = em.getReference(inscripcionCollectionNewInscripcionToAttach.getClass(), inscripcionCollectionNewInscripcionToAttach.getIDInscripcion());
-                attachedInscripcionCollectionNew.add(inscripcionCollectionNewInscripcionToAttach);
+            List<Inscripcion> inscripcionListOld = persistentPromocion.getInscripcionList();
+            List<Inscripcion> inscripcionListNew = promocion.getInscripcionList();
+            List<Mensualidad> mensualidadListOld = persistentPromocion.getMensualidadList();
+            List<Mensualidad> mensualidadListNew = promocion.getMensualidadList();
+            List<Inscripcion> attachedInscripcionListNew = new ArrayList<Inscripcion>();
+            for (Inscripcion inscripcionListNewInscripcionToAttach : inscripcionListNew) {
+                inscripcionListNewInscripcionToAttach = em.getReference(inscripcionListNewInscripcionToAttach.getClass(), inscripcionListNewInscripcionToAttach.getIDInscripcion());
+                attachedInscripcionListNew.add(inscripcionListNewInscripcionToAttach);
             }
-            inscripcionCollectionNew = attachedInscripcionCollectionNew;
-            promocion.setInscripcionCollection(inscripcionCollectionNew);
-            Collection<Mensualidad> attachedMensualidadCollectionNew = new ArrayList<Mensualidad>();
-            for (Mensualidad mensualidadCollectionNewMensualidadToAttach : mensualidadCollectionNew) {
-                mensualidadCollectionNewMensualidadToAttach = em.getReference(mensualidadCollectionNewMensualidadToAttach.getClass(), mensualidadCollectionNewMensualidadToAttach.getIDMensualidad());
-                attachedMensualidadCollectionNew.add(mensualidadCollectionNewMensualidadToAttach);
+            inscripcionListNew = attachedInscripcionListNew;
+            promocion.setInscripcionList(inscripcionListNew);
+            List<Mensualidad> attachedMensualidadListNew = new ArrayList<Mensualidad>();
+            for (Mensualidad mensualidadListNewMensualidadToAttach : mensualidadListNew) {
+                mensualidadListNewMensualidadToAttach = em.getReference(mensualidadListNewMensualidadToAttach.getClass(), mensualidadListNewMensualidadToAttach.getIDMensualidad());
+                attachedMensualidadListNew.add(mensualidadListNewMensualidadToAttach);
             }
-            mensualidadCollectionNew = attachedMensualidadCollectionNew;
-            promocion.setMensualidadCollection(mensualidadCollectionNew);
+            mensualidadListNew = attachedMensualidadListNew;
+            promocion.setMensualidadList(mensualidadListNew);
             promocion = em.merge(promocion);
-            for (Inscripcion inscripcionCollectionOldInscripcion : inscripcionCollectionOld) {
-                if (!inscripcionCollectionNew.contains(inscripcionCollectionOldInscripcion)) {
-                    inscripcionCollectionOldInscripcion.setIDPromocionI(null);
-                    inscripcionCollectionOldInscripcion = em.merge(inscripcionCollectionOldInscripcion);
+            for (Inscripcion inscripcionListOldInscripcion : inscripcionListOld) {
+                if (!inscripcionListNew.contains(inscripcionListOldInscripcion)) {
+                    inscripcionListOldInscripcion.setIDPromocionI(null);
+                    inscripcionListOldInscripcion = em.merge(inscripcionListOldInscripcion);
                 }
             }
-            for (Inscripcion inscripcionCollectionNewInscripcion : inscripcionCollectionNew) {
-                if (!inscripcionCollectionOld.contains(inscripcionCollectionNewInscripcion)) {
-                    Promocion oldIDPromocionIOfInscripcionCollectionNewInscripcion = inscripcionCollectionNewInscripcion.getIDPromocionI();
-                    inscripcionCollectionNewInscripcion.setIDPromocionI(promocion);
-                    inscripcionCollectionNewInscripcion = em.merge(inscripcionCollectionNewInscripcion);
-                    if (oldIDPromocionIOfInscripcionCollectionNewInscripcion != null && !oldIDPromocionIOfInscripcionCollectionNewInscripcion.equals(promocion)) {
-                        oldIDPromocionIOfInscripcionCollectionNewInscripcion.getInscripcionCollection().remove(inscripcionCollectionNewInscripcion);
-                        oldIDPromocionIOfInscripcionCollectionNewInscripcion = em.merge(oldIDPromocionIOfInscripcionCollectionNewInscripcion);
+            for (Inscripcion inscripcionListNewInscripcion : inscripcionListNew) {
+                if (!inscripcionListOld.contains(inscripcionListNewInscripcion)) {
+                    Promocion oldIDPromocionIOfInscripcionListNewInscripcion = inscripcionListNewInscripcion.getIDPromocionI();
+                    inscripcionListNewInscripcion.setIDPromocionI(promocion);
+                    inscripcionListNewInscripcion = em.merge(inscripcionListNewInscripcion);
+                    if (oldIDPromocionIOfInscripcionListNewInscripcion != null && !oldIDPromocionIOfInscripcionListNewInscripcion.equals(promocion)) {
+                        oldIDPromocionIOfInscripcionListNewInscripcion.getInscripcionList().remove(inscripcionListNewInscripcion);
+                        oldIDPromocionIOfInscripcionListNewInscripcion = em.merge(oldIDPromocionIOfInscripcionListNewInscripcion);
                     }
                 }
             }
-            for (Mensualidad mensualidadCollectionOldMensualidad : mensualidadCollectionOld) {
-                if (!mensualidadCollectionNew.contains(mensualidadCollectionOldMensualidad)) {
-                    mensualidadCollectionOldMensualidad.setIDPromocionM(null);
-                    mensualidadCollectionOldMensualidad = em.merge(mensualidadCollectionOldMensualidad);
+            for (Mensualidad mensualidadListOldMensualidad : mensualidadListOld) {
+                if (!mensualidadListNew.contains(mensualidadListOldMensualidad)) {
+                    mensualidadListOldMensualidad.setIDPromocionM(null);
+                    mensualidadListOldMensualidad = em.merge(mensualidadListOldMensualidad);
                 }
             }
-            for (Mensualidad mensualidadCollectionNewMensualidad : mensualidadCollectionNew) {
-                if (!mensualidadCollectionOld.contains(mensualidadCollectionNewMensualidad)) {
-                    Promocion oldIDPromocionMOfMensualidadCollectionNewMensualidad = mensualidadCollectionNewMensualidad.getIDPromocionM();
-                    mensualidadCollectionNewMensualidad.setIDPromocionM(promocion);
-                    mensualidadCollectionNewMensualidad = em.merge(mensualidadCollectionNewMensualidad);
-                    if (oldIDPromocionMOfMensualidadCollectionNewMensualidad != null && !oldIDPromocionMOfMensualidadCollectionNewMensualidad.equals(promocion)) {
-                        oldIDPromocionMOfMensualidadCollectionNewMensualidad.getMensualidadCollection().remove(mensualidadCollectionNewMensualidad);
-                        oldIDPromocionMOfMensualidadCollectionNewMensualidad = em.merge(oldIDPromocionMOfMensualidadCollectionNewMensualidad);
+            for (Mensualidad mensualidadListNewMensualidad : mensualidadListNew) {
+                if (!mensualidadListOld.contains(mensualidadListNewMensualidad)) {
+                    Promocion oldIDPromocionMOfMensualidadListNewMensualidad = mensualidadListNewMensualidad.getIDPromocionM();
+                    mensualidadListNewMensualidad.setIDPromocionM(promocion);
+                    mensualidadListNewMensualidad = em.merge(mensualidadListNewMensualidad);
+                    if (oldIDPromocionMOfMensualidadListNewMensualidad != null && !oldIDPromocionMOfMensualidadListNewMensualidad.equals(promocion)) {
+                        oldIDPromocionMOfMensualidadListNewMensualidad.getMensualidadList().remove(mensualidadListNewMensualidad);
+                        oldIDPromocionMOfMensualidadListNewMensualidad = em.merge(oldIDPromocionMOfMensualidadListNewMensualidad);
                     }
                 }
             }
@@ -173,15 +172,15 @@ public class PromocionJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The promocion with id " + id + " no longer exists.", enfe);
             }
-            Collection<Inscripcion> inscripcionCollection = promocion.getInscripcionCollection();
-            for (Inscripcion inscripcionCollectionInscripcion : inscripcionCollection) {
-                inscripcionCollectionInscripcion.setIDPromocionI(null);
-                inscripcionCollectionInscripcion = em.merge(inscripcionCollectionInscripcion);
+            List<Inscripcion> inscripcionList = promocion.getInscripcionList();
+            for (Inscripcion inscripcionListInscripcion : inscripcionList) {
+                inscripcionListInscripcion.setIDPromocionI(null);
+                inscripcionListInscripcion = em.merge(inscripcionListInscripcion);
             }
-            Collection<Mensualidad> mensualidadCollection = promocion.getMensualidadCollection();
-            for (Mensualidad mensualidadCollectionMensualidad : mensualidadCollection) {
-                mensualidadCollectionMensualidad.setIDPromocionM(null);
-                mensualidadCollectionMensualidad = em.merge(mensualidadCollectionMensualidad);
+            List<Mensualidad> mensualidadList = promocion.getMensualidadList();
+            for (Mensualidad mensualidadListMensualidad : mensualidadList) {
+                mensualidadListMensualidad.setIDPromocionM(null);
+                mensualidadListMensualidad = em.merge(mensualidadListMensualidad);
             }
             em.remove(promocion);
             em.getTransaction().commit();

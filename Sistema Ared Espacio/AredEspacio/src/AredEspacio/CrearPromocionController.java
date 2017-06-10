@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Promocion;
 import JPAControllers.PromocionJpaController;
 import java.io.IOException;
@@ -156,6 +157,11 @@ public class CrearPromocionController implements Initializable {
     @FXML
     public void AccionConsultarPromocion(ActionEvent event) {
         ConsultarPromocionController.initRootLayout(primaryStage);
+    }
+    
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
     @FXML

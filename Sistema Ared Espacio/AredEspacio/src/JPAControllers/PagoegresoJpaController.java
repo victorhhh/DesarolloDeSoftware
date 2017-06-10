@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author yoresroy
+ * @author ossiel
  */
 public class PagoegresoJpaController implements Serializable {
 
@@ -44,7 +44,7 @@ public class PagoegresoJpaController implements Serializable {
             }
             em.persist(pagoegreso);
             if (IDMaestroPE != null) {
-                IDMaestroPE.getPagoegresoCollection().add(pagoegreso);
+                IDMaestroPE.getPagoegresoList().add(pagoegreso);
                 IDMaestroPE = em.merge(IDMaestroPE);
             }
             em.getTransaction().commit();
@@ -69,11 +69,11 @@ public class PagoegresoJpaController implements Serializable {
             }
             pagoegreso = em.merge(pagoegreso);
             if (IDMaestroPEOld != null && !IDMaestroPEOld.equals(IDMaestroPENew)) {
-                IDMaestroPEOld.getPagoegresoCollection().remove(pagoegreso);
+                IDMaestroPEOld.getPagoegresoList().remove(pagoegreso);
                 IDMaestroPEOld = em.merge(IDMaestroPEOld);
             }
             if (IDMaestroPENew != null && !IDMaestroPENew.equals(IDMaestroPEOld)) {
-                IDMaestroPENew.getPagoegresoCollection().add(pagoegreso);
+                IDMaestroPENew.getPagoegresoList().add(pagoegreso);
                 IDMaestroPENew = em.merge(IDMaestroPENew);
             }
             em.getTransaction().commit();
@@ -107,7 +107,7 @@ public class PagoegresoJpaController implements Serializable {
             }
             Maestro IDMaestroPE = pagoegreso.getIDMaestroPE();
             if (IDMaestroPE != null) {
-                IDMaestroPE.getPagoegresoCollection().remove(pagoegreso);
+                IDMaestroPE.getPagoegresoList().remove(pagoegreso);
                 IDMaestroPE = em.merge(IDMaestroPE);
             }
             em.remove(pagoegreso);

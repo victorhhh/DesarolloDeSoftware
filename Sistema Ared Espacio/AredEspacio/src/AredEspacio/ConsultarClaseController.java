@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Clase;
 import java.io.IOException;
 import java.net.URL;
@@ -70,7 +71,12 @@ public class ConsultarClaseController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    
+    @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
     public void AccionBuscar(ActionEvent evento) {
         Clase clase = new Clase();
         List<Clase> listaClases = clase.buscarClasesPorNombre(TFNombreClase.getText());

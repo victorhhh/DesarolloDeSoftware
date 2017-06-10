@@ -29,31 +29,31 @@
       <Label layoutX="182.0" layoutY="283.0" prefHeight="35.0" prefWidth="145.0" text="Número de alumnos" />
       <Label layoutX="541.0" layoutY="93.0" text="Estado" />
       <Button fx:id="BModificar" layoutX="400.0" layoutY="336.0" mnemonicParsing="false" onAction="#AccionModificar" prefHeight="35.0" prefWidth="120.0" text="Modificar" />
-      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Alumnos">
+      <MenuButton fx:id="BAlumnos" layoutX="648.0" layoutY="101.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="161.0" text="Alumnos" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="161.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros">
+      <MenuButton fx:id="BMaestros" layoutX="648.0" layoutY="131.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Maestros" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Registrar" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases">
+      <MenuButton fx:id="BClases" layoutX="648.0" layoutY="225.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Clases" visible="false">
         <items>
           <MenuItem fx:id="MIRegistrar" mnemonicParsing="false" onAction="#AccionRegistrarClase" text="Registrar" />
           <MenuItem fx:id="MIConsultar" mnemonicParsing="false" onAction="#AccionConsultarClase" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones">
+      <MenuButton fx:id="BPromociones" layoutX="648.0" layoutY="284.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Promociones" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Crear" />
           <MenuItem mnemonicParsing="false" text="Consultar" />
         </items>
       </MenuButton>
-      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes">
+      <MenuButton fx:id="BReportes" layoutX="648.0" layoutY="341.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="161.0" text="Reportes" visible="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -65,5 +65,8 @@
       <Label fx:id="LDia" layoutX="332.0" layoutY="199.0" text="&quot; &quot;" />
       <Label fx:id="LHora" layoutX="326.0" layoutY="246.0" text="&quot; &quot;" />
       <Label fx:id="LNumeroAlumnos" layoutX="326.0" layoutY="292.0" text="&quot; &quot;" />
+      <Button fx:id="BRegresar" layoutX="701.0" layoutY="329.0" mnemonicParsing="false" onAction="#BRegresarAction" text="Regresar" />
+      <Label layoutX="544.0" layoutY="145.0" text="Costo" />
+      <Label fx:id="LCosto" layoutX="544.0" layoutY="169.0" text="&quot; &quot;" />
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
  */
 package AredEspacio;
 
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
 import BaseDeDatos.Alumno;
 import JPAControllers.AlumnoJpaController;
 import java.io.File;
@@ -98,6 +99,8 @@ public class EditarAlumnoController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    
     @FXML
     private TextField TPApellido;
     @FXML
@@ -200,6 +203,11 @@ public class EditarAlumnoController implements Initializable {
             dialogoAlerta.initStyle(StageStyle.UTILITY);
             dialogoAlerta.showAndWait();
         }
+    }
+    
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
     }
 
     private void crearAlumno() {

@@ -97,6 +97,12 @@ public class Pagoegreso implements Serializable {
     public void setIDMaestroPE(Maestro iDMaestroPE) {
         this.iDMaestroPE = iDMaestroPE;
     }
+    public String getMaestro() {
+        if (this.iDMaestroPE != null)
+          return this.iDMaestroPE.getNombre();
+        else
+          return "";
+    }
 
     @Override
     public int hashCode() {

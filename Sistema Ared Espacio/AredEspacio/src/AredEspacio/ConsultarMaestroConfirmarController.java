@@ -5,8 +5,15 @@
  */
 package AredEspacio;
 
+import BaseDeDatos.Clase;
+import BaseDeDatos.Grupo;
 import BaseDeDatos.Maestro;
+import JPAControllers.ClaseJpaController;
 import JPAControllers.MaestroJpaController;
+import AredEspacio.AredEspacio;
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
+import static AredEspacio.ConsultarMaestroController.primaryStage;
+import static AredEspacio.PrincipalController.primaryStage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,10 +21,14 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,13 +40,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -53,14 +65,25 @@ import javax.persistence.Persistence;
  */
 public class ConsultarMaestroConfirmarController implements Initializable {
 
+    /**
+     * Initializes the controller class.
+     */
     @FXML
-    private Button BBaja, BEditar;
+    private TextField TFBuscar;
     @FXML
-    private Label LProfesor, LCelular, LFechaNac, LDireccion, LEstado;
+    private Button BBuscar, BBaja, BEditar;
+    @FXML
+    private ScrollPane SPClases;
+    @FXML
+    private Label LProfesor, LCelular, LFechaNac, LSueldo, LDireccion, LEstado;
     @FXML
     private MenuButton BAlumnos, BMaestros, BClases, BPromociones, BReportes;
     @FXML
     private ImageView IVMaestro;
+    @FXML
+    private DatePicker DPFechaNac;
+    @FXML
+    private TableView<Clase> TVClases;
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
@@ -70,11 +93,11 @@ public class ConsultarMaestroConfirmarController implements Initializable {
         maestroSeleccionado = maestroSelected;
         try {
             ConsultarMaestroConfirmarController.primaryStage = primaryStage;
-            
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(AredEspacio.class.getResource("ConsultarMaestroConfirmar.fxml"));
             rootLayout = (AnchorPane) loader.load();
-           
+
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -82,21 +105,12 @@ public class ConsultarMaestroConfirmarController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private MenuItem MIInscribirAlumno;
-    @FXML
-    private MenuItem MIConsultarAlumno;
-    @FXML
-    private MenuItem MIConsultarMaestro;
-    @FXML
-    private MenuItem MIRegistrarMaestro;
-    @FXML
-    private MenuItem MIRegistrarClase;
-    @FXML
-    private MenuItem MIConsultarClase;
-    @FXML
-    private ListView<?> LVClases;
 
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
     @FXML
     public void MIConsultarMaestroAction(ActionEvent event) {
         ConsultarMaestroController.initRootLayout(primaryStage);
@@ -104,9 +118,20 @@ public class ConsultarMaestroConfirmarController implements Initializable {
 
     @FXML
     public void MIRegistrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
+        List<Clase> cls = null;
+
+        Maestro ma = null;
+
+        RegistrarMaestroController.initRootLayout(primaryStage, cls, ma, true);
     }
 
+    @FXML
+    public void AsignarAction(ActionEvent event) {
+        AsignarSueldoController.initRootLayout(primaryStage);
+
+    }
+
+    @FXML
     public void BBuscarAction(ActionEvent event) {
 
     }
@@ -122,10 +147,9 @@ public class ConsultarMaestroConfirmarController implements Initializable {
         dialogoAlerta.setContentText("¿Esta seguro que desea modificar su estado? ");
         dialogoAlerta.initStyle(StageStyle.UTILITY);
         java.awt.Toolkit.getDefaultToolkit().beep();
-    
+
         Optional<ButtonType> result = dialogoAlerta.showAndWait();
         if (result.get() == ButtonType.OK) {
-            
 
             if (maestroSeleccionado.getEstado() == true) {
                 maestroSeleccionado.setEstado(false);
@@ -179,14 +203,23 @@ public class ConsultarMaestroConfirmarController implements Initializable {
             }
 
         } else {
-            
+
             System.out.println("bannnnn");
         }
     }
 
     @FXML
     public void BEditarAction(ActionEvent event) {
-        MaestrosEditarController.initRootLayout(primaryStage, maestroSeleccionado);
+        List<Clase> cls = null;
+
+        // Maestro ma = TVResultado.getSelectionModel().getSelectedItem();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("AredEspacioPU", null);
+        MaestroJpaController m = new MaestroJpaController(entityManagerFactory);
+
+        Maestro tmp = new Maestro();
+        maestroSeleccionado = m.findMaestro(tmp.buscarMaestroPorNombre(LProfesor.getText()).get(0).getIDMaestro());
+        System.out.println("mori aqui " + maestroSeleccionado.getFechaNacimiento());
+        RegistrarMaestroController.initRootLayout(primaryStage, cls, maestroSeleccionado, false);
 
     }
 
@@ -217,13 +250,26 @@ public class ConsultarMaestroConfirmarController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        /*Grupo grupo = new Grupo();
+        Clase clase = new Clase();
+        List<Clase> lsClases = clase.buscarClasesPorNombreMaestro(id)
+        List<Grupo> listaDeGrupos = grupo.buscarGruposPorIDClase();
+        int nA = 0;
+        for (int i = 0; i < listaDeGrupos.size(); i++) {
+            if (true/*listaDeGrupos.get(i).getIDClaseG().getIDClase().equals(listClase.get(i).getIDClase())) {
+                nA++;
+            }
+        }
+        System.out.println("estos son los alumnos totales: "+nA);*/
+        System.out.println("sueldo: "+maestroSeleccionado.getSueldo());
+         LSueldo.setText(String.valueOf(maestroSeleccionado.getSueldo()));
         LProfesor.setText(maestroSeleccionado.getNombre());
         LCelular.setText(maestroSeleccionado.getNumeroDeTelefono());
-        LocalDate fe = maestroSeleccionado.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LFechaNac.setText(fe.toString());
-        LDireccion.setText(maestroSeleccionado.getDireccion());
+        //LocalDate fe = maestroSeleccionado.getFechaNacimiento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LFechaNac.setText(maestroSeleccionado.getFechaNacimiento().getDate() + "/" + (maestroSeleccionado.getFechaNacimiento().getMonth() + 1) + "/" + (maestroSeleccionado.getFechaNacimiento().getYear() + 1900));
 
+        LDireccion.setText(maestroSeleccionado.getDireccion());
+//        LSueldo.setText(String.valueOf(maestroSeleccionado.getSueldo()));
         Image img = new Image(new File(maestroSeleccionado.getRutaImagen()).toURI().toString());
         IVMaestro.setImage(img);
         if (maestroSeleccionado.getEstado() == true) {
@@ -233,26 +279,6 @@ public class ConsultarMaestroConfirmarController implements Initializable {
             BBaja.setText("Alta");
             LEstado.setText("Inactivo");
         }
-    }
-
-    @FXML
-    private void MIInscribirAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIRegistrarClaseAction(ActionEvent event) {
-        RegistrarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarClaseAction(ActionEvent event) {
-        ConsultarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarAlumnoAction(ActionEvent event) {
-        ConsultarAlumno1Controller.initRootLayout(primaryStage);
     }
 
 }

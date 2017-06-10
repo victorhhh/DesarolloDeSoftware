@@ -6,10 +6,13 @@
 package AredEspacio;
 
 import static AredEspacio.EditarAlumnoController.primaryStage;
+import BaseDeDatos.Alumno;
 import BaseDeDatos.Clase;
 import BaseDeDatos.Maestro;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,6 +22,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -59,6 +65,8 @@ public class PrincipalController implements Initializable {
     private MenuItem BPagoMensualidad;
     @FXML
     private MenuItem MIPaseLista;
+    @FXML
+    private TableView<Alumno> tablaNotificaciones;
 
    @FXML
     public void MIConsultarAction(ActionEvent event) {
@@ -101,6 +109,42 @@ public class PrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        TableColumn<Alumno, String> cNombre = new TableColumn<>("Nombre");
+        TableColumn<Alumno, String> cPrimerApellido = new TableColumn<>("P.Apellido");
+        TableColumn<Alumno, String> cSegundoApellido = new TableColumn<>("S.Apellido");
+        TableColumn<Alumno, String> cTelefono = new TableColumn<>("Telefono");
+        TableColumn<Alumno, String> cDireccion = new TableColumn<>("Dirección");
+
+        cNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        cTelefono.setCellValueFactory(new PropertyValueFactory<>("numeroDeCelular"));
+        cDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        cPrimerApellido.setCellValueFactory(new PropertyValueFactory<>("primerApellido"));
+        cSegundoApellido.setCellValueFactory(new PropertyValueFactory<>("segundoApellido"));
+        
+        cNombre.setMinWidth(100);
+        cPrimerApellido.setMinWidth(100);
+        cSegundoApellido.setMaxWidth(100);
+        cTelefono.setMinWidth(100);
+        cTelefono.setMinWidth(100);
+        cDireccion.setMinWidth(100);
+        
+        tablaNotificaciones.getColumns().addAll(cNombre, cPrimerApellido, cSegundoApellido, cTelefono, cDireccion);
+        
+        
+        Alumno al = new Alumno();
+        List<Alumno> lisAl = al.buscarAlumnosPorNombre("");
+        tablaNotificaciones.getItems().clear();
+        if (!lisAl.isEmpty()) {
+            for (int i = 0; i < lisAl.size(); i++) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(lisAl.get(i).getIDMensualidadA().getFechaPago());
+                calendar.add(Calendar.MONTH, 1);
+                if(new Date().after(calendar.getTime()) && lisAl.get(i).getEstado()){
+                    tablaNotificaciones.getItems().add(lisAl.get(i));
+                } 
+            }
+        }
+        
     }
 
     
@@ -119,6 +163,7 @@ public class PrincipalController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
     
 

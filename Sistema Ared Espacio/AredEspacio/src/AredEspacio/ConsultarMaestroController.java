@@ -5,23 +5,32 @@
  */
 package AredEspacio;
 
+import BaseDeDatos.Clase;
 import BaseDeDatos.Maestro;
 import JPAControllers.MaestroJpaController;
+import AredEspacio.AredEspacio;
+import static AredEspacio.ConsultarAlumno1Controller.primaryStage;
+import static AredEspacio.PrincipalController.primaryStage;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,9 +56,11 @@ public class ConsultarMaestroController implements Initializable {
     @FXML
     private Button BBuscar, BConsultar;
     @FXML
-    private MenuButton BAlumnos, BMaestros, BClases, BPromociones;
+    private MenuButton BAlumnos, BMaestros, BClases, BPromociones, BReportes;
     @FXML
-    private TableView TVResultado;
+    private ScrollPane SPListaMaestros;
+    @FXML
+    private TableView<Maestro> TVResultado;
 
     public static Stage primaryStage;
     private static AnchorPane rootLayout;
@@ -70,21 +81,12 @@ public class ConsultarMaestroController implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
-    private MenuItem MIInscribirAlumno;
-    @FXML
-    private MenuItem BIConsultarAlumno;
-    @FXML
-    private MenuItem MIConsultarMaestro;
-    @FXML
-    private MenuItem MIRegistrarMaestro;
-    @FXML
-    private MenuItem MIRegistrarClase;
-    @FXML
-    private MenuItem MIConsultarClase;
-    @FXML
-    private MenuButton BReporte;
 
+     @FXML
+    public void BRegresarAction(ActionEvent event){
+        PrincipalController.initRootLayout(primaryStage);
+    }
+    
     // private ListView<String> resultadosMaestro = new ListView<>();
     @FXML
     public void BBuscarAction(ActionEvent event) {
@@ -116,7 +118,11 @@ public class ConsultarMaestroController implements Initializable {
 
     @FXML
     public void MIRegistrarMaestroAction(ActionEvent event) {
-        RegistrarMaestroController.initRootLayout(primaryStage);
+       List<Clase> cls = null;
+        
+        Maestro ma = null;
+        
+        RegistrarMaestroController.initRootLayout(primaryStage, cls, ma, true);
     }
 
     @FXML
@@ -194,26 +200,6 @@ public class ConsultarMaestroController implements Initializable {
             }
         });
 
-    }
-
-    @FXML
-    private void MIInscribirAlumnoAction(ActionEvent event) {
-        InscribirAlumnoController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void BIConsultarAlumnoAction(ActionEvent event) {
-        ConsultarAlumno1Controller.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIRegistrarClaseAction(ActionEvent event) {
-        RegistrarClaseController.initRootLayout(primaryStage);
-    }
-
-    @FXML
-    private void MIConsultarClaseAction(ActionEvent event) {
-        ConsultarClaseController.initRootLayout(primaryStage);
     }
 
 }
